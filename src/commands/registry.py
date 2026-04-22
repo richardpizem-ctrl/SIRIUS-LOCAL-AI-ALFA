@@ -2,7 +2,11 @@ from .base_command import BaseCommand
 from .help_command import HelpCommand
 from .run_command import RunCommand
 from .system_info_command import SystemInfoCommand
+
 from context.context_info_command import ContextInfoCommand
+from context.context_set_command import ContextSetCommand
+from context.context_clear_command import ContextClearCommand
+from context.memory_save_command import MemorySaveCommand
 
 
 class CommandRegistry:
@@ -45,6 +49,11 @@ def create_default_registry(context) -> CommandRegistry:
     registry.register(help_cmd)
     registry.register(RunCommand())
     registry.register(SystemInfoCommand())
+
+    # Kontextové príkazy
     registry.register(ContextInfoCommand(context))
+    registry.register(ContextSetCommand(context))
+    registry.register(ContextClearCommand(context))
+    registry.register(MemorySaveCommand(context))
 
     return registry
