@@ -10,8 +10,8 @@ class SiriusAI:
     """
 
     def __init__(self):
-        self.registry = create_default_registry()
         self.context = ContextManager()  # prepojený context manager
+        self.registry = create_default_registry(self.context)
 
     def handle_input(self, text: str) -> str:
         """
