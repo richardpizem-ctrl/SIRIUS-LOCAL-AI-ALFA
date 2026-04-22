@@ -2,19 +2,17 @@ from .base_command import BaseCommand
 from .help_command import HelpCommand
 from .run_command import RunCommand
 from .system_info_command import SystemInfoCommand
+from context.context_info_command import ContextInfoCommand
 
 
 class CommandRegistry:
     """
     Centrálna registrácia príkazov pre SIRIUS LOCAL AI ALFA.
-    Umožňuje:
-    - registrovať príkazy
-    - získavať príkazy podľa mena
-    - vypísať všetky príkazy (pre help)
     """
 
-    def __init__(self):
+    def __init__(self, context):
         self._commands: dict[str, BaseCommand] = {}
+        self.context = context
 
     def register(self, command: BaseCommand):
         """
@@ -35,17 +33,18 @@ class CommandRegistry:
         return self._commands
 
 
-def create_default_registry() -> CommandRegistry:
+def create_default_registry(context) -> CommandRegistry:
     """
     Vytvorí predvolený register so základnými príkazmi.
     """
-    registry = CommandRegistry()
+    registry = CommandRegistry(context)
 
-    # Najprv vytvoríme prázdny registry, aby sme ho mohli odovzdať HelpCommand
+    # HelpCommand potrebuje zoznam príkazov
     help_cmd = HelpCommand(registry._commands)
 
     registry.register(help_cmd)
     registry.register(RunCommand())
     registry.register(SystemInfoCommand())
+    registry.register(ContextInfoCommand(context))
 
     return registry
