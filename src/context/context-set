@@ -1,0 +1,23 @@
+from commands.base_command import BaseCommand
+from context.context_manager import ContextManager
+
+
+class ContextSetCommand(BaseCommand):
+    """
+    Nastaví hodnotu v stave systému.
+    Použitie:
+      context-set <key> <value>
+    """
+
+    name = "context-set"
+    description = "Nastaví hodnotu v kontexte (stav systému)."
+
+    def __init__(self, context: ContextManager):
+        self.context = context
+
+    def execute(self, key: str = None, value: str = None, *args):
+        if key is None or value is None:
+            return "Použitie: context-set <key> <value>"
+
+        self.context.set_state(key, value)
+        return f"Nastavené: {key} = {value}"
