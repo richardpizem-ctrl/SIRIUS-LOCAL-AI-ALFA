@@ -1,52 +1,55 @@
-# STYLEGUIDE – SIRIUS LOCAL AI ALFA
-
+STYLEGUIDE – SIRIUS LOCAL AI ALFA
 Tento dokument definuje jednotný štýl kódu, názvoslovie, štruktúru modulov a pravidlá pre čistotu projektu. Cieľom je udržať konzistentnosť, čitateľnosť a profesionálnu úroveň celého systému.
 
----
+1. Základné princípy
+kód musí byť čistý, čitateľný a modulárny
 
-## 1. Základné princípy
-- kód musí byť čistý, čitateľný a modulárny
-- žiadne monolitické funkcie ani moduly
-- žiadne magické konštanty (všetko pomenované)
-- žiadne skryté side‑effects
-- každý modul má jasnú zodpovednosť (SRP)
-- bezpečnosť má vždy prioritu pred pohodlím
+žiadne monolitické funkcie ani moduly
 
----
+žiadne magické konštanty (všetko pomenované)
 
-## 2. Názvoslovie
+žiadne skryté side‑effects
 
-### Premenné
-- `lower_snake_case`
-- krátke, ale výstižné
-- žiadne skratky typu `tmp`, `x1`, `data2`
+každý modul má jasnú zodpovednosť (SRP)
 
-**Príklady:**
-- `target_path`
-- `pending_action`
-- `user_confirmation_required`
+bezpečnosť má vždy prioritu pred pohodlím
 
-### Funkcie
-- `lower_snake_case`
-- názov musí vyjadrovať akciu
+2. Názvoslovie
+Premenné
+lower_snake_case
 
-**Príklady:**
-- `resolve_target_folder()`
-- `validate_path()`
-- `generate_confirmation_dialog()`
+krátke, ale výstižné
 
-### Triedy / Moduly
-- `PascalCase`
-- názov = zodpovednosť modulu
+žiadne skratky typu tmp, x1, data2
 
-**Príklady:**
-- `FilesystemAgent`
-- `CommandInterpreter`
-- `ContextMemoryEngine`
+Príklady:
+target_path
+pending_action
+user_confirmation_required
 
----
+Funkcie
+lower_snake_case
 
-## 3. Štruktúra súborov
+názov musí vyjadrovať akciu
+
+Príklady:
+resolve_target_folder()
+validate_path()
+generate_confirmation_dialog()
+
+Triedy / Moduly
+PascalCase
+
+názov = zodpovednosť modulu
+
+Príklady:
+FilesystemAgent
+CommandInterpreter
+ContextMemoryEngine
+
+3. Štruktúra súborov
+Každý modul má vlastný priečinok:
+
 /runtime
 /filesystem
 /commands
@@ -56,29 +59,33 @@ Tento dokument definuje jednotný štýl kódu, názvoslovie, štruktúru modulo
 /email
 
 Každý priečinok obsahuje:
-- `__init__.py`
-- hlavný modul
-- pomocné utility (ak sú potrebné)
 
----
+init.py
 
-## 4. Dĺžka funkcií
-- ideálna dĺžka: 5–25 riadkov
-- maximum: 50 riadkov
-- ak funkcia rastie → rozdeliť na menšie
+hlavný modul
 
----
+pomocné utility (ak sú potrebné)
 
-## 5. Komentáre
-- komentáre len tam, kde sú potrebné
-- komentár vysvetľuje *prečo*, nie *čo*
+4. Dĺžka funkcií
+ideálna dĺžka: 5–25 riadkov
 
-**Zlé:**
-```python
+maximum: 50 riadkov
+
+ak funkcia rastie → rozdeliť na menšie
+
+5. Komentáre
+komentáre len tam, kde sú potrebné
+
+komentár vysvetľuje prečo, nie čo
+
+Zlé:
 i = 0  # nastav i na nulu
+
 Dobré:
-# resetuje index pre nový workflow krok
+
+resetuje index pre nový workflow krok
 i = 0
+
 6. Chybové hlásenia
 musia byť jasné, stručné a informatívne
 
@@ -89,6 +96,7 @@ vždy musia obsahovať dôvod + odporúčanie
 Príklad:
 Invalid path: C:/root
 This operation is blocked for safety reasons.
+
 7. Bezpečnostné pravidlá v kóde
 žiadna operácia nesmie obísť potvrdenie používateľa
 
@@ -116,7 +124,9 @@ logy musia byť stručné a technické
 
 formát: [MODULE] action – status
 
-Príklad:[FS-AGENT] move_file – confirmed
+Príklad:
+[FS-AGENT] move_file – confirmed
+
 10. Formátovanie
 odsadenie: 4 medzery
 
@@ -128,10 +138,3 @@ prázdny riadok medzi logickými blokmi
 
 11. Stav dokumentu
 Aktuálna verzia: ALFA
-
----
-
-Richard, toto je **presná, finálna, čistá verzia**, ktorú máš vložiť.  
-Žiadne chyby, žiadne duplikáty, žiadne rozbité bloky.
-
-Keď to vložíš a uložíš, napíš **HOTOVO** a môžeme pokračovať ďalej.
