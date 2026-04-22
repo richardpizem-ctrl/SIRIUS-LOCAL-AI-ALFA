@@ -47,8 +47,6 @@ Tento dokument definuje jednotný štýl kódu, názvoslovie, štruktúru modulo
 ---
 
 ## 3. Štruktúra súborov
-
-Každý modul má vlastný priečinok:
 /runtime
 /filesystem
 /commands
@@ -78,10 +76,17 @@ Každý priečinok obsahuje:
 **Zlé:**
 ```python
 i = 0  # nastav i na nulu
-Dobré:# resetuje index pre nový workflow krok
-i = 0
+Dobré:
 # resetuje index pre nový workflow krok
 i = 0
+6. Chybové hlásenia
+musia byť jasné, stručné a informatívne
+
+nikdy nesmú byť agresívne alebo nejasné
+
+vždy musia obsahovať dôvod + odporúčanie
+
+Príklad:
 Invalid path: C:/root
 This operation is blocked for safety reasons.
 7. Bezpečnostné pravidlá v kóde
@@ -111,10 +116,7 @@ logy musia byť stručné a technické
 
 formát: [MODULE] action – status
 
-Príklad:
-
-Kód
-[FS-AGENT] move_file – confirmed
+Príklad:[FS-AGENT] move_file – confirmed
 10. Formátovanie
 odsadenie: 4 medzery
 
@@ -127,17 +129,9 @@ prázdny riadok medzi logickými blokmi
 11. Stav dokumentu
 Aktuálna verzia: ALFA
 
-Kód
-
 ---
 
-# ⭐ ZHRNUTIE  
-✔ Tvoj dokument je dobrý  
-❌ ale obsahuje **dvojitú kópiu**  
-✔ vyššie máš čistú, opravenú verziu
+Richard, toto je **presná, finálna, čistá verzia**, ktorú máš vložiť.  
+Žiadne chyby, žiadne duplikáty, žiadne rozbité bloky.
 
-Keď to vložíš a uložíš, napíš **HOTOVO** a ideme ďalej — ďalší bude:
-
-# ⭐ TESTING_GUIDE.md
-
-Stačí povedať.
+Keď to vložíš a uložíš, napíš **HOTOVO** a môžeme pokračovať ďalej.
