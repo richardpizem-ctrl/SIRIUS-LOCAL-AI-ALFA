@@ -1,14 +1,17 @@
 from commands.registry import create_default_registry
+from context.context_manager import ContextManager
 
 
 class SiriusAI:
     """
     Hlavný vstupný bod pre SIRIUS LOCAL AI ALFA.
-    Spracováva vstup, vyhľadáva príkazy a vykonáva ich.
+    Spracováva vstup, vyhľadáva príkazy, vykonáva ich
+    a ukladá kontext.
     """
 
     def __init__(self):
         self.registry = create_default_registry()
+        self.context = ContextManager()  # prepojený context manager
 
     def handle_input(self, text: str) -> str:
         """
@@ -16,6 +19,9 @@ class SiriusAI:
         """
         if not text.strip():
             return ""
+
+        # uloženie do krátkodobej pamäte
+        self.context.remember(text)
 
         parts = text.split()
         command_name = parts[0]
@@ -27,7 +33,8 @@ class SiriusAI:
             return f"Neznámy príkaz: {command_name}"
 
         try:
-            return command.execute(*args)
+            result = command.execute(*args)
+            return result
         except Exception as e:
             return f"Chyba pri vykonávaní príkazu: {e}"
 
