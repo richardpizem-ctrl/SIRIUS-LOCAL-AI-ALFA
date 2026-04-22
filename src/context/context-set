@@ -6,7 +6,7 @@ class ContextSetCommand(BaseCommand):
     """
     Nastaví hodnotu v stave systému.
     Použitie:
-      context-set <key> <value>
+      context-set mood happy
     """
 
     name = "context-set"
