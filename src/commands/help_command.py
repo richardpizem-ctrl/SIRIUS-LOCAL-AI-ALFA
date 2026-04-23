@@ -15,14 +15,19 @@ class HelpCommand(BaseCommand):
         """
         self.registry = registry
 
-    def execute(self, *args, **kwargs):
+    def execute(self, *args, **kwargs) -> str:
         """
-        Vypíše všetky príkazy a ich popisy.
+        Vypíše všetky príkazy a ich popisy v peknom formáte.
         """
-        output_lines = ["Dostupné príkazy:\n"]
+        output_lines = []
+        output_lines.append("=== Dostupné príkazy ===\n")
 
-        for command_name, command_obj in self.registry.items():
-            output_lines.append(f"- {command_name}: {command_obj.description}")
+        # Zoradíme príkazy podľa názvu
+        for command_name, command_obj in sorted(self.registry.items()):
+            desc = getattr(command_obj, "description", "Bez popisu")
+            output_lines.append(f"- {command_name:<20} {desc}")
+
+        output_lines.append("\nPoužitie:")
+        output_lines.append("  python sirius.py <command> [args...]")
 
         return "\n".join(output_lines)
-
