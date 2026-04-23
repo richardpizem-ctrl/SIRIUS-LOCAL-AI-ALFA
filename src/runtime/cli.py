@@ -28,11 +28,16 @@ class CLI:
 
         self.logger.info(f"CLI – received command: {command_name}")
 
-        # Špeciálny prípad: help
+        # Špeciálny prípad: help (podpora aj pre help <command>)
         if command_name == "help":
             registry = CommandRegistry._commands
             help_cmd = HelpCommand(registry)
-            print(help_cmd.execute())
+
+            if args:
+                print(help_cmd.execute(args[0]))
+            else:
+                print(help_cmd.execute())
+
             return
 
         # Nájdeme command v registri
