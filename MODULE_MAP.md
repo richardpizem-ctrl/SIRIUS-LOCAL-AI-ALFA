@@ -84,7 +84,33 @@ AITE ensures that SIRIUS AI immediately understands what the user inserted or do
 
 ---
 
-## 9. Future Modules (Extensibility)
+## 9. Windows System Capabilities Layer (WIN‑CAP)
+**Purpose:** Provide safe, abstracted access to Windows 11 system functions.  
+This module transforms SIRIUS into a true local OS‑level AI agent.
+
+**Responsibilities:**
+- exposing high‑level system capabilities (files, apps, windows, audio, devices)  
+- enforcing permissions and allowed scopes  
+- providing safe wrappers around OS operations  
+- enabling multi‑step system actions through AI reasoning  
+
+**Submodules:**
+- `file_ops` — find projects, open folders, create structured directories  
+- `app_ops` — launch apps, detect running apps, focus windows  
+- `window_ops` — snap left/right, arrange layouts, position windows  
+- `audio_ops` — detect audio output device, switch to preferred device  
+
+**Examples of enabled commands:**
+- “Find all SIRIUS projects on disk and open the latest.”  
+- “Launch Real-Time MIDI Notation and place its window next to VS Code.”  
+- “Check if audio is going to the correct device and switch if not.”  
+- “Create a new folder for v1.3.0 and prepare the structure.”  
+
+WIN‑CAP allows SIRIUS to understand a natural-language request, decompose it into OS actions, and execute them safely.
+
+---
+
+## 10. Future Modules (Extensibility)
 **Possible future modules:**
 - UI Automation Layer  
 - Voice Command Layer  
@@ -93,10 +119,12 @@ AITE ensures that SIRIUS AI immediately understands what the user inserted or do
 
 ---
 
-## 10. Module Interconnections
+## 11. Module Interconnections
 - **CME → FS‑AGENT:** decides what action should be executed  
 - **CME → UI Confirm:** generates questions  
 - **CME‑MEM → Workflow Tracker:** provides context  
 - **AITE → FS‑AGENT:** routes inputs based on type  
 - **AITE → CME‑MEM:** stores metadata about the input  
+- **WIN‑CAP → CME:** provides available system capabilities  
+- **WIN‑CAP → Runtime Core:** registered as a privileged capability layer  
 - **Runtime Core → all modules:** initialization and security  
