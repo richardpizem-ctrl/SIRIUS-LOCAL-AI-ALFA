@@ -1,3 +1,6 @@
+import inspect
+
+
 class BaseCommand:
     """
     Základná trieda pre všetky príkazy v systéme SIRIUS LOCAL AI ALFA.
@@ -13,3 +16,18 @@ class BaseCommand:
         """
         raise NotImplementedError("Subclasses must implement execute().")
 
+    @classmethod
+    def get_parameters(cls):
+        """
+        Vráti zoznam parametrov __init__ metódy pre introspekciu.
+        Používa sa v HelpCommand a CLI.
+        """
+        signature = inspect.signature(cls.__init__)
+        params = []
+
+        for name, param in signature.parameters.items():
+            if name == "self":
+                continue
+            params.append((name, str(param.annotation)))
+
+        return params
