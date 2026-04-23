@@ -1,32 +1,44 @@
-# SIRIUS LOCAL AI ALFA
+SIRIUS LOCAL AI ALFA
+A modular local AI runtime for file management, workflow automation, and safe command execution within a single PC.
+The project is designed as an extensible architecture with separated modules for filesystem operations, command interpretation, context memory, workflow tracking, UI confirmations, and automatic input triage.
 
-Modulárny lokálny AI runtime pre správu súborov, workflow a bezpečné vykonávanie príkazov v rámci jedného PC. Projekt je navrhnutý ako rozšíriteľná architektúra s oddelenými modulmi pre filesystem, interpretáciu príkazov, kontextovú pamäť, workflow tracking, UI potvrdenia a automatický triage vstupov.
+Main Features
+automatic file and folder relocation
 
-## Hlavné vlastnosti
-- automatické presúvanie súborov a priečinkov
-- kontextové tabuľky „Kam?“ a „Potvrdiť?“
-- bezpečnostné potvrdenia pred každou akciou
-- modulárna architektúra (filesystem, command interpreter, context memory, workflow tracker, UI)
-- generovanie emailových návrhov bez automatického odoslania
-- AI drží celý koncept PC a posledné kroky používateľa
-- rozšíriteľné moduly podľa budúcich problémov
-- **automatický triage vstupov (AITE) – AI sama rozpozná, či ide o text, foto alebo aplikáciu a správne to zaradí**
+contextual “Where to?” and “Confirm?” tables
 
-## Automatic Input Triage Engine (AITE)
-AITE je modul, ktorý automaticky rozpoznáva typ vstupu a bez otázok ho zaradí do správnej kategórie:
+safety confirmations before every action
 
-### Rozpoznávané typy:
-- **Text** → uloží sa do textového úložiska
-- **Foto / obrázok** → presunie sa do galérie (media storage)
-- **Aplikácia / inštalačný súbor** → zaradí sa do sekcie aplikácií
+modular architecture (filesystem, command interpreter, context memory, workflow tracker, UI)
 
-### Funkcie:
-- automatická detekcia typu vstupu
-- smerovanie do správneho úložiska
-- tvorba metadát
-- integrácia s FS-AGENT a CME-MEM
+email draft generation without automatic sending
 
-AITE zabezpečuje, že SIRIUS AI okamžite pochopí, čo používateľ vložil alebo stiahol, a správne to zatriedi.
+AI maintains the full concept of the PC and the user’s recent actions
 
-## Stav projektu
-ALFA – návrh architektúry, príprava modulov.
+extensible modules for future problem domains
+
+Automatic Input Triage Engine (AITE) – AI automatically detects whether the input is text, a photo, or an application and routes it correctly
+
+Automatic Input Triage Engine (AITE)
+AITE is a module that automatically detects the type of input and assigns it to the correct category without asking the user.
+
+Recognized types
+Text → stored in the text storage
+
+Photo / image → moved to the gallery (media storage)
+
+Application / installer → placed into the applications section
+
+Functions
+automatic input type detection
+
+routing to the correct storage
+
+metadata generation
+
+integration with FS‑AGENT and CME‑MEM
+
+AITE ensures that SIRIUS AI immediately understands what the user inserted or downloaded and classifies it correctly.
+
+Project Status
+ALPHA – architecture design and module preparation.
