@@ -11,7 +11,8 @@ from context.memory_load_command import MemoryLoadCommand
 from context.context_dump_command import ContextDumpCommand
 from context.translate_command import TranslateCommand
 
-from commands.triage_test_command import TriageTestCommand   # ← NOVÝ IMPORT
+from commands.triage_test_command import TriageTestCommand   # ← EXISTUJÚCI IMPORT
+from commands.move_text_files import MoveTextFilesCommand    # ← NOVÝ IMPORT
 
 
 class CommandRegistry:
@@ -65,6 +66,14 @@ def create_default_registry(context) -> CommandRegistry:
     registry.register(TranslateCommand(context))
 
     # AITE testovací príkaz
-    registry.register(TriageTestCommand(context.runtime))   # ← NOVÁ REGISTRÁCIA
+    registry.register(TriageTestCommand(context.runtime))
+
+    # NOVÝ PRÍKAZ: presun .txt súborov (cut → paste)
+    registry.register(
+        MoveTextFilesCommand(
+            source_path="",   # runtime doplní podľa vstupu
+            target_path=""    # runtime doplní podľa vstupu
+        )
+    )
 
     return registry
