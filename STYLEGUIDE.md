@@ -1,54 +1,55 @@
 STYLEGUIDE – SIRIUS LOCAL AI ALFA
-Tento dokument definuje jednotný štýl kódu, názvoslovie, štruktúru modulov a pravidlá pre čistotu projektu. Cieľom je udržať konzistentnosť, čitateľnosť a profesionálnu úroveň celého systému.
+This document defines the unified code style, naming conventions, module structure, and cleanliness rules for the project.
+The goal is to maintain consistency, readability, and a professional standard across the entire system.
 
-1. Základné princípy
-kód musí byť čistý, čitateľný a modulárny
+1. Core Principles
+code must be clean, readable, and modular
 
-žiadne monolitické funkcie ani moduly
+no monolithic functions or modules
 
-žiadne magické konštanty (všetko pomenované)
+no magic constants (everything must be named)
 
-žiadne skryté side‑effects
+no hidden side effects
 
-každý modul má jasnú zodpovednosť (SRP)
+every module must have a clear responsibility (SRP)
 
-bezpečnosť má vždy prioritu pred pohodlím
+security always has priority over convenience
 
-2. Názvoslovie
-Premenné
+2. Naming Conventions
+Variables
 lower_snake_case
 
-krátke, ale výstižné
+short but descriptive
 
-žiadne skratky typu tmp, x1, data2
+no abbreviations like tmp, x1, data2
 
-Príklady:
+Examples:
 target_path
 pending_action
 user_confirmation_required
 
-Funkcie
+Functions
 lower_snake_case
 
-názov musí vyjadrovať akciu
+name must express an action
 
-Príklady:
+Examples:
 resolve_target_folder()
 validate_path()
 generate_confirmation_dialog()
 
-Triedy / Moduly
+Classes / Modules
 PascalCase
 
-názov = zodpovednosť modulu
+name = responsibility of the module
 
-Príklady:
+Examples:
 FilesystemAgent
 CommandInterpreter
 ContextMemoryEngine
 
-3. Štruktúra súborov
-Každý modul má vlastný priečinok:
+3. File Structure
+Each module has its own folder:
 
 /runtime
 /filesystem
@@ -58,83 +59,83 @@ Každý modul má vlastný priečinok:
 /ui
 /email
 
-Každý priečinok obsahuje:
+Each folder contains:
 
 init.py
 
-hlavný modul
+main module
 
-pomocné utility (ak sú potrebné)
+helper utilities (if needed)
 
-4. Dĺžka funkcií
-ideálna dĺžka: 5–25 riadkov
+4. Function Length
+ideal length: 5–25 lines
 
-maximum: 50 riadkov
+maximum: 50 lines
 
-ak funkcia rastie → rozdeliť na menšie
+if a function grows too large, split it into smaller parts
 
-5. Komentáre
-komentáre len tam, kde sú potrebné
+5. Comments
+comments only where necessary
 
-komentár vysvetľuje prečo, nie čo
+comments explain why, not what
 
-Zlé:
-i = 0  # nastav i na nulu
+Bad:
+i = 0  # set i to zero
 
-Dobré:
+Good:
 
-resetuje index pre nový workflow krok
+reset index for a new workflow step
 i = 0
 
-6. Chybové hlásenia
-musia byť jasné, stručné a informatívne
+6. Error Messages
+must be clear, concise, and informative
 
-nikdy nesmú byť agresívne alebo nejasné
+never aggressive or vague
 
-vždy musia obsahovať dôvod + odporúčanie
+must include a reason + recommendation
 
-Príklad:
+Example:
 Invalid path: C:/root
 This operation is blocked for safety reasons.
 
-7. Bezpečnostné pravidlá v kóde
-žiadna operácia nesmie obísť potvrdenie používateľa
+7. Security Rules in Code
+no operation may bypass user confirmation
 
-všetky operácie so súbormi musia byť validované
+all file operations must be validated
 
-žiadne priame mazanie bez dvojitého potvrdenia
+no direct deletion without double confirmation
 
-žiadne sieťové operácie v žiadnom module
+no network operations in any module
 
-8. Testovanie
-Každý modul musí mať:
+8. Testing
+Every module must include:
 
-základné testy
+basic tests
 
-testy chybových stavov
+error‑state tests
 
-testy bezpečnostných obmedzení
+security‑constraint tests
 
-testy validácie vstupov
+input‑validation tests
 
-9. Logovanie
-logy musia byť stručné a technické
+9. Logging
+logs must be concise and technical
 
-žiadne citlivé údaje
+no sensitive data
 
-formát: [MODULE] action – status
+format: [MODULE] action – status
 
-Príklad:
+Example:
 [FS-AGENT] move_file – confirmed
 
-10. Formátovanie
-odsadenie: 4 medzery
+10. Formatting
+indentation: 4 spaces
 
-max šírka riadku: 100 znakov
+max line width: 100 characters
 
-prázdny riadok medzi logickými blokmi
+blank line between logical blocks
 
-žiadne trailing spaces
+no trailing spaces
 
-11. Stav dokumentu
-Aktuálna verzia: ALFA
+11. Document Status
+Current version: ALPHA
