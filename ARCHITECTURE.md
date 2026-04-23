@@ -69,14 +69,33 @@ Nikdy nič neodosiela — iba pripravuje obsah.
 
 ---
 
-## 8. Modularita a rozšíriteľnosť
+## 8. Automatic Input Triage Engine (AITE)
+Modul, ktorý automaticky rozpoznáva typ vstupu a zaradí ho do správnej kategórie bez potreby otázok:
+
+### Rozpoznávané typy:
+- **Text** → ukladá sa do textového úložiska
+- **Foto / obrázok** → presúva sa do galérie (media storage)
+- **Aplikácia / inštalačný súbor** → zaradí sa do sekcie aplikácií
+
+### Funkcie:
+- automatická detekcia typu vstupu
+- smerovanie do správneho modulu
+- príprava metadát
+- integrácia s FS-AGENT a CME-MEM
+
+AITE zabezpečuje, že SIRIUS AI „chápe“, čo používateľ práve vložil alebo stiahol, a okamžite to správne zatriedi.
+
+---
+
+## 9. Modularita a rozšíriteľnosť
 Každý modul je samostatný a môže byť rozšírený:
 - nové typy príkazov
 - nové UI komponenty
 - nové workflow logiky
 - nové bezpečnostné vrstvy
+- nové typy automatického triage
 
 ---
 
-## 9. Stav projektu
+## 10. Stav projektu
 ALFA – definícia architektúry, návrh modulov, príprava implementácie.
