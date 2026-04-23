@@ -1,101 +1,117 @@
-# Architektúra projektu SIRIUS LOCAL AI ALFA
+SIRIUS LOCAL AI ALFA – Project Architecture
+SIRIUS LOCAL AI ALFA is a modular local AI runtime designed to safely and accurately execute commands within a single PC.
+The architecture is divided into independent modules that communicate through defined interfaces and maintain a consistent user context.
 
-SIRIUS LOCAL AI ALFA je modulárny lokálny AI runtime navrhnutý tak, aby bezpečne a presne vykonával príkazy v rámci jedného PC. Architektúra je rozdelená do samostatných modulov, ktoré spolu komunikujú cez definované rozhrania a držia konzistentný kontext používateľa.
+1. Runtime Core
+The foundational system layer responsible for:
 
----
+module initialization
 
-## 1. Runtime Core
-Základná vrstva systému, ktorá zabezpečuje:
-- inicializáciu modulov
-- správu životného cyklu
-- plánovanie úloh
-- bezpečnostné obmedzenia (sandboxing, povolené operácie)
+lifecycle management
 
----
+task scheduling
 
-## 2. Filesystem Agent (FS-AGENT)
-Zodpovedný za všetky operácie so súbormi:
-- presúvanie, kopírovanie, mazanie
-- validácia ciest
-- bezpečnostné potvrdenia
-- spätná väzba pre používateľa
+security restrictions (sandboxing, allowed operations)
 
-FS-AGENT nikdy nevykoná akciu bez explicitného potvrdenia.
+2. Filesystem Agent (FS‑AGENT)
+Responsible for all file operations:
 
----
+moving, copying, deleting
 
-## 3. Command Interpreter (CME)
-Vrstva, ktorá prekladá používateľské príkazy do interných akcií:
-- rozpoznávanie typu príkazu
-- extrakcia parametrov
-- rozhodovanie, ktorý modul má akciu vykonať
-- generovanie otázok typu „Kam?“ alebo „Potvrdiť?“
+path validation
 
----
+safety confirmations
 
-## 4. Context Memory Engine (CME-MEM)
-Drží celý koncept PC a workflow:
-- posledné akcie používateľa
-- posledné cesty a priečinky
-- stav rozpracovaných úloh
-- kontextové návrhy ďalších krokov
+user feedback
 
----
+FS‑AGENT never performs an action without explicit confirmation.
 
-## 5. Workflow Tracker
-Zodpovedný za:
-- sledovanie sekvencie krokov
-- predikciu ďalšieho logického kroku
-- automatické ponuky (napr. „Chceš vložiť do README?“)
+3. Command Interpreter (CME)
+The layer that translates user commands into internal actions:
 
----
+command type recognition
 
-## 6. UI Confirm Module
-Vrstva pre interaktívne tabuľky:
-- výber cieľového priečinka
-- potvrdenie akcie
-- bezpečnostné dialógy
-- automatické otváranie okien podľa typu príkazu
+parameter extraction
 
----
+deciding which module should execute the action
 
-## 7. Email Composer (bez odosielania)
-Modul generuje:
-- návrhy emailov
-- štruktúrované texty
-- profesionálne odpovede
+generating questions such as “Where to?” or “Confirm?”
 
-Nikdy nič neodosiela — iba pripravuje obsah.
+4. Context Memory Engine (CME‑MEM)
+Maintains the full PC and workflow context:
 
----
+user’s recent actions
 
-## 8. Automatic Input Triage Engine (AITE)
-Modul, ktorý automaticky rozpoznáva typ vstupu a zaradí ho do správnej kategórie bez potreby otázok:
+last used paths and folders
 
-### Rozpoznávané typy:
-- **Text** → ukladá sa do textového úložiska
-- **Foto / obrázok** → presúva sa do galérie (media storage)
-- **Aplikácia / inštalačný súbor** → zaradí sa do sekcie aplikácií
+state of ongoing tasks
 
-### Funkcie:
-- automatická detekcia typu vstupu
-- smerovanie do správneho modulu
-- príprava metadát
-- integrácia s FS-AGENT a CME-MEM
+contextual suggestions for next steps
 
-AITE zabezpečuje, že SIRIUS AI „chápe“, čo používateľ práve vložil alebo stiahol, a okamžite to správne zatriedi.
+5. Workflow Tracker
+Responsible for:
 
----
+tracking the sequence of steps
 
-## 9. Modularita a rozšíriteľnosť
-Každý modul je samostatný a môže byť rozšírený:
-- nové typy príkazov
-- nové UI komponenty
-- nové workflow logiky
-- nové bezpečnostné vrstvy
-- nové typy automatického triage
+predicting the next logical action
 
----
+automatic suggestions (e.g., “Do you want to insert this into README?”)
 
-## 10. Stav projektu
-ALFA – definícia architektúry, návrh modulov, príprava implementácie.
+6. UI Confirm Module
+Layer for interactive confirmation tables:
+
+selecting the target folder
+
+confirming actions
+
+safety dialogs
+
+automatic window opening based on command type
+
+7. Email Composer (no sending)
+This module generates:
+
+email drafts
+
+structured text
+
+professional responses
+
+It never sends anything — it only prepares content.
+
+8. Automatic Input Triage Engine (AITE)
+A module that automatically detects the type of input and assigns it to the correct category without requiring questions:
+
+Recognized Types:
+Text → stored in text storage
+
+Photo / image → moved to the gallery (media storage)
+
+Application / installer → placed into the applications section
+
+Functions:
+automatic input type detection
+
+routing to the correct module
+
+metadata preparation
+
+integration with FS‑AGENT and CME‑MEM
+
+AITE ensures that SIRIUS AI understands what the user inserted or downloaded and classifies it immediately.
+
+9. Modularity and Extensibility
+Each module is independent and can be extended with:
+
+new command types
+
+new UI components
+
+new workflow logic
+
+new security layers
+
+new types of automatic triage
+
+10. Project Status
+ALPHA – architecture definition, module design, and implementation preparation.
