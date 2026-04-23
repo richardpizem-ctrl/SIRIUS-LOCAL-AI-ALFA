@@ -7,6 +7,9 @@ from context.context_info_command import ContextInfoCommand
 from context.context_set_command import ContextSetCommand
 from context.context_clear_command import ContextClearCommand
 from context.memory_save_command import MemorySaveCommand
+from context.memory_load_command import MemoryLoadCommand
+from context.context_dump_command import ContextDumpCommand
+from context.translate_command import TranslateCommand
 
 
 class CommandRegistry:
@@ -55,5 +58,8 @@ def create_default_registry(context) -> CommandRegistry:
     registry.register(ContextSetCommand(context))
     registry.register(ContextClearCommand(context))
     registry.register(MemorySaveCommand(context))
+    registry.register(MemoryLoadCommand(context))
+    registry.register(ContextDumpCommand(context))
+    registry.register(TranslateCommand(context))
 
     return registry
