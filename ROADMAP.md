@@ -1,74 +1,74 @@
 # Roadmap – SIRIUS LOCAL AI ALFA
 
-Tento dokument definuje plán vývoja projektu, míľniky a postupnosť krokov od ALFA fázy až po stabilnú verziu.
+This document defines the development plan, milestones, and sequence of steps from the ALPHA phase to the stable release.
 
 ---
 
-## 1. ALFA – Návrh a príprava (aktuálna fáza)
-- definícia architektúry
-- vytvorenie modulovej mapy
-- príprava základných dokumentov (README, ARCHITECTURE, MODULE_MAP)
-- návrh API medzi modulmi
-- definovanie bezpečnostných pravidiel
+## 1. ALPHA – Design and Preparation (current phase)
+- architecture definition  
+- creation of the module map  
+- preparation of core documentation (README, ARCHITECTURE, MODULE_MAP)  
+- design of module-to-module APIs  
+- definition of security rules  
 
-**Výstup:** kompletný návrh systému pripravený na implementáciu.
-
----
-
-## 2. BETA – Implementácia jadra
-- implementácia Runtime Core
-- základná verzia Command Interpreter
-- základná verzia Filesystem Agent
-- Context Memory Engine (minimálna verzia)
-- Workflow Tracker (minimálna verzia)
-- UI Confirm (textová verzia)
-
-**Výstup:** funkčný prototyp schopný vykonávať jednoduché príkazy.
+**Output:** a complete system design ready for implementation.
 
 ---
 
-## 3. BETA 2 – Rozšírenie funkcií
-- rozšírené operácie so súbormi
-- pokročilé potvrdenia a bezpečnostné dialógy
-- rozšírená kontextová pamäť
-- workflow logika pre viacstupňové akcie
-- integrácia Email Composer modulu
+## 2. BETA – Core Implementation
+- implementation of the Runtime Core  
+- initial version of the Command Interpreter  
+- initial version of the Filesystem Agent  
+- minimal Context Memory Engine  
+- minimal Workflow Tracker  
+- text‑based UI Confirm module  
 
-**Výstup:** stabilný systém schopný komplexných workflow.
-
----
-
-## 4. RELEASE CANDIDATE – Stabilizácia
-- optimalizácia modulov
-- testovanie chýb
-- dokumentácia API
-- príprava ukážkových scenárov
-- príprava na verejné vydanie
-
-**Výstup:** verzia pripravená na finálne testovanie.
+**Output:** a functional prototype capable of executing simple commands.
 
 ---
 
-## 5. VERZIA 1.0 – Prvé stabilné vydanie
-- kompletná funkcionalita
-- stabilné moduly
-- bezpečnostné potvrdenia
-- workflow engine
-- kontextová pamäť
-- UI interakcie
+## 3. BETA 2 – Feature Expansion
+- extended file operations  
+- advanced confirmations and safety dialogs  
+- expanded context memory  
+- workflow logic for multi‑step actions  
+- integration of the Email Composer module  
 
-**Výstup:** stabilný lokálny AI runtime pripravený na používanie.
-
----
-
-## 6. Post‑release – Budúce rozšírenia
-- UI Automation Layer
-- Voice Command Layer
-- Plugin API
-- systémové monitorovanie
-- integrácia s ďalšími nástrojmi
+**Output:** a stable system capable of complex workflows.
 
 ---
 
-## Stav roadmapy
-Aktuálna fáza: **ALFA**
+## 4. RELEASE CANDIDATE – Stabilization
+- module optimization  
+- bug testing  
+- API documentation  
+- preparation of example scenarios  
+- preparation for public release  
+
+**Output:** a version ready for final testing.
+
+---
+
+## 5. VERSION 1.0 – First Stable Release
+- full functionality  
+- stable modules  
+- safety confirmations  
+- workflow engine  
+- context memory  
+- UI interactions  
+
+**Output:** a stable local AI runtime ready for everyday use.
+
+---
+
+## 6. Post‑release – Future Extensions
+- UI Automation Layer  
+- Voice Command Layer  
+- Plugin API  
+- system monitoring  
+- integration with additional tools  
+
+---
+
+## Roadmap Status
+Current phase: **ALPHA**
