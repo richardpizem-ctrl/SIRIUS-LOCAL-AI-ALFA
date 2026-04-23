@@ -1,73 +1,80 @@
-# Contributing Guidelines – SIRIUS LOCAL AI ALFA
+Contributing Guidelines – SIRIUS LOCAL AI ALFA
+Thank you for your interest in contributing to the SIRIUS LOCAL AI ALFA project.
+This document defines the rules, processes, and recommendations for contributors.
 
-Ďakujeme za záujem prispieť do projektu SIRIUS LOCAL AI ALFA. Tento dokument definuje pravidlá, procesy a odporúčania pre prispievateľov.
+1. Core Principles
+security has absolute priority
 
----
+no action may bypass user confirmations
 
-## 1. Základné princípy
-- bezpečnosť má absolútnu prioritu
-- žiadna akcia nesmie obchádzať potvrdenia používateľa
-- modulárna architektúra musí zostať čistá a oddelená
-- každý príspevok musí rešpektovať existujúce API medzi modulmi
-- žiadne sieťové operácie ani externé odosielanie dát
+the modular architecture must remain clean and separated
 
----
+every contribution must respect the existing module APIs
 
-## 2. Ako začať
-1. Forknite repozitár  
-2. Vytvorte novú vetvu pre svoju zmenu  
-3. Implementujte zmenu podľa architektúry  
-4. Otestujte ju v lokálnom prostredí  
-5. Pošlite Pull Request
+no network operations or external data transmission
 
----
+2. How to Start
+Fork the repository
 
-## 3. Štýl kódu
-- čistý, čitateľný, konzistentný
-- žiadne magické konštanty
-- jasné pomenovanie funkcií a modulov
-- komentáre len tam, kde sú potrebné
-- rešpektovanie modulovej štruktúry projektu
+Create a new branch for your change
 
----
+Implement the change according to the architecture
 
-## 4. Testovanie
-Každá zmena musí obsahovať:
-- základné testy
-- kontrolu bezpečnostných obmedzení
-- validáciu vstupov
-- testovanie chybových stavov
+Test it in your local environment
 
----
+Submit a Pull Request
 
-## 5. Pull Request pravidlá
-- jasný popis zmeny
-- odôvodnenie, prečo je zmena potrebná
-- žiadne veľké PR – radšej menšie, prehľadné kroky
-- PR nesmie meniť architektúru bez diskusie
+3. Code Style
+clean, readable, consistent
 
----
+no magic constants
 
-## 6. Čo neprijímame
-- sieťové funkcie
-- automatické akcie bez potvrdenia
-- obchádzanie bezpečnostných pravidiel
-- monolitické moduly
-- nezdokumentované API zmeny
+clear naming of functions and modules
 
----
+comments only where necessary
 
-## 7. Komunikácia
-Všetky diskusie prebiehajú cez:
-- Issues
-- Pull Request komentáre
+respect the project’s modular structure
 
----
+4. Testing
+Every change must include:
 
-## 8. Licencia
-Príspevky sú akceptované len v súlade s licenciou projektu.
+basic tests
 
----
+verification of security constraints
 
-## Stav dokumentu
-Aktuálna verzia: **ALFA**
+input validation
+
+error‑state testing
+
+5. Pull Request Rules
+clear description of the change
+
+explanation of why the change is needed
+
+no large PRs — prefer smaller, well‑structured steps
+
+PRs must not modify the architecture without discussion
+
+6. What We Do Not Accept
+network‑based features
+
+automatic actions without confirmation
+
+bypassing security rules
+
+monolithic modules
+
+undocumented API changes
+
+7. Communication
+All discussions take place through:
+
+Issues
+
+Pull Request comments
+
+8. License
+Contributions are accepted only in accordance with the project’s license.
+
+Document Status
+Current version: ALPHA
