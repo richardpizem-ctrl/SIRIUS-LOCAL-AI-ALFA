@@ -70,5 +70,30 @@ This document defines the development plan, milestones, and sequence of steps fr
 
 ---
 
+## 7. Windows System Capabilities Layer (WIN‑CAP)
+A major post‑release expansion enabling SIRIUS LOCAL AI to interact with the full Windows 11 environment through safe, abstracted system capabilities.
+
+### Planned capabilities:
+- **File Operations:**  
+  find projects, open folders, create structured directories  
+- **Application Control:**  
+  launch apps, detect running apps, focus windows  
+- **Window Management:**  
+  snap left/right, arrange layouts, position SIRIUS next to VS Code  
+- **Audio Device Control:**  
+  detect current output device, switch to preferred device  
+- **System Context Awareness:**  
+  active window, available devices, mounted drives  
+
+### Example user commands enabled by WIN‑CAP:
+- “Find all SIRIUS projects on disk and open the latest.”  
+- “Launch Real-Time MIDI Notation and place its window next to VS Code.”  
+- “Check if audio is going to the correct device and switch if not.”  
+- “Create a new folder for v1.3.0 and prepare the structure.”  
+
+WIN‑CAP transforms SIRIUS from a text-based assistant into a **true local OS-level AI agent**.
+
+---
+
 ## Roadmap Status
 Current phase: **ALPHA**
