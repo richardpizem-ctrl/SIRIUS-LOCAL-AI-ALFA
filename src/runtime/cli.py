@@ -1,5 +1,6 @@
 import sys
 from commands.registry import CommandRegistry
+from commands.help_command import HelpCommand
 from workflow.logger import WorkflowLogger
 
 
@@ -26,6 +27,13 @@ class CLI:
         args = argv[2:]
 
         self.logger.info(f"CLI – received command: {command_name}")
+
+        # Špeciálny prípad: help
+        if command_name == "help":
+            registry = CommandRegistry._commands
+            help_cmd = HelpCommand(registry)
+            print(help_cmd.execute())
+            return
 
         # Nájdeme command v registri
         command_class = CommandRegistry.get(command_name)
