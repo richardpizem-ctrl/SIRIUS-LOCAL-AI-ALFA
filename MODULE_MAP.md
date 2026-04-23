@@ -71,7 +71,19 @@ Tento dokument definuje všetky moduly projektu, ich účel, zodpovednosti a vz�
 
 ---
 
-## 8. Future Modules (rozšíriteľnosť)
+## 8. Automatic Input Triage Engine (AITE)
+**Účel:** Automatické rozpoznávanie typu vstupu a jeho zaradenie.  
+**Zodpovednosti:**
+- detekcia typu vstupu (text, foto, aplikácia)
+- smerovanie do správneho úložiska
+- tvorba metadát
+- integrácia s FS-AGENT a CME-MEM
+
+AITE zabezpečuje, že SIRIUS AI okamžite pochopí, čo používateľ vložil alebo stiahol, a správne to zatriedi bez potreby otázok.
+
+---
+
+## 9. Future Modules (rozšíriteľnosť)
 **Možné budúce moduly:**
 - UI Automation Layer
 - Voice Command Layer
@@ -80,8 +92,10 @@ Tento dokument definuje všetky moduly projektu, ich účel, zodpovednosti a vz�
 
 ---
 
-## 9. Prepojenia medzi modulmi
+## 10. Prepojenia medzi modulmi
 - **CME → FS-AGENT:** rozhoduje, čo sa má vykonať  
 - **CME → UI Confirm:** generuje otázky  
 - **CME-MEM → Workflow Tracker:** poskytuje kontext  
-- **Runtime Core → všetky moduly:** inicializácia a bezpečnosť  
+- **AITE → FS-AGENT:** smeruje vstupy podľa typu  
+- **AITE → CME-MEM:** ukladá metadáta o vstupe  
+- **Runtime Core → všetky moduly:** inicializácia a bezpečnosť
