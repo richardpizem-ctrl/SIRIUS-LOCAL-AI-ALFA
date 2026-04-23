@@ -1,68 +1,68 @@
 # Automatic Input Triage Engine (AITE)
 
-AITE je modul SIRIUS LOCAL AI ALFA, ktorý automaticky rozpoznáva typ vstupu
-a smeruje ho do správnej kategórie bez potreby otázok alebo potvrdení.
+AITE is a module of SIRIUS LOCAL AI ALFA that automatically detects the type of input
+and routes it to the correct category without requiring questions or confirmations.
 
 ---
 
-## 1. Účel modulu
-AITE zabezpečuje, že AI okamžite pochopí, čo používateľ vložil, stiahol
-alebo odoslal, a správne to zatriedi:
+## 1. Module Purpose
+AITE ensures that the AI immediately understands what the user inserted, downloaded,
+or provided, and classifies it correctly:
 
-- text → textové úložisko
-- foto / obrázok → galéria (media storage)
-- aplikácia / inštalačný súbor → sekcia aplikácií
-
----
-
-## 2. Funkcie modulu
-
-### 2.1 Automatická detekcia typu vstupu
-AITE rozpoznáva:
-- čistý text
-- obrázky (png, jpg, jpeg, webp, gif)
-- aplikácie (exe, msi, zip, apk, dmg)
-- dokumenty (pdf, docx, txt) – voliteľné rozšírenie
-
-### 2.2 Routing (smerovanie)
-Podľa typu vstupu AITE rozhodne:
-- kam súbor patrí
-- aké metadáta sa majú uložiť
-- ktorý modul má prevziať ďalšie spracovanie
-
-### 2.3 Integrácia s ostatnými modulmi
-AITE spolupracuje s:
-- FS-AGENT (práca so súbormi)
-- CME-MEM (kontextová pamäť)
-- Workflow Tracker (predikcia ďalších krokov)
+- text → text storage
+- photo / image → gallery (media storage)
+- application / installer → applications section
 
 ---
 
-## 3. Architektúra modulu
+## 2. Module Functions
 
-### 3.1 Komponenty
-- **InputClassifier** – rozpoznáva typ vstupu
-- **InputRouter** – rozhoduje, kam sa má vstup uložiť
-- **MetadataBuilder** – vytvára metadáta pre ďalšie moduly
-- **AITEController** – hlavná riadiaca vrstva
+### 2.1 Automatic Input Type Detection
+AITE recognizes:
+- plain text
+- images (png, jpg, jpeg, webp, gif)
+- applications (exe, msi, zip, apk, dmg)
+- documents (pdf, docx, txt) – optional extension
 
-### 3.2 Tok spracovania
-1. Používateľ vloží text / obrázok / súbor
-2. InputClassifier určí typ
-3. InputRouter vyberie cieľový modul
-4. FS-AGENT vykoná presun / uloženie
-5. CME-MEM uloží kontext
-6. Workflow Tracker ponúkne ďalší krok
+### 2.2 Routing
+Based on the input type, AITE decides:
+- where the file belongs
+- what metadata should be stored
+- which module should handle further processing
 
----
-
-## 4. Budúce rozšírenia
-- OCR pre automatické čítanie textu z obrázkov
-- detekcia videí
-- kategorizácia dokumentov podľa obsahu
-- automatické tagovanie médií
+### 2.3 Integration with Other Modules
+AITE cooperates with:
+- FS‑AGENT (file operations)
+- CME‑MEM (context memory)
+- Workflow Tracker (next‑step prediction)
 
 ---
 
-## 5. Stav modulu
-ALFA – definícia, návrh, príprava implementácie.
+## 3. Module Architecture
+
+### 3.1 Components
+- **InputClassifier** – detects the input type  
+- **InputRouter** – decides where the input should be stored  
+- **MetadataBuilder** – generates metadata for other modules  
+- **AITEController** – main control layer  
+
+### 3.2 Processing Flow
+1. User inserts text / image / file  
+2. InputClassifier determines the type  
+3. InputRouter selects the target module  
+4. FS‑AGENT performs the move / save  
+5. CME‑MEM stores context  
+6. Workflow Tracker suggests the next step  
+
+---
+
+## 4. Future Extensions
+- OCR for automatic text extraction from images  
+- video detection  
+- document categorization based on content  
+- automatic media tagging  
+
+---
+
+## 5. Module Status
+ALPHA – definition, design, and implementation preparation.
