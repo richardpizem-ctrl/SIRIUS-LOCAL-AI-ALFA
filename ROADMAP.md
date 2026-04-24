@@ -4,6 +4,22 @@ This document defines the development plan, milestones, and sequence of steps fr
 
 ---
 
+## ⚠️ ALPHA WARNING
+
+SIRIUS LOCAL AI ALFA interacts with Windows 11 system APIs, filesystem operations, window management, and application control.  
+The project is currently in **ALPHA**, and module behavior may evolve as development continues.
+
+- Some operations may require elevated permissions (UAC).  
+- Windows Defender or SmartScreen may classify the runtime as an “Unknown App”.  
+- Antivirus tools may generate false positives during development.  
+- Modules must run with the same privilege level as the applications they control.  
+- All processing is fully local; no data leaves the user's PC.
+
+**Users are encouraged to test features independently.**  
+This is an ALPHA‑stage developer tool — the author does not provide individual guidance for basic operations.
+
+---
+
 ## 1. ALPHA – Design and Preparation (current phase)
 - architecture definition  
 - creation of the module map  
@@ -71,6 +87,7 @@ This document defines the development plan, milestones, and sequence of steps fr
 ---
 
 ## 7. Windows System Capabilities Layer (WIN‑CAP)
+
 A major post‑release expansion enabling SIRIUS LOCAL AI to interact with the full Windows 11 environment through safe, abstracted system capabilities.
 
 ### Planned capabilities:
