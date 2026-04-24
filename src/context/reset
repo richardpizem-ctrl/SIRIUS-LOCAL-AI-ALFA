@@ -1,0 +1,41 @@
+from commands.base_command import BaseCommand
+from context.context_manager import ContextManager
+
+
+class ResetCommand(BaseCommand):
+    """
+    Úplne vymaže celý kontext a vráti ho do default stavu.
+    Použitie:
+      context-reset
+    """
+
+    name = "context-reset"
+    description = "Vymaže session, persistent, state aj history a vytvorí čistý kontext."
+
+    def __init__(self, context: ContextManager):
+        self.context = context
+
+    def execute(self, *args):
+        # -----------------------------
+        #  RESET VŠETKÝCH SEKCIÍ
+        # -----------------------------
+        self.context.session_memory = []
+        self.context.persistent_memory = {}
+        self.context.state = {}
+        self.context.history = []
+
+        # -----------------------------
+        #  VYTVORENIE PRÁZDNEHO SNAPSHOTU
+        # -----------------------------
+        self.context.create_snapshot("reset")
+
+        # -----------------------------
+        #  VALIDÁCIA
+        # -----------------------------
+        if not self.context.validate():
+            return "Kontext bol resetovaný, ale validácia zlyhala."
+
+        # -----------------------------
+        #  POTVRDENIE
+        # -----------------------------
+        return "Kontext bol úspešne resetovaný do default stavu."
