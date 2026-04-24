@@ -8,10 +8,12 @@ class ContextInfoCommand(BaseCommand):
     - krátkodobú pamäť
     - dlhodobú pamäť
     - stav systému
+    - história (počet snapshotov)
+    - validácia konzistencie
     """
 
     name = "context-info"
-    description = "Zobrazí diagnostiku kontextu AI."
+    description = "Zobrazí diagnostiku kontextu AI (rozšírená verzia)."
 
     def __init__(self, context: ContextManager):
         self.context = context
@@ -19,15 +21,25 @@ class ContextInfoCommand(BaseCommand):
     def execute(self, *args, **kwargs):
         output = ["KONTEKST AI — DIAGNOSTIKA\n"]
 
-        # Krátkodobá pamäť
-        output.append("Krátkodobá pamäť (session):")
+        # ============================================================
+        #  VALIDÁCIA KONTEXTU
+        # ============================================================
+        is_valid = self.context.validate()
+        output.append(f"Validita kontextu: {'OK' if is_valid else 'CHYBA'}")
+
+        # ============================================================
+        #  KRÁTKODOBÁ PAMÄŤ
+        # ============================================================
+        output.append("\nKrátkodobá pamäť (session):")
         if self.context.session_memory:
             for item in self.context.get_recent(10):
                 output.append(f"  - {item}")
         else:
             output.append("  (prázdne)")
 
-        # Dlhodobá pamäť
+        # ============================================================
+        #  DLHODOBÁ PAMÄŤ
+        # ============================================================
         output.append("\nDlhodobá pamäť (persistent):")
         if self.context.persistent_memory:
             for key, value in self.context.persistent_memory.items():
@@ -35,7 +47,9 @@ class ContextInfoCommand(BaseCommand):
         else:
             output.append("  (prázdne)")
 
-        # Stav systému
+        # ============================================================
+        #  STAV SYSTÉMU
+        # ============================================================
         output.append("\nStav systému:")
         if self.context.state:
             for key, value in self.context.state.items():
@@ -43,4 +57,26 @@ class ContextInfoCommand(BaseCommand):
         else:
             output.append("  (prázdne)")
 
+        # ============================================================
+        #  HISTÓRIA SNAPSHOTOV
+        # ============================================================
+        output.append("\nHistória kontextu:")
+        output.append(f"  Počet snapshotov: {len(self.context.history)}")
+        output.append(f"  Max. kapacita: {self.context.max_history}")
+
+        # ============================================================
+        #  POSLEDNÝ SNAPSHOT (ak existuje)
+        # ============================================================
+        if self.context.history:
+            last = self.context.history[-1]
+            output.append("\nPosledný snapshot:")
+            output.append(f"  - session: {len(last['session'])} položiek")
+            output.append(f"  - persistent: {len(last['persistent'])} položiek")
+            output.append(f"  - state: {len(last['state'])} položiek")
+        else:
+            output.append("\nPosledný snapshot: (žiadny uložený)")
+
+        # ============================================================
+        #  ZÁVER
+        # ============================================================
         return "\n".join(output)
