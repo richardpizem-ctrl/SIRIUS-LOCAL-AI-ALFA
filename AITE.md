@@ -5,13 +5,30 @@ and routes it to the correct category without requiring questions or confirmatio
 
 ---
 
+## ⚠️ ALPHA WARNING
+
+AITE interacts with Windows 11 filesystem operations and cooperates with privileged modules
+such as FS‑AGENT and CME‑MEM.  
+The project is currently in **ALPHA**, and module behavior may evolve as development continues.
+
+- Windows Defender or SmartScreen may classify the runtime as an “Unknown App”.  
+- Antivirus tools may generate false positives during development.  
+- Some operations may require elevated permissions (UAC).  
+- All processing is fully local; no data leaves the user's PC.
+
+**Users are encouraged to test features independently.**  
+This is an ALPHA‑stage developer tool — the author does not provide individual guidance for basic operations.
+
+---
+
 ## 1. Module Purpose
+
 AITE ensures that the AI immediately understands what the user inserted, downloaded,
 or provided, and classifies it correctly:
 
-- text → text storage
-- photo / image → gallery (media storage)
-- application / installer → applications section
+- text → text storage  
+- photo / image → gallery (media storage)  
+- application / installer → applications section  
 
 ---
 
@@ -19,22 +36,22 @@ or provided, and classifies it correctly:
 
 ### 2.1 Automatic Input Type Detection
 AITE recognizes:
-- plain text
-- images (png, jpg, jpeg, webp, gif)
-- applications (exe, msi, zip, apk, dmg)
-- documents (pdf, docx, txt) – optional extension
+- plain text  
+- images (png, jpg, jpeg, webp, gif)  
+- applications (exe, msi, zip, apk, dmg)  
+- documents (pdf, docx, txt) – optional extension  
 
 ### 2.2 Routing
 Based on the input type, AITE decides:
-- where the file belongs
-- what metadata should be stored
-- which module should handle further processing
+- where the file belongs  
+- what metadata should be stored  
+- which module should handle further processing  
 
 ### 2.3 Integration with Other Modules
 AITE cooperates with:
-- FS‑AGENT (file operations)
-- CME‑MEM (context memory)
-- Workflow Tracker (next‑step prediction)
+- FS‑AGENT (file operations)  
+- CME‑MEM (context memory)  
+- Workflow Tracker (next‑step prediction)  
 
 ---
 
