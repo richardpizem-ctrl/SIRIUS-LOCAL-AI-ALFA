@@ -5,6 +5,22 @@ It serves as an architectural orientation map.
 
 ---
 
+## ⚠️ ALPHA WARNING
+
+SIRIUS LOCAL AI ALFA interacts with Windows 11 system APIs, filesystem operations, window management, and application control.  
+The project is currently in **ALPHA**, and module behavior may change as development progresses.
+
+- Some operations may require elevated permissions (UAC).  
+- Windows Defender or SmartScreen may classify the runtime as an “Unknown App”.  
+- Antivirus tools may generate false positives during development.  
+- Modules must run with the same privilege level as the applications they control.  
+- All processing is fully local; no data leaves the user's PC.
+
+**Users are encouraged to test features independently.**  
+This is an ALPHA‑stage developer tool — the author does not provide individual guidance for basic operations.
+
+---
+
 ## 1. Runtime Core
 **Purpose:** Central system layer.  
 **Responsibilities:**
@@ -127,4 +143,4 @@ WIN‑CAP allows SIRIUS to understand a natural-language request, decompose it i
 - **AITE → CME‑MEM:** stores metadata about the input  
 - **WIN‑CAP → CME:** provides available system capabilities  
 - **WIN‑CAP → Runtime Core:** registered as a privileged capability layer  
-- **Runtime Core → all modules:** initialization and security  
+- **Runtime Core → all modules:** initialization and security
