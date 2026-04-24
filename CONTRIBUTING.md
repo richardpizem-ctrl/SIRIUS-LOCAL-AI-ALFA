@@ -6,6 +6,25 @@ The goal is to maintain a **clean, safe, modular, and predictable** local AI sys
 
 ---
 
+# ⚠️ ALPHA WARNING
+
+SIRIUS LOCAL AI ALFA interacts directly with the Windows 11 environment, including filesystem operations, window management, application control, and system‑level APIs.  
+The project is currently in **ALPHA**.
+
+- Windows Defender and SmartScreen may classify the runtime as an “Unknown App”.  
+- Some actions may require elevated permissions (UAC).  
+- The runtime must run with the same privilege level as the applications it controls.  
+- Antivirus tools may produce false positives, especially when packaging Python code into executables.  
+- Accessibility and window‑control APIs may be restricted depending on system configuration.
+
+**Users are encouraged to test features independently.**  
+This is an ALPHA‑stage developer tool — the author does not provide individual guidance for basic operations.
+
+All processing is fully local.  
+No data leaves your PC.
+
+---
+
 # 1. 🔐 Core Principles
 
 - **Security has absolute priority**  
@@ -97,4 +116,3 @@ All contributions are accepted only in accordance with the project’s **MIT Lic
 # 📌 Document Status
 
 Current version: **ALPHA**
-
