@@ -1,164 +1,159 @@
-# SIRIUS LOCAL AI ALFA – Project Architecture
+# 🏗 Architecture – SIRIUS LOCAL AI ALFA
 
-SIRIUS LOCAL AI ALFA is a modular local AI runtime designed to safely and accurately execute commands within a single PC.  
-The architecture is divided into independent modules that communicate through defined interfaces and maintain a consistent user context.
+SIRIUS LOCAL AI ALFA is a modular, local‑only AI runtime designed to safely interpret user commands and interact with the Windows 11 environment through isolated capability modules.
+
+The architecture emphasizes **safety**, **predictability**, **modularity**, and **full local control**.
 
 ---
 
+# ⚠️ ALPHA WARNING
+
+SIRIUS LOCAL AI ALFA interacts with Windows 11 system APIs, including filesystem operations, window management, application control, and accessibility interfaces.  
+The project is currently in **ALPHA**, and module behavior may change as the system evolves.
+
+- Some operations may require elevated permissions (UAC).  
+- Windows Defender or SmartScreen may classify the runtime as an “Unknown App”.  
+- Antivirus tools may generate false positives during development.  
+- Modules must run with the same privilege level as the applications they control.  
+- All processing is fully local; no data leaves the user's PC.
+
+**Users are encouraged to test features independently.**  
+The author does not provide individual guidance for basic operations.
+
+---
+
+# 🧩 Architectural Principles
+
+- strict modular separation  
+- no hidden automation  
+- no background tasks  
+- no network communication  
+- predictable, reversible actions  
+- explicit user confirmations for all operations  
+- capability‑based access to Windows functions  
+
+---
+
+# 🧱 Core Layers
+
 ## 1. Runtime Core
-The foundational system layer responsible for:
+Central orchestrator responsible for:
 
 - module initialization  
 - lifecycle management  
 - task scheduling  
-- security restrictions (sandboxing, allowed operations)  
+- enforcing security boundaries  
+- capability registration  
 
 ---
 
-## 2. Filesystem Agent (FS‑AGENT)
-Responsible for all file operations:
+## 2. Command Interpreter (CME)
+Natural‑language command processor.
 
-- moving, copying, deleting  
-- path validation  
-- safety confirmations  
-- user feedback  
+Responsibilities:
 
-FS‑AGENT never performs an action without explicit confirmation.
-
----
-
-## 3. Command Interpreter (CME)
-The layer that translates user commands into internal actions:
-
-- command type recognition  
+- command classification  
 - parameter extraction  
-- deciding which module should execute the action  
-- generating questions such as “Where to?” or “Confirm?”  
+- routing to modules  
+- generating confirmation prompts  
+- validating intent  
+
+---
+
+## 3. Filesystem Agent (FS‑AGENT)
+Safe, confirmation‑based filesystem operations.
+
+Responsibilities:
+
+- move, copy, delete  
+- path validation  
+- safety checks  
+- user confirmation dialogs  
+
+FS‑AGENT never performs an action without explicit approval.
 
 ---
 
 ## 4. Context Memory Engine (CME‑MEM)
-Maintains the full PC and workflow context:
+Maintains short‑term workflow context.
 
-- user’s recent actions  
-- last used paths and folders  
-- state of ongoing tasks  
-- contextual suggestions for next steps  
+Responsibilities:
+
+- storing recent paths  
+- tracking last actions  
+- providing contextual suggestions  
+- supporting multi‑step workflows  
 
 ---
 
 ## 5. Workflow Tracker
-Responsible for:
+Controls multi‑step logic.
 
-- tracking the sequence of steps  
-- predicting the next logical action  
-- automatic suggestions (e.g., “Do you want to insert this into README?”)  
+Responsibilities:
+
+- workflow state machine  
+- predicting next steps  
+- validating transitions  
+- ensuring predictable behavior  
 
 ---
 
 ## 6. UI Confirm Module
-Layer for interactive confirmation tables:
+Interactive confirmation layer.
 
-- selecting the target folder  
-- confirming actions  
+Responsibilities:
+
+- folder selection  
+- action confirmation  
 - safety dialogs  
-- automatic window opening based on command type  
+- automatic window opening  
 
 ---
 
-## 7. Email Composer (no sending)
-This module generates:
+## 7. Automatic Input Triage Engine (AITE)
+Classifies incoming user inputs.
 
-- email drafts  
-- structured text  
-- professional responses  
+Recognized types:
 
-It never sends anything — it only prepares content.
+- text  
+- images/photos  
+- installers/applications  
 
----
+Responsibilities:
 
-## 8. Automatic Input Triage Engine (AITE)
-A module that automatically detects the type of input and assigns it to the correct category without requiring questions.
-
-**Recognized Types:**
-
-- Text → stored in text storage  
-- Photo / image → moved to the gallery (media storage)  
-- Application / installer → placed into the applications section  
-
-**Functions:**
-
-- automatic input type detection  
-- routing to the correct module  
-- metadata preparation  
+- type detection  
+- routing  
+- metadata generation  
 - integration with FS‑AGENT and CME‑MEM  
 
-AITE ensures that SIRIUS AI understands what the user inserted or downloaded and classifies it immediately.
+---
+
+## 8. Windows System Capabilities Layer (WIN‑CAP)
+Abstracted access to Windows 11 system functions.
+
+Submodules:
+
+- `file_ops` — structured directories, project discovery  
+- `app_ops` — launching, focusing, detecting running apps  
+- `window_ops` — snapping, arranging, positioning windows  
+- `audio_ops` — detecting and switching audio devices  
+
+WIN‑CAP enables safe, high‑level system actions through controlled APIs.
 
 ---
 
-## 9. Windows System Capabilities Layer (WIN‑CAP)
-A dedicated integration layer that allows SIRIUS LOCAL AI to work with the full Windows 11 environment through controlled, high‑level capabilities.
+# 🔌 Module Interconnections
 
-**Core responsibilities:**
-
-- provide a catalog of OS‑level capabilities (files, apps, windows, audio, devices)  
-- expose safe, abstracted functions to the AI (no raw system calls from the model)  
-- enforce permissions and allowed scopes (which folders, which apps, which devices)  
-
-**Example capability modules:**
-
-- `file_ops`  
-  - find projects (e.g., “find all SIRIUS projects and open the latest”)  
-  - create structured folders (e.g., “create v1.3.0 folder with substructure”)  
-  - open folders in Explorer  
-
-- `app_ops`  
-  - launch applications (e.g., “start Real-Time MIDI Notation”)  
-  - detect running apps (e.g., VS Code)  
-  - focus or arrange windows  
-
-- `window_ops`  
-  - snap windows left/right  
-  - position SIRIUS next to VS Code  
-  - basic window layout automation  
-
-- `audio_ops`  
-  - get current audio output device  
-  - compare with preferred device  
-  - switch output if needed (e.g., “if sound is not going to the right device, change it”)  
-
-**Behavioral pattern:**
-
-For commands like:
-
-- “Find all SIRIUS projects on disk and open the latest.”  
-- “Launch Real-Time MIDI Notation and place its window next to VS Code.”  
-- “Check if audio is going to the correct device and switch if not.”  
-- “Create a new folder for v1.3.0 and prepare the structure.”
-
-SIRIUS will:
-
-1. understand the request (CME)  
-2. decompose it into concrete OS actions  
-3. execute them via WIN‑CAP modules (file_ops, app_ops, window_ops, audio_ops)  
-4. coordinate confirmations via UI Confirm Module and FS‑AGENT where needed  
-
-WIN‑CAP makes SIRIUS a true **local OS‑level AI agent** instead of a pure text assistant.
+- CME → FS‑AGENT  
+- CME → UI Confirm  
+- CME‑MEM → Workflow Tracker  
+- AITE → FS‑AGENT  
+- AITE → CME‑MEM  
+- WIN‑CAP → CME  
+- WIN‑CAP → Runtime Core  
+- Runtime Core → all modules  
 
 ---
 
-## 10. Modularity and Extensibility
-Each module is independent and can be extended with:
-
-- new command types  
-- new UI components  
-- new workflow logic  
-- new security layers  
-- new types of automatic triage  
-- new Windows capabilities (additional WIN‑CAP modules)  
-
----
-
-## 11. Project Status
-**ALPHA** – architecture definition, module design, and implementation preparation.
+# 📌 Document Status
+Current version: **ALPHA**
