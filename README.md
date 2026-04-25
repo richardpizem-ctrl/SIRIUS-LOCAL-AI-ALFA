@@ -6,6 +6,7 @@ Description: SIRIUS LOCAL AI ALFA is a fully local, modular AI runtime for Windo
 
 # 🚀 SIRIUS LOCAL AI ALFA  
 ### Modular Local AI Runtime for Windows 11
+### Modular local AI runtime for file management, workflows, and safe command execution on a single PC.
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-ALPHA-orange">
