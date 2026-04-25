@@ -1,3 +1,9 @@
+<!--
+SEO META BLOCK – improves GitHub search visibility
+Keywords: local AI, offline AI, Windows automation, AI runtime, workflow automation, modular AI, secure AI, natural language automation, Windows 11 tools, local assistant, AI agent, filesystem automation, command interpreter, context engine, workflow engine
+Description: SIRIUS LOCAL AI ALFA is a fully local, modular AI runtime for Windows 11. It executes natural‑language commands, manages workflows, automates filesystem operations, and interacts with the OS through a secure capability layer — all without cloud dependencies.
+-->
+
 # 🚀 SIRIUS LOCAL AI ALFA  
 ### Modular Local AI Runtime for Windows 11
 
