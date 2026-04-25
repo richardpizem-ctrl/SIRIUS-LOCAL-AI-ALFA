@@ -114,13 +114,36 @@ You will receive a response within **72 hours**.
 
 ---
 
-# 7. 📄 Supported Versions
+# 7. 🛠️ Self‑Repair & Health‑Check Layer (v4.0.0)
+
+A future security‑critical module designed to maintain long‑term system stability.
+
+### Responsibilities:
+- integrity checks for core modules (runtime, context, commands, filesystem)  
+- detection of corrupted states, missing files, invalid configs  
+- safe automatic repairs (cache reset, index rebuild, default config restore)  
+- patch suggestions for code‑level fixes (manual approval required)  
+- strict protection against uncontrolled source‑code modifications  
+- system‑wide health reporting to Runtime Core  
+
+### Security Guarantees:
+- no automatic modification of source code  
+- no self‑rewriting behavior  
+- all repairs must be reversible  
+- all repairs must be logged  
+- all high‑risk repairs require explicit user approval  
+
+This layer will be implemented in **version 4.0.0**, after the system reaches full stability.
+
+---
+
+# 8. 📄 Supported Versions
 
 Only the **latest stable release** receives security updates.
 
 ---
 
-# 8. 📌 Document Status
+# 9. 📌 Document Status
 
 Current version: **ALPHA**  
 This policy will evolve as the system approaches v1.0.0.
