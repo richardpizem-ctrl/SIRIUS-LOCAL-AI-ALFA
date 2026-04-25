@@ -19,6 +19,8 @@ keywords:
   - "SIRIUS architecture"
   - "Windows 11 automation"
   - "modular AI runtime"
+  - "self-repair diagnostics"
+  - "health-check engine"
 
 abstract: >
   SIRIUS LOCAL AI ALFA is a modular offline AI assistant designed for secure,
@@ -28,6 +30,10 @@ abstract: >
   The system operates entirely on the user's machine, without any cloud
   dependencies or external data transmission. All modules follow strict
   security boundaries and predictable behavior rules.
+
+  The long-term roadmap includes the Self-Repair & Health-Check Layer (v4.0.0),
+  which introduces integrity checks, safe automatic repairs, and diagnostic
+  capabilities to maintain long-term system stability.
 
   ⚠️ ALPHA WARNING:
   This software interacts with Windows 11 system APIs, filesystem operations,
