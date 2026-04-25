@@ -165,11 +165,32 @@ These files prepare the animation system for future versions (v2.0.0 and v3.0.0)
 ---
 
 # 12. Future Modules (Extensibility)
+
 **Possible future modules:**
 - UI Automation Layer  
 - Voice Command Layer  
 - System Monitoring Layer  
 - Plugin API  
+
+---
+
+## **Self‑Repair & Health‑Check Layer (v4.0.0)**  
+**Purpose:** Diagnostics and safe automatic recovery.  
+**Responsibilities:**  
+- checking integrity of core modules (runtime, context, commands, filesystem)  
+- detecting corrupted states, missing files, invalid configs  
+- performing safe automatic repairs (cache reset, index rebuild, default config restore)  
+- generating patch suggestions for code-level fixes (manual approval required)  
+- preventing uncontrolled modifications of source code  
+- reporting system health to Runtime Core  
+
+**Submodules:**  
+- `health_check_engine.py` — diagnostics  
+- `self_repair_safe.py` — safe automatic repairs  
+- `repair_suggestions.py` — patch proposals (non‑executing)  
+
+**Notes:**  
+This module is planned for **version 4.0.0**, after the system reaches full stability.
 
 ---
 
