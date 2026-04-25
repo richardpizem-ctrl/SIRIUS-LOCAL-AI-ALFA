@@ -30,6 +30,8 @@ This is an ALPHA‑stage developer tool — the author does not provide individu
 - every module must follow SRP (Single Responsibility Principle)  
 - security always has priority over convenience  
 - predictable, transparent behavior  
+- consistent structure across all modules  
+- minimal cognitive load for future maintainers  
 
 ---
 
@@ -41,27 +43,38 @@ This is an ALPHA‑stage developer tool — the author does not provide individu
 - no meaningless abbreviations  
 
 Examples:  
-target_path  
-pending_action  
-user_confirmation_required  
+`target_path`  
+`pending_action`  
+`user_confirmation_required`  
 
 ## Functions
 - lower_snake_case  
 - name must express an action  
+- verbs first, nouns second  
 
 Examples:  
-resolve_target_folder()  
-validate_path()  
-generate_confirmation_dialog()  
+`resolve_target_folder()`  
+`validate_path()`  
+`generate_confirmation_dialog()`  
+`load_context_state()`  
 
 ## Classes / Modules
 - PascalCase  
 - name = responsibility of the module  
 
 Examples:  
-FilesystemAgent  
-CommandInterpreter  
-ContextMemoryEngine  
+`FilesystemAgent`  
+`CommandInterpreter`  
+`ContextMemoryEngine`  
+`WorkflowTracker`  
+
+## Constants
+- UPPER_SNAKE_CASE  
+- must be descriptive  
+
+Examples:  
+`MAX_RETRY_COUNT`  
+`DEFAULT_TIMEOUT_MS`  
 
 ---
 
@@ -69,19 +82,24 @@ ContextMemoryEngine
 
 Each module has its own folder:
 
-/runtime  
-/filesystem  
-/commands  
-/context  
-/workflow  
-/ui  
-/email  
+```
+/runtime
+/filesystem
+/commands
+/context
+/workflow
+/ui
+/email
+/ui_components
+/ui_components/animations
+```
 
 Each folder contains:
 
-- __init__.py  
+- `__init__.py`  
 - main module  
-- helper utilities (if needed)
+- helper utilities (if needed)  
+- no cross‑module imports except through public interfaces  
 
 ---
 
@@ -90,6 +108,8 @@ Each folder contains:
 - ideal length: 5–25 lines  
 - maximum: 50 lines  
 - if a function grows too large, split it  
+- avoid deeply nested logic  
+- prefer early returns over complex branching  
 
 ---
 
@@ -97,13 +117,18 @@ Each folder contains:
 
 - comments only where necessary  
 - comments explain **why**, not **what**  
+- avoid redundant comments  
 
 Bad:  
-i = 0  # set i to zero  
+```python
+i = 0  # set i to zero
+```
 
 Good:  
-# reset index for a new workflow step  
-i = 0  
+```python
+# reset index for a new workflow step
+i = 0
+```
 
 ---
 
@@ -112,10 +137,13 @@ i = 0
 - clear, concise, informative  
 - never aggressive or vague  
 - must include a reason + recommendation  
+- avoid technical jargon unless necessary  
 
 Example:  
+```
 Invalid path: C:/root  
 This operation is blocked for safety reasons.
+```
 
 ---
 
@@ -127,6 +155,8 @@ This operation is blocked for safety reasons.
 - no network operations in any module  
 - no hidden background tasks  
 - no automatic actions without explicit approval  
+- no implicit state sharing  
+- all privileged operations must go through WIN‑CAP  
 
 ---
 
@@ -138,6 +168,8 @@ Every module must include:
 - error‑state tests  
 - security‑constraint tests  
 - input‑validation tests  
+- predictable behavior tests  
+- no reliance on external network or cloud  
 
 ---
 
@@ -145,10 +177,13 @@ Every module must include:
 
 - concise and technical  
 - no sensitive data  
-- format: [MODULE] action – status  
+- format: `[MODULE] action – status`  
+- logs must be deterministic and reproducible  
 
 Example:  
-[FS-AGENT] move_file – confirmed  
+```
+[FS-AGENT] move_file – confirmed
+```
 
 ---
 
@@ -158,10 +193,33 @@ Example:
 - max line width: 100 characters  
 - blank line between logical blocks  
 - no trailing spaces  
-- consistent structure across all modules  
+- consistent import ordering  
+- group imports: standard → third‑party → internal  
+
+Example:
+
+```python
+import os
+import shutil
+
+from dearpygui import core
+
+from filesystem.agent import FilesystemAgent
+```
 
 ---
 
-# 11. Document Status
+# 11. Module Boundaries
 
-Current version: ALPHA
+- modules may not access each other's internals  
+- communication must go through public interfaces  
+- Runtime Core is the only module allowed to initialize all others  
+- no circular imports  
+- no global mutable state  
+
+---
+
+# 12. Document Status
+
+Current version: **ALPHA**  
+The styleguide may evolve as the system approaches Phase 4 stability.
