@@ -9,7 +9,7 @@ The goal is to maintain a **clean, safe, modular, and predictable** local AI sys
 # ⚠️ ALPHA WARNING
 
 SIRIUS LOCAL AI ALFA interacts directly with the Windows 11 environment, including filesystem operations, window management, application control, and system‑level APIs.  
-The project is currently in **ALPHA**.
+The project is currently in **ALPHA**, and internal behavior may change as modules evolve.
 
 - Windows Defender and SmartScreen may classify the runtime as an “Unknown App”.  
 - Some actions may require elevated permissions (UAC).  
@@ -33,7 +33,10 @@ No data leaves your PC.
 - **All contributions must respect existing module APIs**  
 - **No network operations or external data transmission**  
 - **No hidden automation or background actions**  
-- **Every change must preserve system transparency and predictability**
+- **Every change must preserve system transparency and predictability**  
+- **No global mutable state**  
+- **No circular imports**  
+- **Deterministic, reversible behavior whenever possible**
 
 ---
 
@@ -45,17 +48,34 @@ No data leaves your PC.
 4. **Test** it in your local environment  
 5. **Submit a Pull Request** with a clear description  
 
+Recommended branch naming:
+
+```
+feature/<name>
+fix/<name>
+refactor/<name>
+docs/<name>
+```
+
 ---
 
 # 3. 🧼 Code Style
+
+All contributions must follow the project’s **STYLEGUIDE.md**.
+
+Key rules:
 
 - clean, readable, consistent  
 - no magic constants  
 - clear naming of functions and modules  
 - comments only where necessary  
-- respect the project’s modular structure  
+- comments explain **why**, not **what**  
 - avoid unnecessary complexity  
 - follow the architecture and module map  
+- functions ideally 5–25 lines  
+- no monolithic modules  
+- no deep nesting — prefer early returns  
+- imports grouped: standard → third‑party → internal  
 
 ---
 
@@ -69,17 +89,34 @@ Every change must include:
 - error‑state testing  
 - predictable behavior under invalid inputs  
 - no silent failures  
+- no destructive operations without confirmation  
+- no reliance on network access  
+
+If your change affects:
+
+- **FS‑AGENT** → test path validation, safety prompts  
+- **CME** → test ambiguity handling and parameter extraction  
+- **Workflow** → test state transitions  
+- **WIN‑CAP** → test safe fallback behavior  
 
 ---
 
 # 5. 📥 Pull Request Rules
 
+A valid PR must include:
+
 - clear description of the change  
 - explanation of why the change is needed  
+- reference to related Issues (if applicable)  
+- test results or manual test notes  
+
+Restrictions:
+
 - no large PRs — prefer smaller, well‑structured steps  
 - PRs must **not** modify the architecture without prior discussion  
-- PRs must follow the module boundaries  
+- PRs must follow module boundaries  
 - PRs must not introduce new dependencies without approval  
+- PRs must not break determinism or safety guarantees  
 
 ---
 
@@ -93,6 +130,8 @@ Every change must include:
 - hidden background tasks  
 - features that break modularity  
 - unsafe filesystem or system operations  
+- code that relies on OS‑specific hacks  
+- contributions that reduce clarity or predictability  
 
 ---
 
@@ -103,11 +142,44 @@ All discussions take place through:
 - **Issues**  
 - **Pull Request comments**  
 
-Be respectful, clear, and constructive.
+Guidelines:
+
+- be respectful and constructive  
+- provide technical reasoning  
+- avoid vague or incomplete reports  
+- include reproduction steps when reporting issues  
 
 ---
 
-# 8. 📄 License
+# 8. 🧭 Architecture Compliance
+
+All contributions must respect:
+
+- **ARCHITECTURE.md**  
+- **MODULE_MAP.md**  
+- **STYLEGUIDE.md**  
+- **SECURITY.md**  
+
+Breaking architectural boundaries requires prior approval.
+
+---
+
+# 9. 📝 Commit Message Style
+
+Use clear, structured commit messages:
+
+```
+feat: added new workflow validation
+fix: corrected path resolution in FS-AGENT
+refactor: simplified command routing logic
+docs: updated INSTALLATION.md
+```
+
+Avoid vague messages like “update”, “fix stuff”, “changes”.
+
+---
+
+# 10. 📄 License
 
 All contributions are accepted only in accordance with the project’s **MIT License**.
 
@@ -115,4 +187,5 @@ All contributions are accepted only in accordance with the project’s **MIT Lic
 
 # 📌 Document Status
 
-Current version: **ALPHA**
+Current version: **ALPHA**  
+This document will evolve as the system approaches Phase 4 stability.
