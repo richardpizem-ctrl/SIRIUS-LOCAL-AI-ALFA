@@ -42,6 +42,24 @@ Focus:
 
 ---
 
+# Version 4.0.0 – Self‑Repair & Health‑Check Layer
+Focus:
+- integrity checks for core modules  
+- detection of corrupted states, missing files, invalid configs  
+- safe automatic repairs (cache reset, index rebuild, default config restore)  
+- patch suggestions for code‑level fixes (manual approval required)  
+- strict protection against uncontrolled source‑code modifications  
+- system‑wide health reporting to Runtime Core  
+
+Submodules:
+- `health_check_engine.py` — diagnostics  
+- `self_repair_safe.py` — safe automatic repairs  
+- `repair_suggestions.py` — patch proposals (non‑executing)  
+
+This version introduces the first generation of **safe, controlled self‑repair logic**.
+
+---
+
 # Long‑Term Vision
 - plugin API  
 - voice command layer  
