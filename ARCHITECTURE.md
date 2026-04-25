@@ -186,17 +186,37 @@ WIN‑CAP enables safe, high‑level system actions through controlled APIs.
 
 ---
 
-# 🔌 Module Interconnections
+## 9. Self‑Repair & Health‑Check Layer (v4.0.0)
 
-```
+A future architectural layer responsible for diagnostics and safe automatic recovery.
+
+Responsibilities:
+
+- integrity checks for core modules (runtime, context, commands, filesystem)  
+- detection of corrupted states, missing files, invalid configs  
+- safe automatic repairs (cache reset, index rebuild, default config restore)  
+- generating patch suggestions for code‑level fixes (manual approval required)  
+- strict protection against uncontrolled source‑code modifications  
+- reporting system health to Runtime Core  
+
+Submodules:
+
+- `health_check_engine.py` — diagnostics  
+- `self_repair_safe.py` — safe automatic repairs  
+- `repair_suggestions.py` — patch proposals (non‑executing)  
+
+This layer will be implemented in **version 4.0.0**, after the system reaches full stability.
+
+---
+
+# 🔌 Module Interconnections
 User Input
-   ↓
+↓
 AITE → CME → UI Confirm → FS‑AGENT
-   ↓        ↓
+↓        ↓
 CME‑MEM → Workflow Tracker
-   ↓
+↓
 Runtime Core → WIN‑CAP → Windows 11 APIs
-```
 
 ### Key relationships:
 
