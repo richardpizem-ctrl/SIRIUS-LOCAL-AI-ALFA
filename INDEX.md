@@ -71,16 +71,16 @@ The workflow layer manages:
 
 ## 📁 Project Structure
 src/
-├── commands/
-├── context/
-├── email/
-├── filesystem/
-├── runtime/
-├── triage/
-├── ui/
-├── ui_components/
-│    └── animations/
-├── workflow/
+├── commands/  
+├── context/  
+├── email/  
+├── filesystem/  
+├── runtime/  
+├── triage/  
+├── ui/  
+├── ui_components/  
+│    └── animations/  
+├── workflow/  
 └── sirius.py
 
 Each directory has a clear responsibility and is described in **MODULE_MAP.md**.
@@ -135,6 +135,16 @@ More in **PERFORMANCE_GUIDE.md**.
 - MPE visualization (X/Y/Z)  
 - per‑note vibrato animation  
 
+### **v4.0.0 – Self‑Repair & Health‑Check Layer**
+- integrity checks for core modules  
+- detection of corrupted states, missing files, invalid configs  
+- safe automatic repairs (cache reset, index rebuild, default config restore)  
+- patch suggestions for code‑level fixes (manual approval required)  
+- strict protection against uncontrolled source‑code modifications  
+- system‑wide health reporting  
+
+This version introduces the first generation of **safe, controlled self‑repair logic**.
+
 ---
 
 ## 🧩 License
@@ -147,4 +157,3 @@ The license is provided in **LICENSE**.
 **Richard Pizem**  
 Visionary architect & solo maintainer  
 SIRIUS‑LOCAL‑AI‑ALFA
-
