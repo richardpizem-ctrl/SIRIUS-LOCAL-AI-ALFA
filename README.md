@@ -218,12 +218,21 @@ Stabilization, testing, API documentation.
 ### **VERSION 1.0**  
 First stable release.
 
-### **Post‑release**  
-- UI Automation Layer  
-- Voice Command Layer  
-- Plugin API  
-- System Monitoring  
-- WIN‑CAP expansion  
+### **VERSION 2.0**  
+Extended architecture (EventBus deque, Graphic Primitives, StreamHandler, undo/redo, cached grid rendering).
+
+### **VERSION 3.0**  
+Advanced visualizations (RGB pulsing, MPE, 3D effects, vibrato animation).
+
+### **VERSION 4.0 – Self‑Repair & Health‑Check Layer**  
+- integrity checks for core modules  
+- detection of corrupted states, missing files, invalid configs  
+- safe automatic repairs (cache reset, index rebuild, default config restore)  
+- patch suggestions for code‑level fixes (manual approval required)  
+- strict protection against uncontrolled source‑code modifications  
+- system‑wide health reporting  
+
+This version introduces the first generation of **safe, controlled self‑repair logic**.
 
 ---
 
