@@ -112,5 +112,26 @@ WIN‑CAP transforms SIRIUS from a text-based assistant into a **true local OS-l
 
 ---
 
+## 8. Self‑Repair & Health‑Check Layer (v4.0.0)
+
+A long‑term module planned for version **4.0.0**, enabling diagnostics and safe automatic recovery.
+
+### Planned capabilities:
+- integrity checks for core modules (runtime, context, commands, filesystem)  
+- detection of corrupted states, missing files, invalid configs  
+- safe automatic repairs (cache reset, index rebuild, default config restore)  
+- patch suggestions for code‑level fixes (manual approval required)  
+- strict protection against uncontrolled source‑code modifications  
+- reporting system health to Runtime Core  
+
+### Submodules:
+- `health_check_engine.py` — diagnostics  
+- `self_repair_safe.py` — safe automatic repairs  
+- `repair_suggestions.py` — patch proposals (non‑executing)  
+
+This module will be implemented only after the system reaches full stability.
+
+---
+
 ## Roadmap Status
 Current phase: **ALPHA**
