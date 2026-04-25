@@ -13,6 +13,8 @@ The goal is to maintain a **safe, friendly, and productive environment** for all
 - no harassment of any kind  
 - constructive and technical communication  
 - disagreements handled calmly and professionally  
+- assume good intentions unless proven otherwise  
+- focus on collaboration, not competition  
 
 These principles ensure that collaboration remains focused, respectful, and effective.
 
@@ -26,6 +28,9 @@ These principles ensure that collaboration remains focused, respectful, and effe
 - focusing on solving problems, not creating conflict  
 - following project rules and guidelines  
 - maintaining a professional tone  
+- providing constructive feedback  
+- acknowledging mistakes and correcting them  
+- asking questions when unsure  
 
 ---
 
@@ -37,6 +42,8 @@ These principles ensure that collaboration remains focused, respectful, and effe
 - spam, trolling, or intentional disruption  
 - sharing private information without consent  
 - attempts to intimidate or pressure contributors  
+- dismissing others’ work without explanation  
+- intentionally misleading or deceptive behavior  
 
 Such behavior harms the community and will not be tolerated.
 
@@ -50,6 +57,8 @@ Project maintainers have the right and responsibility to:
 - block users who repeatedly break the rules  
 - maintain a safe and professional environment  
 - enforce rules consistently and fairly  
+- clarify expectations when misunderstandings occur  
+- protect contributors from harassment or abuse  
 
 Maintainers act to protect the integrity of the project.
 
@@ -59,10 +68,16 @@ Maintainers act to protect the integrity of the project.
 
 If inappropriate behavior or conflict occurs, it can be reported directly to the project maintainer through:
 
-- GitHub Issues  
-- private message  
+- **GitHub Issues**  
+- **private message**  
 
-All reports will be handled **confidentially** and with care.
+All reports will be handled **confidentially**, respectfully, and with care.
+
+When reporting, please include:
+
+- a clear description of the issue  
+- links or screenshots (if applicable)  
+- any relevant context  
 
 ---
 
@@ -75,11 +90,29 @@ Violations of this Code of Conduct may result in:
 - temporary ban  
 - permanent ban from the project  
 
-The severity depends on the nature and frequency of the violation.
+The severity depends on:
+
+- the nature of the violation  
+- whether it was intentional  
+- whether it is a repeated offense  
+
+Maintainers will always act in good faith and with fairness.
 
 ---
 
-# 7. 📝 Acknowledgment
+# 7. 🌐 Scope of This Code
+
+This Code of Conduct applies to:
+
+- all project repositories  
+- GitHub Issues and Pull Requests  
+- discussions and comments  
+- project‑related communication outside GitHub  
+- any interaction representing the project  
+
+---
+
+# 8. 📝 Acknowledgment
 
 By contributing to this project, you agree to follow this **Code of Conduct**  
 and help maintain a respectful, safe, and productive environment.
