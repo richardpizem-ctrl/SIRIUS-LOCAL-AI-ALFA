@@ -1,5 +1,13 @@
 # 🏗 Architecture – SIRIUS LOCAL AI ALFA
 
+<p align="center">
+  <img src="https://img.shields.io/badge/version-ALPHA-orange">
+  <img src="https://img.shields.io/badge/license-MIT-green">
+  <img src="https://img.shields.io/badge/platform-Windows%2011-blue">
+  <img src="https://img.shields.io/badge/architecture-modular-lightgrey">
+  <img src="https://img.shields.io/badge/local%20AI-100%25-blueviolet">
+</p>
+
 SIRIUS LOCAL AI ALFA is a modular, local‑only AI runtime designed to safely interpret user commands and interact with the Windows 11 environment through isolated capability modules.
 
 The architecture emphasizes **safety**, **predictability**, **modularity**, and **full local control**.
@@ -33,6 +41,16 @@ The author does not provide individual guidance for basic operations.
 - capability‑based access to Windows functions  
 - deterministic behavior across all modules  
 - no implicit state sharing  
+
+---
+
+# 🖼 Architecture Diagram (Placeholder)
+
+> A high‑level architecture diagram will be added here in the next update.
+
+<p align="center">
+  <img src="docs/architecture_diagram_placeholder.png" width="600">
+</p>
 
 ---
 
