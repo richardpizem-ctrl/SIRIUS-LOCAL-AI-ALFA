@@ -15,7 +15,8 @@ class TimelineUI:
         - header
         - placeholder pre eventy
         - snapping overlay (C1)
-        - pripravenú štruktúru pre ghost / selection
+        - ghost dragging overlay (C2)
+        - pripravenú štruktúru pre selection
     """
 
     def __init__(self):
@@ -39,10 +40,10 @@ class TimelineUI:
         layout.extend(self._build_grid())
         layout.extend(self._build_events())
         layout.extend(self._build_snapping_overlay())  # C1
+        layout.extend(self._build_ghost_overlay())     # C2
 
         # neskôr:
         # layout.extend(self._build_selection_overlay())
-        # layout.extend(self._build_ghost_overlay())
 
         return layout
 
@@ -51,10 +52,6 @@ class TimelineUI:
     # ---------------------------------------------------------
 
     def _build_header(self) -> List[Dict[str, Any]]:
-        """
-        Horný pás s časovými značkami.
-        Zatiaľ jednoduchý textový header.
-        """
         blocks: List[Dict[str, Any]] = []
 
         blocks.append({
@@ -64,7 +61,6 @@ class TimelineUI:
             "content": "Timeline",
         })
 
-        # Jednoduché značky každých grid_step
         for x in range(0, self.width, self.grid_step):
             blocks.append({
                 "type": "text",
@@ -76,9 +72,6 @@ class TimelineUI:
         return blocks
 
     def _build_grid(self) -> List[Dict[str, Any]]:
-        """
-        Základný vertikálny grid pod headerom.
-        """
         blocks: List[Dict[str, Any]] = []
 
         for x in range(0, self.width, self.grid_step):
@@ -92,13 +85,8 @@ class TimelineUI:
         return blocks
 
     def _build_events(self) -> List[Dict[str, Any]]:
-        """
-        Placeholder pre eventy na timeline.
-        Neskôr sa napojí na reálne dáta.
-        """
         blocks: List[Dict[str, Any]] = []
 
-        # Placeholder – jeden demo event
         blocks.append({
             "type": "event",
             "x": 5,
@@ -115,14 +103,9 @@ class TimelineUI:
     # ---------------------------------------------------------
 
     def _build_snapping_overlay(self) -> List[Dict[str, Any]]:
-        """
-        Vizualizácia snappingu – vertikálna čiara na pozícii,
-        kde by sa event prilepil. Zatiaľ placeholder.
-        """
         blocks: List[Dict[str, Any]] = []
 
-        # Placeholder snapping position (neskôr dynamické)
-        snapping_x = 30
+        snapping_x = 30  # placeholder
 
         blocks.append({
             "type": "snapping_line",
@@ -130,6 +113,32 @@ class TimelineUI:
             "y": 2,
             "height": self.height - 2,
             "color": "cyan",
+        })
+
+        return blocks
+
+    # ---------------------------------------------------------
+    # C2 – Ghost dragging overlay
+    # ---------------------------------------------------------
+
+    def _build_ghost_overlay(self) -> List[Dict[str, Any]]:
+        """
+        Vizualizácia ghost eventu počas ťahania.
+        Zatiaľ statický placeholder.
+        """
+        blocks: List[Dict[str, Any]] = []
+
+        ghost_x = 25  # neskôr dynamické
+        ghost_y = 4
+
+        blocks.append({
+            "type": "ghost_event",
+            "x": ghost_x,
+            "y": ghost_y,
+            "width": 15,
+            "height": 3,
+            "opacity": 0.5,
+            "label": "Ghost",
         })
 
         return blocks
