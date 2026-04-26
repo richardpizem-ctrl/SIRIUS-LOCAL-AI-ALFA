@@ -127,13 +127,19 @@ class UIManager:
 if __name__ == "__main__":
     from panel import Panel
     from window import Window
+    from toolbar import Toolbar
 
     ui = UIManager()
     ui.register("panel", Panel)
     ui.register("window", Window)
+    ui.register("toolbar", Toolbar)
 
     ui.activate("panel")
     print(ui.render_active())
 
     ui.activate("window")
     print(ui.render_active())
+
+    ui.activate("toolbar")
+    print(ui.render_active())
+
