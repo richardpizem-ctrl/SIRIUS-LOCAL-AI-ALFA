@@ -16,14 +16,32 @@ class TimelineUI:
         - placeholder pre eventy
         - snapping overlay (C1)
         - ghost dragging overlay (C2)
-        - pripravenú štruktúru pre selection
+        - selection overlay (C3)
     """
 
     def __init__(self):
         self.width = 120
         self.height = 20
         self.grid_step = 10
-        self._events = []  # neskôr: zoznam eventov na timeline
+
+        # Placeholder eventy
+        self._events = [
+            {
+                "x": 5,
+                "y": 4,
+                "width": 15,
+                "height": 3,
+                "label": "Demo event",
+            }
+        ]
+
+        # Placeholder vybraný event (C3)
+        self._selected_event = {
+            "x": 5,
+            "y": 4,
+            "width": 15,
+            "height": 3,
+        }
 
     # ---------------------------------------------------------
     # Public API
@@ -39,11 +57,9 @@ class TimelineUI:
         layout.extend(self._build_header())
         layout.extend(self._build_grid())
         layout.extend(self._build_events())
-        layout.extend(self._build_snapping_overlay())  # C1
-        layout.extend(self._build_ghost_overlay())     # C2
-
-        # neskôr:
-        # layout.extend(self._build_selection_overlay())
+        layout.extend(self._build_snapping_overlay())   # C1
+        layout.extend(self._build_ghost_overlay())      # C2
+        layout.extend(self._build_selection_overlay())  # C3
 
         return layout
 
@@ -87,14 +103,15 @@ class TimelineUI:
     def _build_events(self) -> List[Dict[str, Any]]:
         blocks: List[Dict[str, Any]] = []
 
-        blocks.append({
-            "type": "event",
-            "x": 5,
-            "y": 4,
-            "width": 15,
-            "height": 3,
-            "label": "Demo event",
-        })
+        for ev in self._events:
+            blocks.append({
+                "type": "event",
+                "x": ev["x"],
+                "y": ev["y"],
+                "width": ev["width"],
+                "height": ev["height"],
+                "label": ev["label"],
+            })
 
         return blocks
 
@@ -128,7 +145,7 @@ class TimelineUI:
         """
         blocks: List[Dict[str, Any]] = []
 
-        ghost_x = 25  # neskôr dynamické
+        ghost_x = 25  # placeholder
         ghost_y = 4
 
         blocks.append({
@@ -139,6 +156,31 @@ class TimelineUI:
             "height": 3,
             "opacity": 0.5,
             "label": "Ghost",
+        })
+
+        return blocks
+
+    # ---------------------------------------------------------
+    # C3 – Selection overlay
+    # ---------------------------------------------------------
+
+    def _build_selection_overlay(self) -> List[Dict[str, Any]]:
+        """
+        Vizualizácia výberu eventu – rámček okolo vybraného eventu.
+        Zatiaľ statický placeholder.
+        """
+        blocks: List[Dict[str, Any]] = []
+
+        sel = self._selected_event
+
+        blocks.append({
+            "type": "selection_box",
+            "x": sel["x"],
+            "y": sel["y"],
+            "width": sel["width"],
+            "height": sel["height"],
+            "color": "yellow",
+            "thickness": 1,
         })
 
         return blocks
