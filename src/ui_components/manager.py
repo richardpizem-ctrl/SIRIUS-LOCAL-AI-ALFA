@@ -3,6 +3,7 @@
 # SIRIUS LOCAL AI – ui_components (Phase 4)
 
 from typing import Dict, Type, Optional
+from .pixel_layout_engine import PixelLayoutEngine
 
 
 class UIComponent:
@@ -11,7 +12,7 @@ class UIComponent:
     Every component must implement:
         - mount()
         - unmount()
-        - render()
+        - render() → returns layout blocks
     """
     def mount(self):
         raise NotImplementedError
@@ -31,14 +32,14 @@ class UIManager:
         - component lifecycle
         - active component switching
         - safe mounting/unmounting
-        - integration with PixelLayoutEngine (later)
+        - integration with PixelLayoutEngine
     """
 
     def __init__(self):
         self._registry: Dict[str, Type[UIComponent]] = {}
         self._instances: Dict[str, UIComponent] = {}
         self._active: Optional[str] = None
-        self._layout_engine = None  # added for PixelLayoutEngine integration
+        self._layout_engine: Optional[PixelLayoutEngine] = None
 
     # ---------------------------------------------------------
     # REGISTRATION
@@ -49,6 +50,7 @@ class UIManager:
             raise ValueError(f"UI component '{name}' already registered")
 
         self._registry[name] = component_cls
+        print(f"UIManager: registered '{name}'")
 
     def unregister(self, name: str):
         """Remove a component from registry."""
@@ -57,6 +59,7 @@ class UIManager:
             del self._instances[name]
 
         self._registry.pop(name, None)
+        print(f"UIManager: unregistered '{name}'")
 
     # ---------------------------------------------------------
     # COMPONENT ACCESS
@@ -88,40 +91,46 @@ class UIManager:
         instance.mount()
 
         self._active = name
+        print(f"UIManager: activated '{name}'")
 
     def deactivate(self):
         """Deactivate the currently active component."""
         if self._active and self._active in self._instances:
             self._instances[self._active].unmount()
 
+        print(f"UIManager: deactivated '{self._active}'")
         self._active = None
 
     # ---------------------------------------------------------
     # LAYOUT ENGINE INTEGRATION
     # ---------------------------------------------------------
-    def connect_layout_engine(self, engine):
+    def connect_layout_engine(self, engine: PixelLayoutEngine):
         """Attach PixelLayoutEngine instance."""
         self._layout_engine = engine
+        print("UIManager: PixelLayoutEngine connected")
 
     # ---------------------------------------------------------
     # RENDERING
     # ---------------------------------------------------------
     def render_active(self):
-        """Render the currently active component."""
+        """Render the currently active component and forward to PixelLayoutEngine."""
         if not self._active:
+            print("UIManager: no active component to render")
             return None
 
         instance = self._instances.get(self._active)
         if not instance:
+            print("UIManager: active component instance missing")
             return None
 
-        output = instance.render()
+        # Component produces layout blocks
+        layout = instance.render()
 
-        # Forward to PixelLayoutEngine if connected
+        # Forward to PixelLayoutEngine
         if self._layout_engine:
-            self._layout_engine.draw(output)
+            self._layout_engine.render_blocks(layout)
 
-        return output
+        return layout
 
     # ---------------------------------------------------------
     # DEBUG / INTROSPECTION
@@ -156,13 +165,13 @@ if __name__ == "__main__":
     ui.connect_layout_engine(engine)
 
     ui.activate("panel")
-    print(ui.render_active())
+    ui.render_active()
 
     ui.activate("window")
-    print(ui.render_active())
+    ui.render_active()
 
     ui.activate("toolbar")
-    print(ui.render_active())
+    ui.render_active()
 
     ui.activate("timeline")
-    print(ui.render_active())
+    ui.render_active()
