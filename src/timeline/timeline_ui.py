@@ -18,6 +18,7 @@ class TimelineUI:
         - ghost dragging overlay (C2)
         - selection overlay (C3)
         - marker types (C5)
+        - marker lane (C6)
     """
 
     def __init__(self):
@@ -25,6 +26,10 @@ class TimelineUI:
         self.height = 20
         self.grid_step = 10
         self.zoom = 1.0  # C4 – placeholder zoom level
+
+        # Marker lane height (C6)
+        self.marker_lane_y = 2
+        self.marker_lane_height = 1
 
         # Placeholder eventy
         self._events = [
@@ -51,21 +56,18 @@ class TimelineUI:
         self._markers = [
             {
                 "x": 10,
-                "y": 2,
                 "icon": "🔵",
                 "label": "Section Start",
                 "color": "blue",
             },
             {
                 "x": 40,
-                "y": 2,
                 "icon": "🟢",
                 "label": "Loop Start",
                 "color": "green",
             },
             {
                 "x": 80,
-                "y": 2,
                 "icon": "🔴",
                 "label": "Error",
                 "color": "red",
@@ -80,12 +82,13 @@ class TimelineUI:
         layout: List[Dict[str, Any]] = []
 
         layout.extend(self._build_header())
-        layout.extend(self._build_grid())              # C4 adaptive grid
+        layout.extend(self._build_marker_lane())        # C6
+        layout.extend(self._build_grid())               # C4 adaptive grid
         layout.extend(self._build_events())
-        layout.extend(self._build_markers())           # C5
-        layout.extend(self._build_snapping_overlay())  # C1
-        layout.extend(self._build_ghost_overlay())     # C2
-        layout.extend(self._build_selection_overlay()) # C3
+        layout.extend(self._build_markers())            # C5
+        layout.extend(self._build_snapping_overlay())   # C1
+        layout.extend(self._build_ghost_overlay())      # C2
+        layout.extend(self._build_selection_overlay())  # C3
 
         return layout
 
@@ -113,6 +116,23 @@ class TimelineUI:
 
         return blocks
 
+    # ---------------------------------------------------------
+    # C6 – Marker lane
+    # ---------------------------------------------------------
+
+    def _build_marker_lane(self) -> List[Dict[str, Any]]:
+        """
+        Samostatný pruh pre markery.
+        """
+        return [{
+            "type": "marker_lane",
+            "x": 0,
+            "y": self.marker_lane_y,
+            "width": self.width,
+            "height": self.marker_lane_height,
+            "color": "darkgray",
+        }]
+
     def _build_grid(self) -> List[Dict[str, Any]]:
         blocks: List[Dict[str, Any]] = []
 
@@ -128,8 +148,8 @@ class TimelineUI:
             blocks.append({
                 "type": "grid_line",
                 "x": x,
-                "y": 2,
-                "height": self.height - 2,
+                "y": self.marker_lane_y + self.marker_lane_height,
+                "height": self.height - (self.marker_lane_y + self.marker_lane_height),
             })
 
         return blocks
@@ -160,7 +180,7 @@ class TimelineUI:
             blocks.append({
                 "type": "marker",
                 "x": m["x"],
-                "y": m["y"],
+                "y": self.marker_lane_y,
                 "icon": m["icon"],
                 "label": m["label"],
                 "color": m["color"],
