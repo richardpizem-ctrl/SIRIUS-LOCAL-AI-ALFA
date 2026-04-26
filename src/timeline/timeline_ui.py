@@ -20,6 +20,8 @@ class TimelineUI:
         - marker types (C5)
         - marker lane (C6)
         - marker dragging overlay (C7)
+        - event dragging overlay (C8)
+        - event resize overlay (C9)
     """
 
     def __init__(self):
@@ -62,11 +64,36 @@ class TimelineUI:
         # C7 – Marker dragging placeholder
         # ---------------------------------------------------------
         self._dragging_marker = {
-            "active": True,      # placeholder: dragging is active
-            "x": 55,             # ghost position
+            "active": True,
+            "x": 55,
             "icon": "🟢",
             "label": "Loop Start",
             "color": "green",
+        }
+
+        # ---------------------------------------------------------
+        # C8 – Event dragging placeholder
+        # ---------------------------------------------------------
+        self._dragging_event = {
+            "active": True,
+            "x": 35,
+            "y": 4,
+            "width": 15,
+            "height": 3,
+            "label": "Dragging Event",
+        }
+
+        # ---------------------------------------------------------
+        # C9 – Event resize placeholder
+        # ---------------------------------------------------------
+        self._resizing_event = {
+            "active": True,
+            "x": 5,
+            "y": 4,
+            "width": 20,   # new width during resize
+            "height": 3,
+            "label": "Resizing Event",
+            "handle": "right",  # or "left"
         }
 
     # ---------------------------------------------------------
@@ -80,6 +107,8 @@ class TimelineUI:
         layout.extend(self._build_marker_lane())          # C6
         layout.extend(self._build_grid())                 # C4
         layout.extend(self._build_events())
+        layout.extend(self._build_event_drag_overlay())   # C8
+        layout.extend(self._build_event_resize_overlay()) # C9
         layout.extend(self._build_markers())              # C5
         layout.extend(self._build_marker_drag_overlay())  # C7
         layout.extend(self._build_snapping_overlay())     # C1
@@ -153,6 +182,66 @@ class TimelineUI:
         return blocks
 
     # ---------------------------------------------------------
+    # C8 – Event dragging overlay
+    # ---------------------------------------------------------
+
+    def _build_event_drag_overlay(self) -> List[Dict[str, Any]]:
+        blocks: List[Dict[str, Any]] = []
+
+        if not self._dragging_event["active"]:
+            return blocks
+
+        de = self._dragging_event
+
+        blocks.append({
+            "type": "event_drag_ghost",
+            "x": de["x"],
+            "y": de["y"],
+            "width": de["width"],
+            "height": de["height"],
+            "opacity": 0.5,
+            "label": de["label"],
+        })
+
+        return blocks
+
+    # ---------------------------------------------------------
+    # C9 – Event resize overlay
+    # ---------------------------------------------------------
+
+    def _build_event_resize_overlay(self) -> List[Dict[str, Any]]:
+        blocks: List[Dict[str, Any]] = []
+
+        if not self._resizing_event["active"]:
+            return blocks
+
+        re = self._resizing_event
+
+        # Ghost event with new width
+        blocks.append({
+            "type": "event_resize_ghost",
+            "x": re["x"],
+            "y": re["y"],
+            "width": re["width"],
+            "height": re["height"],
+            "opacity": 0.5,
+            "label": re["label"],
+        })
+
+        # Resize handle indicator
+        handle_x = re["x"] + re["width"] if re["handle"] == "right" else re["x"]
+
+        blocks.append({
+            "type": "resize_handle",
+            "x": handle_x,
+            "y": re["y"],
+            "height": re["height"],
+            "color": "orange",
+        })
+
+        return blocks
+
+    # ---------------------------------------------------------
     # C5 – Marker types
     # ---------------------------------------------------------
 
@@ -176,9 +265,6 @@ class TimelineUI:
     # ---------------------------------------------------------
 
     def _build_marker_drag_overlay(self) -> List[Dict[str, Any]]:
-        """
-        Vizualizácia ghost markeru počas ťahania.
-        """
         blocks: List[Dict[str, Any]] = []
 
         if not self._dragging_marker["active"]:
