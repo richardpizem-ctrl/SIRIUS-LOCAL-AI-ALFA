@@ -23,6 +23,7 @@ class TimelineUI:
         - event dragging overlay (C8)
         - event resize overlay (C9)
         - hover overlay (C10)
+        - grid hover overlay (C11)
     """
 
     def __init__(self):
@@ -37,22 +38,11 @@ class TimelineUI:
 
         # Placeholder eventy
         self._events = [
-            {
-                "x": 5,
-                "y": 4,
-                "width": 15,
-                "height": 3,
-                "label": "Demo event",
-            }
+            {"x": 5, "y": 4, "width": 15, "height": 3, "label": "Demo event"}
         ]
 
         # Placeholder vybraný event (C3)
-        self._selected_event = {
-            "x": 5,
-            "y": 4,
-            "width": 15,
-            "height": 3,
-        }
+        self._selected_event = {"x": 5, "y": 4, "width": 15, "height": 3}
 
         # C5 – Marker types
         self._markers = [
@@ -91,9 +81,7 @@ class TimelineUI:
             "handle": "right",
         }
 
-        # ---------------------------------------------------------
         # C10 – Hover overlay placeholder
-        # ---------------------------------------------------------
         self._hover = {
             "active": True,
             "x": 5,
@@ -101,6 +89,16 @@ class TimelineUI:
             "width": 15,
             "height": 3,
             "color": "white",
+        }
+
+        # ---------------------------------------------------------
+        # C11 – Grid hover placeholder
+        # ---------------------------------------------------------
+        self._grid_hover = {
+            "active": True,
+            "x": 30,
+            "width": 10,
+            "color": "lightblue",
         }
 
     # ---------------------------------------------------------
@@ -113,6 +111,7 @@ class TimelineUI:
         layout.extend(self._build_header())
         layout.extend(self._build_marker_lane())          # C6
         layout.extend(self._build_grid())                 # C4
+        layout.extend(self._build_grid_hover_overlay())   # C11
         layout.extend(self._build_events())
         layout.extend(self._build_event_drag_overlay())   # C8
         layout.extend(self._build_event_resize_overlay()) # C9
@@ -129,10 +128,8 @@ class TimelineUI:
     # Internal layout builders
     # ---------------------------------------------------------
 
-    def _build_header(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
-
-        blocks.append({"type": "text", "x": 0, "y": 0, "content": "Timeline"})
+    def _build_header(self):
+        blocks = [{"type": "text", "x": 0, "y": 0, "content": "Timeline"}]
 
         for x in range(0, self.width, self.grid_step):
             blocks.append({"type": "text", "x": x, "y": 1, "content": f"{x}"})
@@ -140,7 +137,7 @@ class TimelineUI:
         return blocks
 
     # C6 – Marker lane
-    def _build_marker_lane(self) -> List[Dict[str, Any]]:
+    def _build_marker_lane(self):
         return [{
             "type": "marker_lane",
             "x": 0,
@@ -151,8 +148,8 @@ class TimelineUI:
         }]
 
     # C4 – Adaptive grid
-    def _build_grid(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
+    def _build_grid(self):
+        blocks = []
 
         if self.zoom < 0.75:
             step = self.grid_step * 2
@@ -171,9 +168,33 @@ class TimelineUI:
 
         return blocks
 
+    # ---------------------------------------------------------
+    # C11 – Grid hover overlay
+    # ---------------------------------------------------------
+
+    def _build_grid_hover_overlay(self):
+        blocks = []
+
+        if not self._grid_hover["active"]:
+            return blocks
+
+        gh = self._grid_hover
+
+        blocks.append({
+            "type": "grid_hover",
+            "x": gh["x"],
+            "y": self.marker_lane_y + self.marker_lane_height,
+            "width": gh["width"],
+            "height": self.height - (self.marker_lane_y + self.marker_lane_height),
+            "color": gh["color"],
+            "opacity": 0.2,
+        })
+
+        return blocks
+
     # Events
-    def _build_events(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
+    def _build_events(self):
+        blocks = []
 
         for ev in self._events:
             blocks.append({
@@ -188,15 +209,13 @@ class TimelineUI:
         return blocks
 
     # C8 – Event dragging overlay
-    def _build_event_drag_overlay(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
-
+    def _build_event_drag_overlay(self):
         if not self._dragging_event["active"]:
-            return blocks
+            return []
 
         de = self._dragging_event
 
-        blocks.append({
+        return [{
             "type": "event_drag_ghost",
             "x": de["x"],
             "y": de["y"],
@@ -204,20 +223,16 @@ class TimelineUI:
             "height": de["height"],
             "opacity": 0.5,
             "label": de["label"],
-        })
-
-        return blocks
+        }]
 
     # C9 – Event resize overlay
-    def _build_event_resize_overlay(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
-
+    def _build_event_resize_overlay(self):
         if not self._resizing_event["active"]:
-            return blocks
+            return []
 
         re = self._resizing_event
 
-        blocks.append({
+        blocks = [{
             "type": "event_resize_ghost",
             "x": re["x"],
             "y": re["y"],
@@ -225,7 +240,7 @@ class TimelineUI:
             "height": re["height"],
             "opacity": 0.5,
             "label": re["label"],
-        })
+        }]
 
         handle_x = re["x"] + re["width"] if re["handle"] == "right" else re["x"]
 
@@ -239,19 +254,14 @@ class TimelineUI:
 
         return blocks
 
-    # ---------------------------------------------------------
     # C10 – Hover overlay
-    # ---------------------------------------------------------
-
-    def _build_hover_overlay(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
-
+    def _build_hover_overlay(self):
         if not self._hover["active"]:
-            return blocks
+            return []
 
         h = self._hover
 
-        blocks.append({
+        return [{
             "type": "hover_box",
             "x": h["x"],
             "y": h["y"],
@@ -259,13 +269,11 @@ class TimelineUI:
             "height": h["height"],
             "color": h["color"],
             "opacity": 0.3,
-        })
-
-        return blocks
+        }]
 
     # C5 – Marker types
-    def _build_markers(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
+    def _build_markers(self):
+        blocks = []
 
         for m in self._markers:
             blocks.append({
@@ -280,15 +288,13 @@ class TimelineUI:
         return blocks
 
     # C7 – Marker dragging overlay
-    def _build_marker_drag_overlay(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
-
+    def _build_marker_drag_overlay(self):
         if not self._dragging_marker["active"]:
-            return blocks
+            return []
 
         dm = self._dragging_marker
 
-        blocks.append({
+        return [{
             "type": "marker_drag_ghost",
             "x": dm["x"],
             "y": self.marker_lane_y,
@@ -296,12 +302,10 @@ class TimelineUI:
             "label": dm["label"],
             "color": dm["color"],
             "opacity": 0.5,
-        })
-
-        return blocks
+        }]
 
     # C1 – Snapping overlay
-    def _build_snapping_overlay(self) -> List[Dict[str, Any]]:
+    def _build_snapping_overlay(self):
         return [{
             "type": "snapping_line",
             "x": 30,
@@ -311,7 +315,7 @@ class TimelineUI:
         }]
 
     # C2 – Ghost dragging overlay
-    def _build_ghost_overlay(self) -> List[Dict[str, Any]]:
+    def _build_ghost_overlay(self):
         return [{
             "type": "ghost_event",
             "x": 25,
@@ -323,7 +327,7 @@ class TimelineUI:
         }]
 
     # C3 – Selection overlay
-    def _build_selection_overlay(self) -> List[Dict[str, Any]]:
+    def _build_selection_overlay(self):
         sel = self._selected_event
 
         return [{
