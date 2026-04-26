@@ -24,6 +24,7 @@ class TimelineUI:
         - event resize overlay (C9)
         - hover overlay (C10)
         - grid hover overlay (C11)
+        - event overlap overlay (C12)
     """
 
     def __init__(self):
@@ -91,14 +92,24 @@ class TimelineUI:
             "color": "white",
         }
 
-        # ---------------------------------------------------------
         # C11 – Grid hover placeholder
-        # ---------------------------------------------------------
         self._grid_hover = {
             "active": True,
             "x": 30,
             "width": 10,
             "color": "lightblue",
+        }
+
+        # ---------------------------------------------------------
+        # C12 – Event overlap placeholder
+        # ---------------------------------------------------------
+        self._event_overlap = {
+            "active": True,
+            "x": 8,
+            "y": 4,
+            "width": 10,
+            "height": 3,
+            "color": "red",
         }
 
     # ---------------------------------------------------------
@@ -109,18 +120,19 @@ class TimelineUI:
         layout: List[Dict[str, Any]] = []
 
         layout.extend(self._build_header())
-        layout.extend(self._build_marker_lane())          # C6
-        layout.extend(self._build_grid())                 # C4
-        layout.extend(self._build_grid_hover_overlay())   # C11
+        layout.extend(self._build_marker_lane())            # C6
+        layout.extend(self._build_grid())                   # C4
+        layout.extend(self._build_grid_hover_overlay())     # C11
         layout.extend(self._build_events())
-        layout.extend(self._build_event_drag_overlay())   # C8
-        layout.extend(self._build_event_resize_overlay()) # C9
-        layout.extend(self._build_hover_overlay())        # C10
-        layout.extend(self._build_markers())              # C5
-        layout.extend(self._build_marker_drag_overlay())  # C7
-        layout.extend(self._build_snapping_overlay())     # C1
-        layout.extend(self._build_ghost_overlay())        # C2
-        layout.extend(self._build_selection_overlay())    # C3
+        layout.extend(self._build_event_drag_overlay())     # C8
+        layout.extend(self._build_event_resize_overlay())   # C9
+        layout.extend(self._build_event_overlap_overlay())  # C12
+        layout.extend(self._build_hover_overlay())          # C10
+        layout.extend(self._build_markers())                # C5
+        layout.extend(self._build_marker_drag_overlay())    # C7
+        layout.extend(self._build_snapping_overlay())       # C1
+        layout.extend(self._build_ghost_overlay())          # C2
+        layout.extend(self._build_selection_overlay())      # C3
 
         return layout
 
@@ -168,19 +180,14 @@ class TimelineUI:
 
         return blocks
 
-    # ---------------------------------------------------------
     # C11 – Grid hover overlay
-    # ---------------------------------------------------------
-
     def _build_grid_hover_overlay(self):
-        blocks = []
-
         if not self._grid_hover["active"]:
-            return blocks
+            return []
 
         gh = self._grid_hover
 
-        blocks.append({
+        return [{
             "type": "grid_hover",
             "x": gh["x"],
             "y": self.marker_lane_y + self.marker_lane_height,
@@ -188,9 +195,7 @@ class TimelineUI:
             "height": self.height - (self.marker_lane_y + self.marker_lane_height),
             "color": gh["color"],
             "opacity": 0.2,
-        })
-
-        return blocks
+        }]
 
     # Events
     def _build_events(self):
@@ -253,6 +258,26 @@ class TimelineUI:
         })
 
         return blocks
+
+    # ---------------------------------------------------------
+    # C12 – Event overlap overlay
+    # ---------------------------------------------------------
+
+    def _build_event_overlap_overlay(self):
+        if not self._event_overlap["active"]:
+            return []
+
+        eo = self._event_overlap
+
+        return [{
+            "type": "event_overlap",
+            "x": eo["x"],
+            "y": eo["y"],
+            "width": eo["width"],
+            "height": eo["height"],
+            "color": eo["color"],
+            "opacity": 0.3,
+        }]
 
     # C10 – Hover overlay
     def _build_hover_overlay(self):
