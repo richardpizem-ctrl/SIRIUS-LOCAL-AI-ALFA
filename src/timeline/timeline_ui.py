@@ -25,6 +25,7 @@ class TimelineUI:
         - hover overlay (C10)
         - grid hover overlay (C11)
         - event overlap overlay (C12)
+        - playhead overlay (C13)
     """
 
     def __init__(self):
@@ -100,15 +101,22 @@ class TimelineUI:
             "color": "lightblue",
         }
 
-        # ---------------------------------------------------------
         # C12 – Event overlap placeholder
-        # ---------------------------------------------------------
         self._event_overlap = {
             "active": True,
             "x": 8,
             "y": 4,
             "width": 10,
             "height": 3,
+            "color": "red",
+        }
+
+        # ---------------------------------------------------------
+        # C13 – Playhead placeholder
+        # ---------------------------------------------------------
+        self._playhead = {
+            "active": True,
+            "x": 60,
             "color": "red",
         }
 
@@ -123,6 +131,7 @@ class TimelineUI:
         layout.extend(self._build_marker_lane())            # C6
         layout.extend(self._build_grid())                   # C4
         layout.extend(self._build_grid_hover_overlay())     # C11
+        layout.extend(self._build_playhead_overlay())       # C13
         layout.extend(self._build_events())
         layout.extend(self._build_event_drag_overlay())     # C8
         layout.extend(self._build_event_resize_overlay())   # C9
@@ -197,6 +206,25 @@ class TimelineUI:
             "opacity": 0.2,
         }]
 
+    # ---------------------------------------------------------
+    # C13 – Playhead overlay
+    # ---------------------------------------------------------
+
+    def _build_playhead_overlay(self):
+        if not self._playhead["active"]:
+            return []
+
+        ph = self._playhead
+
+        return [{
+            "type": "playhead",
+            "x": ph["x"],
+            "y": 0,
+            "height": self.height,
+            "color": ph["color"],
+            "opacity": 1.0,
+        }]
+
     # Events
     def _build_events(self):
         blocks = []
@@ -259,10 +287,7 @@ class TimelineUI:
 
         return blocks
 
-    # ---------------------------------------------------------
     # C12 – Event overlap overlay
-    # ---------------------------------------------------------
-
     def _build_event_overlap_overlay(self):
         if not self._event_overlap["active"]:
             return []
