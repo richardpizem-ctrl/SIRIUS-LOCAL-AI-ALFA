@@ -19,6 +19,7 @@ class TimelineUI:
         - selection overlay (C3)
         - marker types (C5)
         - marker lane (C6)
+        - marker dragging overlay (C7)
     """
 
     def __init__(self):
@@ -50,29 +51,23 @@ class TimelineUI:
             "height": 3,
         }
 
-        # ---------------------------------------------------------
-        # C5 – Marker types (Unicode + text)
-        # ---------------------------------------------------------
+        # C5 – Marker types
         self._markers = [
-            {
-                "x": 10,
-                "icon": "🔵",
-                "label": "Section Start",
-                "color": "blue",
-            },
-            {
-                "x": 40,
-                "icon": "🟢",
-                "label": "Loop Start",
-                "color": "green",
-            },
-            {
-                "x": 80,
-                "icon": "🔴",
-                "label": "Error",
-                "color": "red",
-            }
+            {"x": 10, "icon": "🔵", "label": "Section Start", "color": "blue"},
+            {"x": 40, "icon": "🟢", "label": "Loop Start", "color": "green"},
+            {"x": 80, "icon": "🔴", "label": "Error", "color": "red"},
         ]
+
+        # ---------------------------------------------------------
+        # C7 – Marker dragging placeholder
+        # ---------------------------------------------------------
+        self._dragging_marker = {
+            "active": True,      # placeholder: dragging is active
+            "x": 55,             # ghost position
+            "icon": "🟢",
+            "label": "Loop Start",
+            "color": "green",
+        }
 
     # ---------------------------------------------------------
     # Public API
@@ -82,13 +77,14 @@ class TimelineUI:
         layout: List[Dict[str, Any]] = []
 
         layout.extend(self._build_header())
-        layout.extend(self._build_marker_lane())        # C6
-        layout.extend(self._build_grid())               # C4 adaptive grid
+        layout.extend(self._build_marker_lane())          # C6
+        layout.extend(self._build_grid())                 # C4
         layout.extend(self._build_events())
-        layout.extend(self._build_markers())            # C5
-        layout.extend(self._build_snapping_overlay())   # C1
-        layout.extend(self._build_ghost_overlay())      # C2
-        layout.extend(self._build_selection_overlay())  # C3
+        layout.extend(self._build_markers())              # C5
+        layout.extend(self._build_marker_drag_overlay())  # C7
+        layout.extend(self._build_snapping_overlay())     # C1
+        layout.extend(self._build_ghost_overlay())        # C2
+        layout.extend(self._build_selection_overlay())    # C3
 
         return layout
 
@@ -99,20 +95,10 @@ class TimelineUI:
     def _build_header(self) -> List[Dict[str, Any]]:
         blocks: List[Dict[str, Any]] = []
 
-        blocks.append({
-            "type": "text",
-            "x": 0,
-            "y": 0,
-            "content": "Timeline",
-        })
+        blocks.append({"type": "text", "x": 0, "y": 0, "content": "Timeline"})
 
         for x in range(0, self.width, self.grid_step):
-            blocks.append({
-                "type": "text",
-                "x": x,
-                "y": 1,
-                "content": f"{x}",
-            })
+            blocks.append({"type": "text", "x": x, "y": 1, "content": f"{x}"})
 
         return blocks
 
@@ -121,9 +107,6 @@ class TimelineUI:
     # ---------------------------------------------------------
 
     def _build_marker_lane(self) -> List[Dict[str, Any]]:
-        """
-        Samostatný pruh pre markery.
-        """
         return [{
             "type": "marker_lane",
             "x": 0,
@@ -189,56 +172,68 @@ class TimelineUI:
         return blocks
 
     # ---------------------------------------------------------
+    # C7 – Marker dragging overlay
+    # ---------------------------------------------------------
+
+    def _build_marker_drag_overlay(self) -> List[Dict[str, Any]]:
+        """
+        Vizualizácia ghost markeru počas ťahania.
+        """
+        blocks: List[Dict[str, Any]] = []
+
+        if not self._dragging_marker["active"]:
+            return blocks
+
+        dm = self._dragging_marker
+
+        blocks.append({
+            "type": "marker_drag_ghost",
+            "x": dm["x"],
+            "y": self.marker_lane_y,
+            "icon": dm["icon"],
+            "label": dm["label"],
+            "color": dm["color"],
+            "opacity": 0.5,
+        })
+
+        return blocks
+
+    # ---------------------------------------------------------
     # C1 – Snapping overlay
     # ---------------------------------------------------------
 
     def _build_snapping_overlay(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
-
-        snapping_x = 30  # placeholder
-
-        blocks.append({
+        return [{
             "type": "snapping_line",
-            "x": snapping_x,
+            "x": 30,
             "y": 2,
             "height": self.height - 2,
             "color": "cyan",
-        })
-
-        return blocks
+        }]
 
     # ---------------------------------------------------------
     # C2 – Ghost dragging overlay
     # ---------------------------------------------------------
 
     def _build_ghost_overlay(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
-
-        ghost_x = 25  # placeholder
-        ghost_y = 4
-
-        blocks.append({
+        return [{
             "type": "ghost_event",
-            "x": ghost_x,
-            "y": ghost_y,
+            "x": 25,
+            "y": 4,
             "width": 15,
             "height": 3,
             "opacity": 0.5,
             "label": "Ghost",
-        })
-
-        return blocks
+        }]
 
     # ---------------------------------------------------------
     # C3 – Selection overlay
     # ---------------------------------------------------------
 
     def _build_selection_overlay(self) -> List[Dict[str, Any]]:
-        blocks: List[Dict[str, Any]] = []
-
         sel = self._selected_event
 
-        blocks.append({
+        return [{
             "type": "selection_box",
             "x": sel["x"],
             "y": sel["y"],
@@ -246,6 +241,4 @@ class TimelineUI:
             "height": sel["height"],
             "color": "yellow",
             "thickness": 1,
-        })
-
-        return blocks
+        }]
