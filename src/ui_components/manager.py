@@ -119,3 +119,21 @@ class UIManager:
     def active_component(self):
         """Return name of active component."""
         return self._active
+
+
+# ---------------------------------------------------------
+# TEMPORARY TEST BLOCK
+# ---------------------------------------------------------
+if __name__ == "__main__":
+    from panel import Panel
+    from window import Window
+
+    ui = UIManager()
+    ui.register("panel", Panel)
+    ui.register("window", Window)
+
+    ui.activate("panel")
+    print(ui.render_active())
+
+    ui.activate("window")
+    print(ui.render_active())
