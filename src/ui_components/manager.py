@@ -142,12 +142,14 @@ if __name__ == "__main__":
     from panel import Panel
     from window import Window
     from toolbar import Toolbar
+    from timeline_ui_component import TimelineUIComponent
     from pixel_layout_engine import PixelLayoutEngine
 
     ui = UIManager()
     ui.register("panel", Panel)
     ui.register("window", Window)
     ui.register("toolbar", Toolbar)
+    ui.register("timeline", TimelineUIComponent)
 
     # Connect PixelLayoutEngine
     engine = PixelLayoutEngine()
@@ -160,4 +162,7 @@ if __name__ == "__main__":
     print(ui.render_active())
 
     ui.activate("toolbar")
+    print(ui.render_active())
+
+    ui.activate("timeline")
     print(ui.render_active())
