@@ -14,7 +14,8 @@ class TimelineUI:
         - základný grid
         - header
         - placeholder pre eventy
-        - pripravenú štruktúru pre snapping / ghost / selection
+        - snapping overlay (C1)
+        - pripravenú štruktúru pre ghost / selection
     """
 
     def __init__(self):
@@ -37,8 +38,11 @@ class TimelineUI:
         layout.extend(self._build_header())
         layout.extend(self._build_grid())
         layout.extend(self._build_events())
-        # neskôr: layout.extend(self._build_snapping_overlay())
-        # neskôr: layout.extend(self._build_selection_overlay())
+        layout.extend(self._build_snapping_overlay())  # C1
+
+        # neskôr:
+        # layout.extend(self._build_selection_overlay())
+        # layout.extend(self._build_ghost_overlay())
 
         return layout
 
@@ -73,7 +77,7 @@ class TimelineUI:
 
     def _build_grid(self) -> List[Dict[str, Any]]:
         """
-        Základný horizontálny grid pod headerom.
+        Základný vertikálny grid pod headerom.
         """
         blocks: List[Dict[str, Any]] = []
 
@@ -102,6 +106,30 @@ class TimelineUI:
             "width": 15,
             "height": 3,
             "label": "Demo event",
+        })
+
+        return blocks
+
+    # ---------------------------------------------------------
+    # C1 – Snapping overlay
+    # ---------------------------------------------------------
+
+    def _build_snapping_overlay(self) -> List[Dict[str, Any]]:
+        """
+        Vizualizácia snappingu – vertikálna čiara na pozícii,
+        kde by sa event prilepil. Zatiaľ placeholder.
+        """
+        blocks: List[Dict[str, Any]] = []
+
+        # Placeholder snapping position (neskôr dynamické)
+        snapping_x = 30
+
+        blocks.append({
+            "type": "snapping_line",
+            "x": snapping_x,
+            "y": 2,
+            "height": self.height - 2,
+            "color": "cyan",
         })
 
         return blocks
