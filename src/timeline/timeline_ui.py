@@ -17,6 +17,7 @@ class TimelineUI:
         - snapping overlay (C1)
         - ghost dragging overlay (C2)
         - selection overlay (C3)
+        - marker types (C5)
     """
 
     def __init__(self):
@@ -44,6 +45,33 @@ class TimelineUI:
             "height": 3,
         }
 
+        # ---------------------------------------------------------
+        # C5 – Marker types (Unicode + text)
+        # ---------------------------------------------------------
+        self._markers = [
+            {
+                "x": 10,
+                "y": 2,
+                "icon": "🔵",
+                "label": "Section Start",
+                "color": "blue",
+            },
+            {
+                "x": 40,
+                "y": 2,
+                "icon": "🟢",
+                "label": "Loop Start",
+                "color": "green",
+            },
+            {
+                "x": 80,
+                "y": 2,
+                "icon": "🔴",
+                "label": "Error",
+                "color": "red",
+            }
+        ]
+
     # ---------------------------------------------------------
     # Public API
     # ---------------------------------------------------------
@@ -54,6 +82,7 @@ class TimelineUI:
         layout.extend(self._build_header())
         layout.extend(self._build_grid())              # C4 adaptive grid
         layout.extend(self._build_events())
+        layout.extend(self._build_markers())           # C5
         layout.extend(self._build_snapping_overlay())  # C1
         layout.extend(self._build_ghost_overlay())     # C2
         layout.extend(self._build_selection_overlay()) # C3
@@ -85,9 +114,6 @@ class TimelineUI:
         return blocks
 
     def _build_grid(self) -> List[Dict[str, Any]]:
-        """
-        C4 – Adaptive grid based on zoom level.
-        """
         blocks: List[Dict[str, Any]] = []
 
         # Adaptive step
@@ -119,6 +145,25 @@ class TimelineUI:
                 "width": ev["width"],
                 "height": ev["height"],
                 "label": ev["label"],
+            })
+
+        return blocks
+
+    # ---------------------------------------------------------
+    # C5 – Marker types
+    # ---------------------------------------------------------
+
+    def _build_markers(self) -> List[Dict[str, Any]]:
+        blocks: List[Dict[str, Any]] = []
+
+        for m in self._markers:
+            blocks.append({
+                "type": "marker",
+                "x": m["x"],
+                "y": m["y"],
+                "icon": m["icon"],
+                "label": m["label"],
+                "color": m["color"],
             })
 
         return blocks
