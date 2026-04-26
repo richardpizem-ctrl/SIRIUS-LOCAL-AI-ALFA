@@ -38,6 +38,7 @@ class UIManager:
         self._registry: Dict[str, Type[UIComponent]] = {}
         self._instances: Dict[str, UIComponent] = {}
         self._active: Optional[str] = None
+        self._layout_engine = None  # added for PixelLayoutEngine integration
 
     # ---------------------------------------------------------
     # REGISTRATION
@@ -96,6 +97,13 @@ class UIManager:
         self._active = None
 
     # ---------------------------------------------------------
+    # LAYOUT ENGINE INTEGRATION
+    # ---------------------------------------------------------
+    def connect_layout_engine(self, engine):
+        """Attach PixelLayoutEngine instance."""
+        self._layout_engine = engine
+
+    # ---------------------------------------------------------
     # RENDERING
     # ---------------------------------------------------------
     def render_active(self):
@@ -104,10 +112,16 @@ class UIManager:
             return None
 
         instance = self._instances.get(self._active)
-        if instance:
-            return instance.render()
+        if not instance:
+            return None
 
-        return None
+        output = instance.render()
+
+        # Forward to PixelLayoutEngine if connected
+        if self._layout_engine:
+            self._layout_engine.draw(output)
+
+        return output
 
     # ---------------------------------------------------------
     # DEBUG / INTROSPECTION
@@ -142,4 +156,3 @@ if __name__ == "__main__":
 
     ui.activate("toolbar")
     print(ui.render_active())
-
