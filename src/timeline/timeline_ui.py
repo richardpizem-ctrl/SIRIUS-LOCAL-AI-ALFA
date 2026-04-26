@@ -11,7 +11,7 @@ class TimelineUI:
     Nevie nič o konkrétnom rendereri – generuje len layout bloky.
 
     V Phase 4 poskytuje:
-        - základný grid
+        - základný grid (C4 adaptive)
         - header
         - placeholder pre eventy
         - snapping overlay (C1)
@@ -23,6 +23,7 @@ class TimelineUI:
         self.width = 120
         self.height = 20
         self.grid_step = 10
+        self.zoom = 1.0  # C4 – placeholder zoom level
 
         # Placeholder eventy
         self._events = [
@@ -48,18 +49,14 @@ class TimelineUI:
     # ---------------------------------------------------------
 
     def render(self) -> List[Dict[str, Any]]:
-        """
-        Hlavný vstupný bod – UI komponent volá render()
-        a dostane list layout blokov.
-        """
         layout: List[Dict[str, Any]] = []
 
         layout.extend(self._build_header())
-        layout.extend(self._build_grid())
+        layout.extend(self._build_grid())              # C4 adaptive grid
         layout.extend(self._build_events())
-        layout.extend(self._build_snapping_overlay())   # C1
-        layout.extend(self._build_ghost_overlay())      # C2
-        layout.extend(self._build_selection_overlay())  # C3
+        layout.extend(self._build_snapping_overlay())  # C1
+        layout.extend(self._build_ghost_overlay())     # C2
+        layout.extend(self._build_selection_overlay()) # C3
 
         return layout
 
@@ -88,9 +85,20 @@ class TimelineUI:
         return blocks
 
     def _build_grid(self) -> List[Dict[str, Any]]:
+        """
+        C4 – Adaptive grid based on zoom level.
+        """
         blocks: List[Dict[str, Any]] = []
 
-        for x in range(0, self.width, self.grid_step):
+        # Adaptive step
+        if self.zoom < 0.75:
+            step = self.grid_step * 2
+        elif self.zoom > 1.5:
+            step = max(2, self.grid_step // 2)
+        else:
+            step = self.grid_step
+
+        for x in range(0, self.width, step):
             blocks.append({
                 "type": "grid_line",
                 "x": x,
@@ -139,10 +147,6 @@ class TimelineUI:
     # ---------------------------------------------------------
 
     def _build_ghost_overlay(self) -> List[Dict[str, Any]]:
-        """
-        Vizualizácia ghost eventu počas ťahania.
-        Zatiaľ statický placeholder.
-        """
         blocks: List[Dict[str, Any]] = []
 
         ghost_x = 25  # placeholder
@@ -165,10 +169,6 @@ class TimelineUI:
     # ---------------------------------------------------------
 
     def _build_selection_overlay(self) -> List[Dict[str, Any]]:
-        """
-        Vizualizácia výberu eventu – rámček okolo vybraného eventu.
-        Zatiaľ statický placeholder.
-        """
         blocks: List[Dict[str, Any]] = []
 
         sel = self._selected_event
