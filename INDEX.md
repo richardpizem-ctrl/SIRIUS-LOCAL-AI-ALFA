@@ -1,9 +1,10 @@
-# SIRIUS‑LOCAL‑AI‑ALFA  
-**A local AI system with a modular architecture, real‑time processing, and full autonomy.**
+# SIRIUS‑LOCAL‑AI  
+**A fully modular, offline AI runtime with a stable architecture, plugin ecosystem, and real‑time processing.**
 
-SIRIUS‑LOCAL‑AI‑ALFA is a local AI framework designed for speed, stability, and modularity.  
-The project is built on a clear architecture that separates logic, runtime, workflow, UI, and the triage system.  
-The entire system runs offline, without external dependencies or cloud services.
+SIRIUS‑LOCAL‑AI is a next‑generation local AI framework designed for **speed, stability, modularity, and full offline autonomy**.  
+Version **2.0.0** introduces a complete Runtime 2.0 architecture, Plugin System 2.0, Workflow Engine 2.0, AI Loop 2.0, GUI 2.0, and a fully stabilized module ecosystem.
+
+The entire system runs **100% locally**, without external dependencies or cloud services.
 
 ---
 
@@ -13,38 +14,58 @@ The entire system runs offline, without external dependencies or cloud services.
 - [Styleguide](STYLEGUIDE.md)
 - [Testing Guide](TESTING_GUIDE.md)
 - [Performance Guide](PERFORMANCE_GUIDE.md)
-- [Release Plan](RELEASE_PLAN.md)
+- [Release Notes](RELEASE_NOTES.md)
+- [Roadmap](ROADMAP.md)
 
 ---
 
 ## 🚀 Key Features
 
-### **Modular Architecture**
-Each module is isolated:
-- `commands/`
-- `context/`
-- `filesystem/`
-- `runtime/`
-- `triage/`
-- `ui/`
-- `ui_components/`
-- `workflow/`
+### **Modular Architecture (v2.0.0)**
+Each module is isolated and follows strict boundaries:
 
-The system is designed to be extended without modifying the core.
+- `commands/` – NL routing and command logic  
+- `context/` – context memory engine  
+- `filesystem/` – safe file operations  
+- `runtime/` – Runtime Core 2.0  
+- `triage/` – AITE 2.0  
+- `ui/` – GUI logic  
+- `ui_components/` – graphical elements  
+- `workflow/` – Workflow Engine 2.0  
+- `plugins/` – Plugin System 2.0  
+
+The system is designed to be extended **without modifying the core**.
 
 ---
 
-### **Automatic Input Triage Engine (AITE)**
-AITE analyzes inputs, classifies them, and routes them to the correct modules.  
+### **Plugin System 2.0**
+Plugins can define:
+
+- NL commands  
+- AI tasks  
+- workflows  
+- AI loop rules  
+- GUI elements  
+
+All official plugins are fully prepared for v2.0.0.
+
+---
+
+### **Automatic Input Triage Engine (AITE 2.0)**
+AITE analyzes inputs, classifies them, and routes them to the correct modules.
+
 It ensures:
-- correct operation detection  
+
+- correct input type detection  
 - safe routing  
+- deterministic behavior  
 - zero conflicts between modules  
 
 ---
 
 ### **Real‑Time Processing**
 The system includes a custom real‑time engine with:
+
 - a stable event loop  
 - optimized processing  
 - low latency  
@@ -52,36 +73,39 @@ The system includes a custom real‑time engine with:
 
 ---
 
-### **UI Layer**
+### **GUI Layer 2.0**
 The UI is built on modular components:
+
 - `ui/` – UI logic  
 - `ui_components/` – graphical elements  
-- `ui_components/animations/` – animations (prepared for v2.0.0 and v3.0.0)
+- `ui_components/animations/` – animations (ready for v2.0.0 and v3.0.0)  
 
 ---
 
-### **Workflow Engine**
+### **Workflow Engine 2.0**
 The workflow layer manages:
-- file operations  
-- sequential processes  
+
+- multi‑step processes  
 - safe command execution  
-- feedback for the UI  
+- plugin workflows  
+- predictable state transitions  
+- UI feedback  
 
 ---
-
-## 📁 Project Structure
 src/
-├── commands/  
-├── context/  
-├── email/  
-├── filesystem/  
-├── runtime/  
-├── triage/  
-├── ui/  
-├── ui_components/  
-│    └── animations/  
-├── workflow/  
+├── commands/
+├── context/
+├── email/
+├── filesystem/
+├── runtime/
+├── triage/
+├── ui/
+├── ui_components/
+│    └── animations/
+├── workflow/
+├── plugins/
 └── sirius.py
+## 📁 Project Structure (v2.0.0)
 
 Each directory has a clear responsibility and is described in **MODULE_MAP.md**.
 
@@ -89,11 +113,13 @@ Each directory has a clear responsibility and is described in **MODULE_MAP.md**.
 
 ## 🧪 Testing
 The project includes a complete testing plan:
+
 - manual tests  
 - Git Bash tests  
 - real‑time tests  
 - UI tests  
 - workflow sequence tests  
+- plugin integration tests  
 
 Details are in **TESTING_GUIDE.md**.
 
@@ -101,10 +127,12 @@ Details are in **TESTING_GUIDE.md**.
 
 ## ⚙️ Performance
 The system is optimized for:
+
 - low latency  
 - long‑term stability  
 - predictable processing  
 - minimal thread blocking  
+- efficient event routing  
 
 More in **PERFORMANCE_GUIDE.md**.
 
@@ -112,38 +140,28 @@ More in **PERFORMANCE_GUIDE.md**.
 
 ## 🗓️ Release Plan
 
-### **v1.0.0 – Stable Release**
-- complete architecture  
-- all modules in Phase 4  
-- UI + workflow + runtime  
-- documentation  
-- final GitHub test  
+### **v2.0.0 – Current Stable Release**
+- Runtime 2.0  
+- Plugin System 2.0  
+- Workflow Engine 2.0  
+- AI Loop 2.0  
+- GUI 2.0  
+- AITE 2.0  
+- WIN‑CAP 2.0  
+- Full plugin suite  
+- Complete documentation refresh  
 
-### **v2.0.0 – Extended Architecture**
-- EventBus deque  
-- Graphic Primitives separation  
-- multithreaded StreamHandler  
-- undo/redo  
-- cached grid rendering  
-- TextInput class  
-- hover effects  
-
-### **v3.0.0 – Advanced Visualizations**
-- RGB pulsing based on velocity  
-- polyphonic key‑pressure waveform  
-- 3D key‑press effect  
-- MPE visualization (X/Y/Z)  
-- per‑note vibrato animation  
+### **v3.0.0 – Intelligent Runtime**
+- AI‑assisted triage  
+- semantic workflows  
+- advanced GUI/tray/voice integration  
+- contextual automation  
 
 ### **v4.0.0 – Self‑Repair & Health‑Check Layer**
-- integrity checks for core modules  
-- detection of corrupted states, missing files, invalid configs  
-- safe automatic repairs (cache reset, index rebuild, default config restore)  
-- patch suggestions for code‑level fixes (manual approval required)  
-- strict protection against uncontrolled source‑code modifications  
+- integrity checks  
+- safe automatic repairs  
+- patch suggestions  
 - system‑wide health reporting  
-
-This version introduces the first generation of **safe, controlled self‑repair logic**.
 
 ---
 
@@ -156,4 +174,5 @@ The license is provided in **LICENSE**.
 ## ✨ Author
 **Richard Pizem**  
 Visionary architect & solo maintainer  
-SIRIUS‑LOCAL‑AI‑ALFA
+SIRIUS‑LOCAL‑AI
+
