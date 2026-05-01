@@ -1,52 +1,54 @@
-# 🏗 Architecture – SIRIUS LOCAL AI ALFA
+# 🏗 Architecture – SIRIUS LOCAL AI (v2.0.0)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-ALPHA-orange">
+  <img src="https://img.shields.io/badge/version-2.0.0-blue">
   <img src="https://img.shields.io/badge/license-MIT-green">
   <img src="https://img.shields.io/badge/platform-Windows%2011-blue">
   <img src="https://img.shields.io/badge/architecture-modular-lightgrey">
   <img src="https://img.shields.io/badge/local%20AI-100%25-blueviolet">
 </p>
 
-SIRIUS LOCAL AI ALFA is a modular, local‑only AI runtime designed to safely interpret user commands and interact with the Windows 11 environment through isolated capability modules.
+SIRIUS LOCAL AI is a fully modular, local‑only AI runtime designed to safely interpret user commands and interact with the Windows 11 environment through isolated capability modules.
+
+Version **2.0.0** introduces a complete architectural stabilization, a new plugin ecosystem, and a unified Runtime 2.0 core.
 
 The architecture emphasizes **safety**, **predictability**, **modularity**, and **full local control**.
 
 ---
 
-# ⚠️ ALPHA WARNING
+# 🛡 Stability Notice (v2.0.0)
 
-SIRIUS LOCAL AI ALFA interacts with Windows 11 system APIs, including filesystem operations, window management, application control, and accessibility interfaces.  
-The project is currently in **ALPHA**, and module behavior may change as the system evolves.
+SIRIUS LOCAL AI now operates on the **stable Runtime 2.0 architecture**.
 
-- Some operations may require elevated permissions (UAC).  
-- Windows Defender or SmartScreen may classify the runtime as an “Unknown App”.  
-- Antivirus tools may generate false positives during development.  
-- Modules must run with the same privilege level as the applications they control.  
-- All processing is fully local; no data leaves the user's PC.
+- All modules are isolated and deterministic  
+- No background automation without explicit rules  
+- No network communication  
+- All processing is fully local  
+- All plugin interfaces are stable  
+- All core modules (runtime, context, filesystem, commands) are validated for v2.0.0  
 
-**Users are encouraged to test features independently.**  
-The author does not provide individual guidance for basic operations.
+This version is stable and production‑ready, with future expansions planned for v3.0.0 and v4.0.0.
 
 ---
 
 # 🧩 Architectural Principles
 
 - strict modular separation  
+- deterministic behavior  
 - no hidden automation  
-- no background tasks  
+- no background tasks unless defined by AI Loop rules  
 - no network communication  
 - predictable, reversible actions  
-- explicit user confirmations for all operations  
 - capability‑based access to Windows functions  
-- deterministic behavior across all modules  
+- explicit user intent for all operations  
 - no implicit state sharing  
+- plugin‑driven extensibility  
 
 ---
 
 # 🖼 Architecture Diagram (Placeholder)
 
-> A high‑level architecture diagram will be added here in the next update.
+> A high‑level architecture diagram will be added in a future update.
 
 <p align="center">
   <img src="docs/architecture_diagram_placeholder.png" width="600">
@@ -54,102 +56,98 @@ The author does not provide individual guidance for basic operations.
 
 ---
 
-# 🧱 Core Layers
+# 🧱 Core Layers (v2.0.0)
 
-## 1. Runtime Core
+## 1. Runtime Core 2.0
 Central orchestrator responsible for:
 
 - module initialization  
 - lifecycle management  
-- task scheduling  
+- plugin loading  
+- task and workflow dispatch  
 - enforcing security boundaries  
 - capability registration  
-- dispatching events to modules  
+- event routing  
 - maintaining global system stability  
 
-The Runtime Core is the **heart of the system** and ensures that all modules operate within safe, isolated boundaries.
+Runtime Core 2.0 is the **heart of the system**.
 
 ---
 
-## 2. Command Interpreter (CME)
-Natural‑language command processor.
+## 2. Natural Language Router (NL Router 2.0)
+Processes natural‑language commands.
 
 Responsibilities:
 
 - command classification  
-- parameter extraction  
+- plugin NL command detection  
 - routing to modules  
-- generating confirmation prompts  
-- validating intent  
+- fallback interpretation  
 - preventing ambiguous or unsafe actions  
 
-CME ensures that **no command is executed without clear user intent**.
+NL Router 2.0 ensures **clear intent and safe execution**.
 
 ---
 
-## 3. Filesystem Agent (FS‑AGENT)
-Safe, confirmation‑based filesystem operations.
+## 3. Filesystem Agent (FS‑AGENT 2.0)
+Safe filesystem operations.
 
 Responsibilities:
 
 - move, copy, delete  
 - path validation  
 - safety checks  
-- user confirmation dialogs  
 - conflict detection  
 - rollback‑safe operations  
 
-FS‑AGENT never performs an action without explicit approval.
+FS‑AGENT 2.0 performs only **safe, validated actions**.
 
 ---
 
-## 4. Context Memory Engine (CME‑MEM)
+## 4. Context Memory Engine (CME‑MEM 2.0)
 Maintains short‑term workflow context.
 
 Responsibilities:
 
 - storing recent paths  
 - tracking last actions  
-- providing contextual suggestions  
+- providing contextual hints  
 - supporting multi‑step workflows  
-- enabling reversible logic  
 
-CME‑MEM **never stores long‑term personal data** — only workflow‑related context.
+CME‑MEM stores **only workflow‑related context**, never personal data.
 
 ---
 
-## 5. Workflow Tracker
+## 5. Workflow Engine 2.0
 Controls multi‑step logic.
 
 Responsibilities:
 
 - workflow state machine  
-- predicting next steps  
+- executing plugin workflows  
 - validating transitions  
-- ensuring predictable behavior  
-- preventing invalid or unsafe sequences  
+- predictable behavior  
+- preventing invalid sequences  
 
-The Workflow Tracker ensures that multi‑step operations behave consistently and transparently.
+Workflow Engine 2.0 ensures **transparent, deterministic workflows**.
 
 ---
 
-## 6. UI Confirm Module
-Interactive confirmation layer.
+## 6. GUI Layer 2.0
+Plugin‑driven user interface.
 
 Responsibilities:
 
-- folder selection  
-- action confirmation  
-- safety dialogs  
-- automatic window opening  
-- presenting workflow steps  
-- preventing accidental actions  
+- rendering plugin buttons  
+- executing GUI actions  
+- integrating with RuntimeManager  
+- future expansion to tray/voice layers  
 
-UI Confirm is the **user‑facing safety barrier**.
+GUI 2.0 is fully modular and extensible.
 
 ---
 
-## 7. Automatic Input Triage Engine (AITE)
+## 7. Automatic Input Triage Engine (AITE 2.0)
 Classifies incoming user inputs.
 
 Recognized types:
@@ -157,7 +155,7 @@ Recognized types:
 - text  
 - images/photos  
 - installers/applications  
-- unknown/ambiguous inputs  
+- documents  
 
 Responsibilities:
 
@@ -165,71 +163,62 @@ Responsibilities:
 - routing  
 - metadata generation  
 - integration with FS‑AGENT and CME‑MEM  
-- rejecting unsupported or unsafe inputs  
 
-AITE ensures that the system always knows **what kind of input it is dealing with**.
+AITE ensures the system always knows **what kind of input it is handling**.
 
 ---
 
-## 8. Windows System Capabilities Layer (WIN‑CAP)
+## 8. Windows System Capabilities Layer (WIN‑CAP 2.0)
 Abstracted access to Windows 11 system functions.
 
 Submodules:
 
-- `file_ops` — structured directories, project discovery  
-- `app_ops` — launching, focusing, detecting running apps  
-- `window_ops` — snapping, arranging, positioning windows  
-- `audio_ops` — detecting and switching audio devices  
-- `system_context` — active window, mounted drives, available devices  
+- `file_ops`  
+- `app_ops`  
+- `window_ops`  
+- `audio_ops`  
+- `system_context`  
 
-WIN‑CAP enables safe, high‑level system actions through controlled APIs.
+WIN‑CAP provides **safe, high‑level system actions**.
 
 ---
 
-## 9. Self‑Repair & Health‑Check Layer (v4.0.0)
+## 9. Plugin System 2.0
+A fully modular plugin ecosystem.
 
-A future architectural layer responsible for diagnostics and safe automatic recovery.
+Features:
 
-Responsibilities:
+- manifest‑based plugin definitions  
+- NL commands  
+- AI tasks  
+- workflows  
+- AI loop rules  
+- GUI elements  
 
-- integrity checks for core modules (runtime, context, commands, filesystem)  
-- detection of corrupted states, missing files, invalid configs  
-- safe automatic repairs (cache reset, index rebuild, default config restore)  
-- generating patch suggestions for code‑level fixes (manual approval required)  
-- strict protection against uncontrolled source‑code modifications  
-- reporting system health to Runtime Core  
-
-Submodules:
-
-- `health_check_engine.py` — diagnostics  
-- `self_repair_safe.py` — safe automatic repairs  
-- `repair_suggestions.py` — patch proposals (non‑executing)  
-
-This layer will be implemented in **version 4.0.0**, after the system reaches full stability.
+All official plugins are **v2‑ready**.
 
 ---
 
 # 🔌 Module Interconnections
-User Input
-↓
-AITE → CME → UI Confirm → FS‑AGENT
-↓        ↓
-CME‑MEM → Workflow Tracker
-↓
-Runtime Core → WIN‑CAP → Windows 11 APIs
+
+User Input  
+↓  
+NL Router → AITE → FS‑AGENT  
+↓  
+CME‑MEM → Workflow Engine  
+↓  
+Runtime Core → WIN‑CAP → Windows 11 APIs  
 
 ### Key relationships:
 
-- CME → FS‑AGENT  
-- CME → UI Confirm  
-- CME‑MEM → Workflow Tracker  
+- NL Router → Plugins  
+- Plugins → Runtime Core  
 - AITE → FS‑AGENT  
 - AITE → CME‑MEM  
-- WIN‑CAP → CME  
+- Workflow Engine → Runtime Core  
 - WIN‑CAP → Runtime Core  
-- Runtime Core → all modules  
 
-All communication is **explicit**, never implicit.
+All communication is **explicit and controlled**.
 
 ---
 
@@ -240,8 +229,7 @@ Each module:
 - runs independently  
 - exposes only documented interfaces  
 - cannot access other modules’ internals  
-- communicates through the Runtime Core  
-- cannot perform actions without confirmation  
+- communicates through Runtime Core  
 - cannot bypass safety layers  
 
 This ensures **predictable, auditable behavior**.
@@ -250,24 +238,23 @@ This ensures **predictable, auditable behavior**.
 
 # 🧪 Deterministic Execution Model
 
-SIRIUS LOCAL AI ALFA guarantees:
+SIRIUS LOCAL AI guarantees:
 
 - no race conditions  
-- no background threads modifying state  
-- no hidden automation  
+- no hidden background threads  
 - no unpredictable behavior  
 
-Every action is:
+Every action follows:
 
-1. Interpreted  
-2. Confirmed  
-3. Executed  
-4. Logged  
-5. Reversible (when possible)  
+1. Interpretation  
+2. Validation  
+3. Execution  
+4. Logging  
+5. Optional reversal  
 
 ---
 
 # 📌 Document Status
 
-Current version: **ALPHA**  
-Architecture is subject to refinement as modules reach Phase 4 stability.
+Current version: **2.0.0 (Stable)**  
+Architecture is fully defined and ready for future expansions in v3.0.0 and v4.0.0.
