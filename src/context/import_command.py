@@ -2,17 +2,12 @@ from commands.base_command import BaseCommand
 from context.context_manager import ContextManager
 import json
 import os
+import copy
 
 
 class ContextImportCommand(BaseCommand):
     """
     Importuje kontext zo JSON súboru.
-    Použitie:
-      context-import all <filename>
-      context-import session <filename>
-      context-import persistent <filename>
-      context-import state <filename>
-      context-import history <filename>
     """
 
     name = "context-import"
@@ -21,11 +16,11 @@ class ContextImportCommand(BaseCommand):
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, section: str = None, filename: str = None, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA VSTUPU
         # -----------------------------
-        if section is None or filename is None:
+        if len(args) < 2:
             return (
                 "Použitie:\n"
                 "  context-import all <filename>\n"
@@ -35,7 +30,8 @@ class ContextImportCommand(BaseCommand):
                 "  context-import history <filename>"
             )
 
-        section = section.lower()
+        section = args[0].lower()
+        filename = args[1]
 
         if not os.path.isfile(filename):
             return f"Chyba: súbor '{filename}' neexistuje."
@@ -52,45 +48,51 @@ class ContextImportCommand(BaseCommand):
         # -----------------------------
         #  IMPORT PODĽA SEKCIÍ
         # -----------------------------
-        if section == "all":
-            if not isinstance(data, dict):
-                return "Chyba: JSON musí obsahovať objekt s kľúčmi session/persistent/state/history."
+        try:
+            if section == "all":
+                if not isinstance(data, dict):
+                    return "Chyba: JSON musí obsahovať objekt s kľúčmi session/persistent/state/history."
 
-            self.context.session_memory = data.get("session", [])
-            self.context.persistent_memory = data.get("persistent", {})
-            self.context.state = data.get("state", {})
-            self.context.history = data.get("history", [])
+                self.context.session_memory = copy.deepcopy(data.get("session", []))
+                self.context.persistent_memory = copy.deepcopy(data.get("persistent", {}))
+                self.context.state = copy.deepcopy(data.get("state", {}))
 
-        elif section == "session":
-            if not isinstance(data, list):
-                return "Chyba: session musí byť zoznam."
-            self.context.session_memory = data
+                history = data.get("history", [])
+                if isinstance(history, list):
+                    self.context.history = history[-self.context.max_history:]
+                else:
+                    return "Chyba: history musí byť zoznam snapshotov."
 
-        elif section == "persistent":
-            if not isinstance(data, dict):
-                return "Chyba: persistent musí byť objekt."
-            self.context.persistent_memory = data
+            elif section == "session":
+                if not isinstance(data, list):
+                    return "Chyba: session musí byť zoznam."
+                self.context.session_memory = copy.deepcopy(data)
 
-        elif section == "state":
-            if not isinstance(data, dict):
-                return "Chyba: state musí byť objekt."
-            self.context.state = data
+            elif section == "persistent":
+                if not isinstance(data, dict):
+                    return "Chyba: persistent musí byť objekt."
+                self.context.persistent_memory = copy.deepcopy(data)
 
-        elif section == "history":
-            if not isinstance(data, list):
-                return "Chyba: history musí byť zoznam snapshotov."
-            self.context.history = data
+            elif section == "state":
+                if not isinstance(data, dict):
+                    return "Chyba: state musí byť objekt."
+                self.context.state = copy.deepcopy(data)
 
-        else:
-            return f"Neznáma sekcia '{section}'. Použi: all/session/persistent/state/history."
+            elif section == "history":
+                if not isinstance(data, list):
+                    return "Chyba: history musí byť zoznam snapshotov."
+                self.context.history = data[-self.context.max_history:]
+
+            else:
+                return f"Neznáma sekcia '{section}'. Použi: all/session/persistent/state/history."
+
+        except Exception as e:
+            return f"Chyba pri importe: {e}"
 
         # -----------------------------
         #  VALIDÁCIA KONTEXTU PO IMPORTe
         # -----------------------------
-        if not self.context.validate():
+        if hasattr(self.context, "validate") and not self.context.validate():
             return "Upozornenie: import prebehol, ale kontext nie je v konzistentnom stave."
 
-        # -----------------------------
-        #  POTVRDENIE
-        # -----------------------------
         return f"Kontextová sekcia '{section}' bola importovaná zo súboru '{filename}'."
