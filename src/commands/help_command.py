@@ -24,20 +24,20 @@ class HelpCommand(BaseCommand):
         # DETAILNÝ HELP: help <command>
         if args:
             command_name = args[0]
-            command_class = self.registry.get(command_name)
+            command_obj = self.registry.get(command_name)
 
-            if command_class is None:
+            if command_obj is None:
                 return f"Neznámy príkaz: {command_name}"
 
             output = []
             output.append(f"=== Detail príkazu: {command_name} ===\n")
 
             # Popis
-            desc = getattr(command_class, "description", "Bez popisu")
+            desc = getattr(command_obj, "description", "Bez popisu")
             output.append(f"Popis:\n  {desc}\n")
 
             # Parametre
-            params = command_class.get_parameters()
+            params = command_obj.__class__.get_parameters()
             if params:
                 output.append("Parametre:")
                 for name, annotation in params:
