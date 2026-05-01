@@ -1,91 +1,367 @@
-def list_audio_devices(self) -> List[AudioDevice]:
-    """
-    Vráti zoznam audio zariadení pomocou Windows Core Audio API (WASAPI).
-    Aktuálne vracia iba predvolené zariadenie (default output).
-    """
-    try:
-        import ctypes
-        from ctypes import POINTER
-        from ctypes.wintypes import DWORD
+import os
+import ctypes
+import ctypes.wintypes as wt
+from typing import List, Optional, Dict, Any
+from dataclasses import dataclass
+import logging
 
-        # COM interfaces
-        CLSCTX_ALL = 23
+log = logging.getLogger(__name__)
 
-        class IMMDeviceEnumerator(ctypes.c_void_p):
-            pass
 
-        class IMMDevice(ctypes.c_void_p):
-            pass
+# ------------------------------------------------------------
+# DATA STRUCTURES
+# ------------------------------------------------------------
 
-        class IPropertyStore(ctypes.c_void_p):
-            pass
+@dataclass
+class WindowInfo:
+    handle: int
+    title: str
+    x: int
+    y: int
+    width: int
+    height: int
 
-        # GUIDs
-        CLSID_MMDeviceEnumerator = ctypes.c_char_p(
-            b"{BCDE0395-E52F-467C-8E3D-C4579291692E}"
-        )
-        IID_IMMDeviceEnumerator = ctypes.c_char_p(
-            b"{A95664D2-9614-4F35-A746-DE8DB63617E6}"
-        )
 
-        # Initialize COM
-        ole32 = ctypes.windll.ole32
-        ole32.CoInitialize(None)
+@dataclass
+class AudioDevice:
+    id: str
+    name: str
+    is_default: bool
 
-        enumerator = POINTER(IMMDeviceEnumerator)()
-        ole32.CoCreateInstance(
-            CLSID_MMDeviceEnumerator,
-            None,
-            CLSCTX_ALL,
-            IID_IMMDeviceEnumerator,
-            ctypes.byref(enumerator)
-        )
 
-        # Get default audio endpoint (render/output)
-        default_device = POINTER(IMMDevice)()
-        enumerator.GetDefaultAudioEndpoint(0, 1, ctypes.byref(default_device))
+@dataclass
+class SystemState:
+    active_window_title: Optional[str]
+    active_app_name: Optional[str]
+    mounted_drives: List[str]
 
-        # Open property store
-        property_store = POINTER(IPropertyStore)()
-        default_device.OpenPropertyStore(0, ctypes.byref(property_store))
 
-        # PROPERTYKEY struct
-        class PROPERTYKEY(ctypes.Structure):
-            _fields_ = [
-                ("fmtid", ctypes.c_byte * 16),
-                ("pid", DWORD),
-            ]
+# ------------------------------------------------------------
+# WIN-CAPABILITIES LAYER
+# ------------------------------------------------------------
 
-        # PKEY_Device_FriendlyName
-        PKEY_Device_FriendlyName = PROPERTYKEY(
-            (0xA4, 0x41, 0x4F, 0xC6, 0xE4, 0xD8, 0x4A, 0xD1,
-             0x87, 0xB6, 0xE0, 0xDB, 0xEF, 0xE3, 0x5A, 0xA5),
-            14
-        )
+class WinCapabilities:
 
-        # PROPVARIANT struct
-        class PROPVARIANT(ctypes.Structure):
-            _fields_ = [
-                ("vt", ctypes.c_ushort),
-                ("wReserved1", ctypes.c_ubyte),
-                ("wReserved2", ctypes.c_ubyte),
-                ("wReserved3", DWORD),
-                ("pszVal", ctypes.c_wchar_p),
-            ]
+    # --------------------------------------------------------
+    # ACTIVE WINDOW
+    # --------------------------------------------------------
+    def get_active_window(self) -> Optional[WindowInfo]:
+        """
+        Vráti informácie o aktuálne aktívnom okne:
+        - handle
+        - title
+        - x, y, width, height
+        """
+        try:
+            user32 = ctypes.windll.user32
 
-        prop = PROPVARIANT()
-        property_store.GetValue(ctypes.byref(PKEY_Device_FriendlyName), ctypes.byref(prop))
+            hwnd = user32.GetForegroundWindow()
+            if not hwnd:
+                return None
 
-        device_name = prop.pszVal
+            length = user32.GetWindowTextLengthW(hwnd)
+            buffer = ctypes.create_unicode_buffer(length + 1)
+            user32.GetWindowTextW(hwnd, buffer, length + 1)
+            title = buffer.value
 
-        return [
-            AudioDevice(
-                id="default",
-                name=device_name,
-                is_default=True
+            rect = wt.RECT()
+            user32.GetWindowRect(hwnd, ctypes.byref(rect))
+
+            x = rect.left
+            y = rect.top
+            width = rect.right - rect.left
+            height = rect.bottom - rect.top
+
+            return WindowInfo(
+                handle=hwnd,
+                title=title,
+                x=x,
+                y=y,
+                width=width,
+                height=height
             )
+
+        except Exception as exc:
+            log.exception("Failed to get active window: %s", exc)
+            return None
+
+    # --------------------------------------------------------
+    # WINDOW SNAPPING
+    # --------------------------------------------------------
+    def snap_active_window_left(self) -> bool:
+        try:
+            user32 = ctypes.windll.user32
+
+            hwnd = user32.GetForegroundWindow()
+            if not hwnd:
+                return False
+
+            screen_width = user32.GetSystemMetrics(0)
+            screen_height = user32.GetSystemMetrics(1)
+
+            user32.MoveWindow(hwnd, 0, 0, screen_width // 2, screen_height, True)
+            return True
+
+        except Exception as exc:
+            log.exception("Failed to snap window left: %s", exc)
+            return False
+
+    def snap_active_window_right(self) -> bool:
+        try:
+            user32 = ctypes.windll.user32
+
+            hwnd = user32.GetForegroundWindow()
+            if not hwnd:
+                return False
+
+            screen_width = user32.GetSystemMetrics(0)
+            screen_height = user32.GetSystemMetrics(1)
+
+            user32.MoveWindow(hwnd, screen_width // 2, 0, screen_width // 2, screen_height, True)
+            return True
+
+        except Exception as exc:
+            log.exception("Failed to snap window right: %s", exc)
+            return False
+
+    # --------------------------------------------------------
+    # WINDOW MOVE
+    # --------------------------------------------------------
+    def move_window(self, handle: int, x: int, y: int, width: int, height: int) -> bool:
+        try:
+            user32 = ctypes.windll.user32
+
+            if not handle:
+                log.warning("move_window called with invalid handle")
+                return False
+
+            success = user32.MoveWindow(handle, x, y, width, height, True)
+
+            if success:
+                log.info(
+                    "Moved window (hwnd=%s) to x=%s y=%s w=%s h=%s",
+                    handle, x, y, width, height
+                )
+                return True
+            else:
+                log.error("MoveWindow failed for hwnd=%s", handle)
+                return False
+
+        except Exception as exc:
+            log.exception("Failed to move window: %s", exc)
+            return False
+
+    # --------------------------------------------------------
+    # FOCUS APP BY NAME
+    # --------------------------------------------------------
+    def focus_app_by_name(self, name: str) -> bool:
+        """
+        Zaostrí okno aplikácie podľa názvu (fuzzy match).
+        """
+        try:
+            user32 = ctypes.windll.user32
+            matches = []
+
+            @ctypes.WINFUNCTYPE(ctypes.c_bool, wt.HWND, ctypes.c_void_p)
+            def enum_callback(hwnd, lParam):
+                length = user32.GetWindowTextLengthW(hwnd)
+                if length == 0:
+                    return True
+
+                buffer = ctypes.create_unicode_buffer(length + 1)
+                user32.GetWindowTextW(hwnd, buffer, length + 1)
+                title = buffer.value
+
+                if name.lower() in title.lower():
+                    matches.append((hwnd, title))
+
+                return True
+
+            user32.EnumWindows(enum_callback, 0)
+
+            if not matches:
+                log.warning("No window found matching name: %s", name)
+                return False
+
+            hwnd, title = matches[0]
+
+            SW_RESTORE = 9
+            user32.ShowWindow(hwnd, SW_RESTORE)
+            user32.SetForegroundWindow(hwnd)
+
+            log.info("Focused window '%s' (hwnd=%s)", title, hwnd)
+            return True
+
+        except Exception as exc:
+            log.exception("Failed to focus app by name: %s", exc)
+            return False
+
+    # --------------------------------------------------------
+    # AUDIO DEVICES
+    # --------------------------------------------------------
+    def list_audio_devices(self) -> List[AudioDevice]:
+        """
+        Vráti zoznam audio zariadení pomocou Windows Core Audio API (WASAPI).
+        Aktuálne vracia iba predvolené zariadenie.
+        """
+        try:
+            import ctypes
+            from ctypes import POINTER
+            from ctypes.wintypes import DWORD
+
+            CLSCTX_ALL = 23
+
+            class IMMDeviceEnumerator(ctypes.c_void_p):
+                pass
+
+            class IMMDevice(ctypes.c_void_p):
+                pass
+
+            class IPropertyStore(ctypes.c_void_p):
+                pass
+
+            CLSID_MMDeviceEnumerator = ctypes.c_char_p(
+                b"{BCDE0395-E52F-467C-8E3D-C4579291692E}"
+            )
+            IID_IMMDeviceEnumerator = ctypes.c_char_p(
+                b"{A95664D2-9614-4F35-A746-DE8DB63617E6}"
+            )
+
+            ole32 = ctypes.windll.ole32
+            ole32.CoInitialize(None)
+
+            enumerator = POINTER(IMMDeviceEnumerator)()
+            ole32.CoCreateInstance(
+                CLSID_MMDeviceEnumerator,
+                None,
+                CLSCTX_ALL,
+                IID_IMMDeviceEnumerator,
+                ctypes.byref(enumerator)
+            )
+
+            default_device = POINTER(IMMDevice)()
+            enumerator.GetDefaultAudioEndpoint(0, 1, ctypes.byref(default_device))
+
+            property_store = POINTER(IPropertyStore)()
+            default_device.OpenPropertyStore(0, ctypes.byref(property_store))
+
+            class PROPERTYKEY(ctypes.Structure):
+                _fields_ = [
+                    ("fmtid", ctypes.c_byte * 16),
+                    ("pid", DWORD),
+                ]
+
+            PKEY_Device_FriendlyName = PROPERTYKEY(
+                (0xA4, 0x41, 0x4F, 0xC6, 0xE4, 0xD8, 0x4A, 0xD1,
+                 0x87, 0xB6, 0xE0, 0xDB, 0xEF, 0xE3, 0x5A, 0xA5),
+                14
+            )
+
+            class PROPVARIANT(ctypes.Structure):
+                _fields_ = [
+                    ("vt", ctypes.c_ushort),
+                    ("wReserved1", ctypes.c_ubyte),
+                    ("wReserved2", ctypes.c_ubyte),
+                    ("wReserved3", DWORD),
+                    ("pszVal", ctypes.c_wchar_p),
+                ]
+
+            prop = PROPVARIANT()
+            property_store.GetValue(ctypes.byref(PKEY_Device_FriendlyName), ctypes.byref(prop))
+
+            device_name = prop.pszVal
+
+            return [
+                AudioDevice(
+                    id="default",
+                    name=device_name,
+                    is_default=True
+                )
+            ]
+
+        except Exception as exc:
+            log.exception("Failed to list audio devices: %s", exc)
+            return []
+
+    # --------------------------------------------------------
+    # SYSTEM CONTEXT
+    # --------------------------------------------------------
+    def _list_mounted_drives(self) -> List[str]:
+        try:
+            import string
+            drives = []
+            for letter in string.ascii_uppercase:
+                path = f"{letter}:\\"
+                if os.path.exists(path):
+                    drives.append(path)
+            return drives
+        except Exception as exc:
+            log.exception("Failed to list drives: %s", exc)
+            return []
+
+    def get_system_state(self) -> SystemState:
+        log.debug("Collecting system state")
+
+        active_window = self.get_active_window()
+        mounted_drives = self._list_mounted_drives()
+
+        active_app_name = active_window.title if active_window else None
+
+        return SystemState(
+            active_window_title=active_window.title if active_window else None,
+            active_app_name=active_app_name,
+            mounted_drives=mounted_drives,
+        )
+
+    # --------------------------------------------------------
+    # PROJECT UTILITIES
+    # --------------------------------------------------------
+    def find_projects(self, root_paths: List[str]) -> List[str]:
+        log.info("Searching for projects in: %s", root_paths)
+
+        markers = [
+            ".git",
+            "pyproject.toml",
+            "sirius.json",
         ]
 
-    except Exception as exc:
-        log.exception("Failed to list audio devices: %s", exc)
-        return []
+        found = []
+
+        try:
+            for root in root_paths:
+                if not os.path.exists(root):
+                    continue
+
+                for dirpath, dirnames, filenames in os.walk(root):
+                    for marker in markers:
+                        if marker in dirnames or marker in filenames:
+                            found.append(dirpath)
+                            break
+
+            return found
+
+        except Exception as exc:
+            log.exception("Failed to search for projects: %s", exc)
+            return []
+
+    def prepare_folder_structure(self, base_path: str, structure: Dict[str, Any]) -> bool:
+        try:
+            plan = []
+
+            def walk(path: str, subtree: Dict[str, Any]):
+                for name, content in subtree.items():
+                    full = f"{path}/{name}"
+                    plan.append(full)
+                    if isinstance(content, dict):
+                        walk(full, content)
+
+            walk(base_path, structure)
+
+            log.info("Prepared folder structure plan: %s", plan)
+
+            self._pending_folder_plan = plan
+            return True
+
+        except Exception as exc:
+            log.exception("Failed to prepare folder structure: %s", exc)
+            return False
