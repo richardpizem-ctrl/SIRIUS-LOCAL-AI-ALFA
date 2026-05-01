@@ -15,7 +15,7 @@ class ResetCommand(BaseCommand):
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  RESET VŠETKÝCH SEKCIÍ
         # -----------------------------
@@ -25,14 +25,19 @@ class ResetCommand(BaseCommand):
         self.context.history = []
 
         # -----------------------------
-        #  VYTVORENIE PRÁZDNEHO SNAPSHOTU
+        #  SNAPSHOT PO RESETE
         # -----------------------------
-        self.context.create_snapshot("reset")
+        if hasattr(self.context, "snapshot"):
+            self.context.snapshot()
+
+        # označenie resetu
+        if hasattr(self.context, "set_state"):
+            self.context.set_state("last_action", "reset")
 
         # -----------------------------
         #  VALIDÁCIA
         # -----------------------------
-        if not self.context.validate():
+        if hasattr(self.context, "validate") and not self.context.validate():
             return "Kontext bol resetovaný, ale validácia zlyhala."
 
         # -----------------------------
