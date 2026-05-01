@@ -5,6 +5,8 @@ from typing import List, Optional, Dict, Any
 from dataclasses import dataclass
 import logging
 
+from filesystem.fs_agent import FSAgent
+
 log = logging.getLogger(__name__)
 
 
@@ -497,19 +499,16 @@ class WorkflowEngine:
     """
     Workflow Engine 2.0
     - skladá jednoduché príkazy do workflowov
-    - používa UIConfirm + CME + WinCapabilities
-    - poskytuje vysokú úroveň akcií typu:
-      - 'daj VS Code doprava'
-      - 'otvor projekt a zaostri okno'
-      - 'priprav štruktúru pre release'
+    - používa UIConfirm + CME + WinCapabilities + FSAgent
     """
 
     def __init__(self):
         self.cme = CommandMediationEngine()
         self.ui = UIConfirm(self.cme)
+        self.fs = FSAgent()
 
     # --------------------------------------------------------
-    # VYSOKOÚROVŇOVÉ WORKFLOWY
+    # VYSOKOÚROVŇOVÉ WORKFLOWY – OKNÁ / PROJEKTY
     # --------------------------------------------------------
 
     def snap_app_right(self, app_name: str) -> Dict[str, Any]:
@@ -547,3 +546,24 @@ class WorkflowEngine:
             return {"ok": False, "error": "Nothing to confirm"}
 
         return self.ui.confirm(payload["command"], payload["args"], answer)
+
+    # --------------------------------------------------------
+    # FS‑AGENT WORKFLOWY
+    # --------------------------------------------------------
+
+    def move_file(self, source: str, target_dir: str) -> Dict[str, Any]:
+        """
+        Presunie jeden súbor pomocou FSAgent.
+        """
+        if not self.fs.path_exists(source):
+            return {"ok": False, "error": "Source file does not exist"}
+
+        ok = self.fs.move(source, target_dir)
+        return {"ok": ok}
+
+    def move_files(self, file_list: List[str], target_dir: str) -> Dict[str, Any]:
+        """
+        Presunie viacero súborov pomocou FSAgent.
+        """
+        ok = self.fs.move_files(file_list, target_dir)
+        return {"ok": ok}
