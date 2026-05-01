@@ -1,53 +1,9 @@
-def get_active_window(self) -> Optional[WindowInfo]:
+def focus_app_by_name(self, name: str) -> bool:
     """
-    Vráti informácie o aktuálne aktívnom okne:
-    - handle
-    - title
-    - x, y, width, height
-    """
-    try:
-        import ctypes
-        import ctypes.wintypes as wt
-
-        user32 = ctypes.windll.user32
-
-        # 1. Získaj handle aktívneho okna
-        hwnd = user32.GetForegroundWindow()
-        if not hwnd:
-            return None
-
-        # 2. Získaj titulok okna
-        length = user32.GetWindowTextLengthW(hwnd)
-        buffer = ctypes.create_unicode_buffer(length + 1)
-        user32.GetWindowTextW(hwnd, buffer, length + 1)
-        title = buffer.value
-
-        # 3. Získaj pozíciu a veľkosť okna
-        rect = wt.RECT()
-        user32.GetWindowRect(hwnd, ctypes.byref(rect))
-
-        x = rect.left
-        y = rect.top
-        width = rect.right - rect.left
-        height = rect.bottom - rect.top
-
-        return WindowInfo(
-            handle=hwnd,
-            title=title,
-            x=x,
-            y=y,
-            width=width,
-            height=height
-        )
-
-    except Exception as exc:
-        log.exception("Failed to get active window: %s", exc)
-        return None
-
-
-def snap_active_window_left(self) -> bool:
-    """
-    Zarovná aktívne okno na ľavú polovicu obrazovky.
+    Zaostrí okno aplikácie podľa názvu (fuzzy match).
+    - nájde okno podľa titulku
+    - obnoví ho, ak je minimalizované
+    - nastaví ho do popredia
     """
     try:
         import ctypes
@@ -55,48 +11,46 @@ def snap_active_window_left(self) -> bool:
 
         user32 = ctypes.windll.user32
 
-        # 1. Získaj aktívne okno
-        hwnd = user32.GetForegroundWindow()
-        if not hwnd:
+        # EnumWindows callback
+        matches = []
+
+        @ctypes.WINFUNCTYPE(ctypes.c_bool, wt.HWND, ctypes.c_void_p)
+        def enum_callback(hwnd, lParam):
+            # Získaj titulok okna
+            length = user32.GetWindowTextLengthW(hwnd)
+            if length == 0:
+                return True  # žiadny titulok → ignoruj
+
+            buffer = ctypes.create_unicode_buffer(length + 1)
+            user32.GetWindowTextW(hwnd, buffer, length + 1)
+            title = buffer.value
+
+            # Fuzzy match (case-insensitive)
+            if name.lower() in title.lower():
+                matches.append((hwnd, title))
+
+            return True
+
+        # Prejdi všetky okná
+        user32.EnumWindows(enum_callback, 0)
+
+        if not matches:
+            log.warning("No window found matching name: %s", name)
             return False
 
-        # 2. Získaj rozlíšenie obrazovky
-        screen_width = user32.GetSystemMetrics(0)
-        screen_height = user32.GetSystemMetrics(1)
+        # Vyber prvé najlepšie okno
+        hwnd, title = matches[0]
 
-        # 3. Presuň okno na ľavú polovicu
-        user32.MoveWindow(hwnd, 0, 0, screen_width // 2, screen_height, True)
+        # Obnov okno, ak je minimalizované
+        SW_RESTORE = 9
+        user32.ShowWindow(hwnd, SW_RESTORE)
+
+        # Nastav do popredia
+        user32.SetForegroundWindow(hwnd)
+
+        log.info("Focused window '%s' (hwnd=%s)", title, hwnd)
         return True
 
     except Exception as exc:
-        log.exception("Failed to snap window left: %s", exc)
+        log.exception("Failed to focus app by name: %s", exc)
         return False
-
-
-def snap_active_window_right(self) -> bool:
-    """
-    Zarovná aktívne okno na pravú polovicu obrazovky.
-    """
-    try:
-        import ctypes
-        import ctypes.wintypes as wt
-
-        user32 = ctypes.windll.user32
-
-        # 1. Získaj aktívne okno
-        hwnd = user32.GetForegroundWindow()
-        if not hwnd:
-            return False
-
-        # 2. Získaj rozlíšenie obrazovky
-        screen_width = user32.GetSystemMetrics(0)
-        screen_height = user32.GetSystemMetrics(1)
-
-        # 3. Presuň okno na pravú polovicu
-        user32.MoveWindow(hwnd, screen_width // 2, 0, screen_width // 2, screen_height, True)
-        return True
-
-    except Exception as exc:
-        log.exception("Failed to snap window right: %s", exc)
-        return False
-
