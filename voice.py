@@ -1,18 +1,32 @@
 import speech_recognition as sr
+
 from runtime.runtime_manager import RuntimeManager
+from runtime.plugin_loader import PluginLoader
+from runtime.nl_router import NaturalLanguageRouter
 
 
 class SiriusVoice:
     """
-    Hlasové ovládanie pre SIRIUS-LOCAL-AI
+    Hlasové ovládanie pre SIRIUS LOCAL AI – v2.0.0
     - počúva mikrofón
     - rozpoznáva hlas
-    - posiela text do NL Routera
+    - posiela text do NL Routera 2.0
     """
 
     def __init__(self):
-        self.rm = RuntimeManager()
-        self.rm.initialize()
+        # --- BOOTSTRAP RUNTIME 2.0 ---
+        self.runtime = RuntimeManager()
+        self.runtime.initialize()
+
+        # Pluginy
+        self.plugins = PluginLoader(self.runtime)
+        self.plugins.load_all()
+
+        # NL Router 2.0
+        self.router = NaturalLanguageRouter(self.runtime, self.plugins)
+        self.router.initialize()
+
+        # Speech Recognition
         self.recognizer = sr.Recognizer()
         self.microphone = sr.Microphone()
 
@@ -32,9 +46,11 @@ class SiriusVoice:
             text = self.recognizer.recognize_google(audio, language="sk-SK")
             print(f"➡ Rozpoznané: {text}")
             return text
+
         except sr.UnknownValueError:
             print("❗ Nerozumel som.")
             return None
+
         except sr.RequestError:
             print("❗ Chyba pri komunikácii so službou rozpoznávania.")
             return None
@@ -44,12 +60,16 @@ class SiriusVoice:
     # --------------------------------------------------------
     def process(self, text):
         """
-        Pošle rozpoznaný text do NL Routera.
+        Pošle rozpoznaný text do NL Routera 2.0.
         """
         if not text:
             return
 
-        result = self.rm.handle_nl(text)
+        try:
+            result = self.router.route(text)
+        except Exception as e:
+            result = f"Error: {e}"
+
         print("➡ Výsledok:", result)
 
     # --------------------------------------------------------
