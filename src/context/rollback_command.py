@@ -5,9 +5,6 @@ from context.context_manager import ContextManager
 class ContextRollbackCommand(BaseCommand):
     """
     Vráti kontext o N krokov späť pomocou snapshot histórie.
-    Použitie:
-      context-rollback 1
-      context-rollback 3
     """
 
     name = "context-rollback"
@@ -16,14 +13,15 @@ class ContextRollbackCommand(BaseCommand):
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, steps: str = None, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA VSTUPU
         # -----------------------------
+        steps = args[0] if args else None
+
         if steps is None:
             return "Použitie: context-rollback <počet_krokov>"
 
-        # Konverzia na číslo
         try:
             steps = int(steps)
         except ValueError:
@@ -35,7 +33,7 @@ class ContextRollbackCommand(BaseCommand):
         # -----------------------------
         #  VALIDÁCIA KONTEXTU
         # -----------------------------
-        if not self.context.validate():
+        if hasattr(self.context, "validate") and not self.context.validate():
             return "Chyba: Kontext nie je v konzistentnom stave."
 
         # -----------------------------
@@ -63,7 +61,4 @@ class ContextRollbackCommand(BaseCommand):
         self.context.set_state("last_rollback_steps", str(steps))
         self.context.set_state("last_rollback_success", "true")
 
-        # -----------------------------
-        #  POTVRDENIE
-        # -----------------------------
         return f"Kontext bol vrátený o {steps} krok(ov) späť."
