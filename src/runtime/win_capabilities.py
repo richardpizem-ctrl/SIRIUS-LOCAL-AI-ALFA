@@ -1,9 +1,9 @@
-def focus_app_by_name(self, name: str) -> bool:
+def move_window(self, handle: int, x: int, y: int, width: int, height: int) -> bool:
     """
-    Zaostrí okno aplikácie podľa názvu (fuzzy match).
-    - nájde okno podľa titulku
-    - obnoví ho, ak je minimalizované
-    - nastaví ho do popredia
+    Presunie a zmení veľkosť okna.
+    - handle: HWND okna
+    - x, y: nová pozícia
+    - width, height: nové rozmery
     """
     try:
         import ctypes
@@ -11,45 +11,24 @@ def focus_app_by_name(self, name: str) -> bool:
 
         user32 = ctypes.windll.user32
 
-        matches = []
-
-        @ctypes.WINFUNCTYPE(ctypes.c_bool, wt.HWND, ctypes.c_void_p)
-        def enum_callback(hwnd, lParam):
-            # Získaj titulok okna
-            length = user32.GetWindowTextLengthW(hwnd)
-            if length == 0:
-                return True  # žiadny titulok → ignoruj
-
-            buffer = ctypes.create_unicode_buffer(length + 1)
-            user32.GetWindowTextW(hwnd, buffer, length + 1)
-            title = buffer.value
-
-            # Fuzzy match (case-insensitive)
-            if name.lower() in title.lower():
-                matches.append((hwnd, title))
-
-            return True
-
-        # Prejdi všetky okná
-        user32.EnumWindows(enum_callback, 0)
-
-        if not matches:
-            log.warning("No window found matching name: %s", name)
+        # Overenie handle
+        if not handle:
+            log.warning("move_window called with invalid handle")
             return False
 
-        # Vyber prvé najlepšie okno
-        hwnd, title = matches[0]
+        # MoveWindow(handle, x, y, width, height, repaint=True)
+        success = user32.MoveWindow(handle, x, y, width, height, True)
 
-        # Obnov okno, ak je minimalizované
-        SW_RESTORE = 9
-        user32.ShowWindow(hwnd, SW_RESTORE)
-
-        # Nastav do popredia
-        user32.SetForegroundWindow(hwnd)
-
-        log.info("Focused window '%s' (hwnd=%s)", title, hwnd)
-        return True
+        if success:
+            log.info(
+                "Moved window (hwnd=%s) to x=%s y=%s w=%s h=%s",
+                handle, x, y, width, height
+            )
+            return True
+        else:
+            log.error("MoveWindow failed for hwnd=%s", handle)
+            return False
 
     except Exception as exc:
-        log.exception("Failed to focus app by name: %s", exc)
+        log.exception("Failed to move window: %s", exc)
         return False
