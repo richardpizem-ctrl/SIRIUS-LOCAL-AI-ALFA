@@ -1,91 +1,80 @@
-# Module Map – SIRIUS LOCAL AI ALFA
+# Module Map – SIRIUS LOCAL AI (v2.0.0)
 
 This document defines all modules of the project, their purpose, responsibilities, and interconnections.  
-It serves as an architectural orientation map.
+It serves as an architectural orientation map for the stable Runtime 2.0 architecture.
+
+All processing is fully local; no data leaves the user's PC.
 
 ---
 
-## ⚠️ ALPHA WARNING
-
-SIRIUS LOCAL AI ALFA interacts with Windows 11 system APIs, filesystem operations, window management, and application control.  
-The project is currently in **ALPHA**, and module behavior may change as development progresses.
-
-- Some operations may require elevated permissions (UAC).  
-- Windows Defender or SmartScreen may classify the runtime as an “Unknown App”.  
-- Antivirus tools may generate false positives during development.  
-- Modules must run with the same privilege level as the applications they control.  
-- All processing is fully local; no data leaves the user's PC.
-
-**Users are encouraged to test features independently.**  
-This is an ALPHA‑stage developer tool — the author does not provide individual guidance for basic operations.
-
----
-
-# 1. Runtime Core
+# 1. Runtime Core 2.0
 **Purpose:** Central system layer.  
 **Responsibilities:**
 - module initialization  
 - lifecycle management  
-- task scheduling  
+- plugin loading  
+- task and workflow dispatch  
 - enforcing security boundaries  
 - capability registration  
-- dispatching events to modules  
+- event routing  
+- maintaining global system stability  
 
 ---
 
-# 2. Filesystem Agent (FS‑AGENT)
+# 2. Filesystem Agent (FS‑AGENT 2.0)
 **Purpose:** Safe file operations.  
 **Responsibilities:**
 - moving, copying, deleting  
 - path validation  
 - safety checks  
 - action confirmations  
-- user feedback  
+- conflict detection  
 - rollback‑safe operations  
 
 ---
 
-# 3. Command Interpreter (CME)
-**Purpose:** Translation of user commands.  
+# 3. Natural Language Router (NL Router 2.0)
+**Purpose:** Translation and routing of user commands.  
 **Responsibilities:**
 - recognizing command type  
 - extracting parameters  
-- routing to modules  
-- generating “Where to?” and “Confirm?” questions  
-- validating intent  
+- routing to modules or plugins  
+- detecting plugin NL commands  
+- fallback interpretation  
 - preventing ambiguous or unsafe actions  
 
 ---
 
-# 4. Context Memory Engine (CME‑MEM)
+# 4. Context Memory Engine (CME‑MEM 2.0)
 **Purpose:** Maintaining context and recent actions.  
 **Responsibilities:**
 - tracking recent user actions  
 - storing paths and states  
 - providing contextual suggestions  
 - supporting multi‑step workflows  
+- metadata for plugins and workflows  
 
 ---
 
-# 5. Workflow Tracker
-**Purpose:** Logic of step sequences.  
+# 5. Workflow Engine 2.0
+**Purpose:** Logic of step sequences and plugin workflows.  
 **Responsibilities:**
 - workflow state machine  
-- predicting the next step  
+- executing plugin workflows  
 - validating transitions  
-- generating automatic action suggestions  
+- generating next‑step predictions  
 - preventing invalid sequences  
 
 ---
 
-# 6. UI Confirm Module
-**Purpose:** Interactive confirmation tables.  
+# 6. GUI Layer 2.0
+**Purpose:** Modular user interface.  
 **Responsibilities:**
-- selecting the target folder  
-- confirming actions  
-- safety dialogs  
-- automatic window opening  
-- presenting workflow steps  
+- rendering plugin buttons  
+- executing GUI actions  
+- integrating with Runtime Core  
+- providing visual feedback  
+- preparing for tray/voice integration  
 
 ---
 
@@ -93,25 +82,25 @@ This is an ALPHA‑stage developer tool — the author does not provide individu
 **Purpose:** Generating email text (without sending).  
 **Responsibilities:**
 - email drafts  
-- professional responses  
-- structured text generation  
+- structured responses  
+- professional text generation  
 
 ---
 
-# 8. Automatic Input Triage Engine (AITE)
+# 8. Automatic Input Triage Engine (AITE 2.0)
 **Purpose:** Automatic detection and classification of input type.  
 **Responsibilities:**
-- detecting input type (text, image, application)  
+- detecting input type (text, image, application, document)  
 - routing to the correct module  
 - metadata generation  
 - integration with FS‑AGENT and CME‑MEM  
 - rejecting unsupported or unsafe inputs  
 
-AITE ensures that SIRIUS immediately understands what the user inserted or downloaded and classifies it correctly without asking questions.
+AITE ensures that SIRIUS immediately understands what the user inserted or downloaded.
 
 ---
 
-# 9. Windows System Capabilities Layer (WIN‑CAP)
+# 9. Windows System Capabilities Layer (WIN‑CAP 2.0)
 **Purpose:** Provide safe, abstracted access to Windows 11 system functions.  
 This module transforms SIRIUS into a true local OS‑level AI agent.
 
@@ -127,12 +116,6 @@ This module transforms SIRIUS into a true local OS‑level AI agent.
 - `window_ops` — snapping, arranging, positioning windows  
 - `audio_ops` — detecting and switching audio devices  
 - `system_context` — active window, drives, devices  
-
-**Examples of enabled commands:**
-- “Find all SIRIUS projects on disk and open the latest.”  
-- “Launch Real-Time MIDI Notation and place its window next to VS Code.”  
-- “Check if audio is going to the correct device and switch if not.”  
-- “Create a new folder for v1.3.0 and prepare the structure.”  
 
 ---
 
@@ -150,7 +133,7 @@ This module transforms SIRIUS into a true local OS‑level AI agent.
 - `animation_scenes.py`  
 - `animation_manager.py`  
 
-These files prepare the animation system for future versions (v2.0.0 and v3.0.0).
+These files prepare the animation system for v2.0.0 and v3.0.0.
 
 ---
 
@@ -159,54 +142,85 @@ These files prepare the animation system for future versions (v2.0.0 and v3.0.0)
 **Responsibilities:**
 - orchestrating multi‑step operations  
 - validating transitions  
-- providing predictable behavior  
-- integrating CME, FS‑AGENT, and UI Confirm  
+- predictable behavior  
+- integrating CME, FS‑AGENT, and GUI  
 
 ---
 
-# 12. Future Modules (Extensibility)
+# 12. Plugin System 2.0
+**Purpose:** Extensible plugin ecosystem.  
+**Responsibilities:**
+- loading plugin manifests  
+- registering NL commands  
+- registering AI tasks  
+- registering workflows  
+- registering AI loop rules  
+- registering GUI elements  
+- safe plugin isolation  
 
-**Possible future modules:**
+Official plugins include:
+- automation  
+- clipboard  
+- example  
+- file_manager  
+- notes  
+- system_tools  
+- translator  
+
+---
+
+# 13. AI Loop 2.0
+**Purpose:** Autonomous interval‑based logic.  
+**Responsibilities:**
+- executing plugin heartbeat rules  
+- safe periodic tasks  
+- deterministic scheduling  
+- error protection  
+
+---
+
+# 14. Future Modules (Extensibility)
+
+Possible future modules:
 - UI Automation Layer  
 - Voice Command Layer  
 - System Monitoring Layer  
-- Plugin API  
+- Advanced Semantic Triage  
 
 ---
 
-## **Self‑Repair & Health‑Check Layer (v4.0.0)**  
+# 15. Self‑Repair & Health‑Check Layer (v4.0.0)
 **Purpose:** Diagnostics and safe automatic recovery.  
 **Responsibilities:**  
-- checking integrity of core modules (runtime, context, commands, filesystem)  
+- checking integrity of core modules  
 - detecting corrupted states, missing files, invalid configs  
-- performing safe automatic repairs (cache reset, index rebuild, default config restore)  
-- generating patch suggestions for code-level fixes (manual approval required)  
+- performing safe automatic repairs  
+- generating patch suggestions (manual approval required)  
 - preventing uncontrolled modifications of source code  
 - reporting system health to Runtime Core  
 
 **Submodules:**  
-- `health_check_engine.py` — diagnostics  
-- `self_repair_safe.py` — safe automatic repairs  
-- `repair_suggestions.py` — patch proposals (non‑executing)  
-
-**Notes:**  
-This module is planned for **version 4.0.0**, after the system reaches full stability.
+- `health_check_engine.py`  
+- `self_repair_safe.py`  
+- `repair_suggestions.py`  
 
 ---
 
-# 13. Module Interconnections
+# 16. Module Interconnections
 
-- **CME → FS‑AGENT:** decides what action should be executed  
-- **CME → UI Confirm:** generates questions  
-- **CME‑MEM → Workflow Tracker:** provides context  
+- **NL Router → FS‑AGENT:** determines file operations  
+- **NL Router → Plugins:** routes NL commands  
+- **CME‑MEM → Workflow Engine:** provides context  
 - **AITE → FS‑AGENT:** routes inputs based on type  
-- **AITE → CME‑MEM:** stores metadata about the input  
-- **WIN‑CAP → CME:** exposes system capabilities  
+- **AITE → CME‑MEM:** stores metadata  
 - **WIN‑CAP → Runtime Core:** privileged capability layer  
 - **Runtime Core → all modules:** initialization and security  
+- **Plugins → Runtime Core:** register capabilities  
+
+All communication is explicit and controlled.
 
 ---
 
 # Document Status
-Current version: **ALPHA**  
-Module structure may evolve as the system approaches Phase 4 stability.
+Current version: **2.0.0 (Stable)**  
+Module structure is fully defined and ready for future expansions in v3.0.0 and v4.0.0.
