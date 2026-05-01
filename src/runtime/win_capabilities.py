@@ -417,3 +417,73 @@ class CommandMediationEngine:
 
     def _wrap(self, result: bool) -> Dict[str, Any]:
         return {"ok": bool(result)}
+
+
+# ------------------------------------------------------------
+# UI CONFIRM LAYER
+# ------------------------------------------------------------
+
+class UIConfirm:
+    """
+    UI Confirm Layer
+    - zachytáva nebezpečné alebo systémové príkazy
+    - vyžaduje potvrdenie od používateľa
+    - integruje sa s CME
+    """
+
+    def __init__(self, cme: CommandMediationEngine):
+        self.cme = cme
+
+        self.confirm_required = {
+            "move_window",
+            "prepare_structure",
+            "delete_file",
+            "delete_folder",
+            "switch_audio_device",
+        }
+
+    def request(self, command: str, args: Dict[str, Any]) -> Dict[str, Any]:
+        if command in self.confirm_required:
+            return self._build_confirmation(command, args)
+
+        return self.cme.execute(command, args)
+
+    def _build_confirmation(self, command: str, args: Dict[str, Any]) -> Dict[str, Any]:
+        return {
+            "requires_confirmation": True,
+            "command": command,
+            "args": args,
+            "message": self._describe(command, args),
+            "options": ["ANO", "NIE"]
+        }
+
+    def _describe(self, command: str, args: Dict[str, Any]) -> str:
+        if command == "move_window":
+            return (
+                f"Chceš presunúť okno (hwnd={args['handle']}) "
+                f"na x={args['x']}, y={args['y']} "
+                f"a veľkosť {args['width']}×{args['height']}?"
+            )
+
+        if command == "prepare_structure":
+            return (
+                f"Chceš pripraviť priečinkovú štruktúru v '{args['base']}' "
+                f"({len(args['structure'])} položiek)?"
+            )
+
+        if command == "switch_audio_device":
+            return f"Chceš prepínať audio zariadenie na '{args['name']}'?"
+
+        if command == "delete_file":
+            return f"Chceš odstrániť súbor '{args['path']}'?"
+
+        if command == "delete_folder":
+            return f"Chceš odstrániť priečinok '{args['path']}'?"
+
+        return f"Chceš vykonať príkaz '{command}'?"
+
+    def confirm(self, command: str, args: Dict[str, Any], answer: str) -> Dict[str, Any]:
+        if answer.upper() != "ANO":
+            return {"ok": False, "cancelled": True}
+
+        return self.cme.execute(command, args)
