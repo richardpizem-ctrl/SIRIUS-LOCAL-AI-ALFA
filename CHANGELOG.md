@@ -1,13 +1,48 @@
-# 📜 CHANGELOG – SIRIUS LOCAL AI ALFA
+# 📜 CHANGELOG – SIRIUS LOCAL AI (v2.0.0)
 
-All notable changes to this project will be documented in this file.  
-This project follows a clean, structured, version‑based changelog format.
+All notable changes to this project are documented in this file.  
+The project follows a clean, structured, version‑based changelog format.
 
 ---
 
-# 1.0.0 – Initial Stable Release (Planned)
-**Status:** In progress  
-**Target:** Full system stability
+# 2.0.0 – Full System Stabilization (Current Release)
+**Status:** Stable  
+**Target:** Complete Runtime 2.0 architecture
+
+### Added
+- Runtime Core 2.0  
+- Plugin System 2.0 (NL commands, AI tasks, workflows, AI loop rules, GUI elements)  
+- Natural Language Router 2.0  
+- Workflow Engine 2.0  
+- AI Loop 2.0  
+- GUI Layer 2.0  
+- AITE 2.0 (Automatic Input Triage Engine)  
+- WIN‑CAP 2.0 (Windows System Capabilities Layer)  
+- Full plugin suite (automation, clipboard, example, file_manager, notes, system_tools, translator)  
+- Stabilized core modules (runtime, context, filesystem, commands)  
+- Updated documentation set (ARCHITECTURE, MODULE_MAP, RELEASE_NOTES, ROADMAP, SECURITY, INSTALLATION)  
+
+### Improved
+- deterministic behavior across all modules  
+- module isolation and safety boundaries  
+- plugin loading and runtime orchestration  
+- workflow execution stability  
+- NL routing accuracy and fallback logic  
+- filesystem safety checks  
+- context memory consistency  
+
+### Security
+- strict no‑network policy  
+- safe plugin sandboxing  
+- validated filesystem operations  
+- deterministic AI loop execution  
+- controlled access to Windows capabilities  
+
+---
+
+# 1.0.0 – Initial Stable Release (Historical)
+**Status:** Completed  
+**Target:** First fully working modular system
 
 ### Added
 - complete modular architecture  
@@ -19,7 +54,7 @@ This project follows a clean, structured, version‑based changelog format.
 - UI Confirm Module  
 - Automatic Input Triage Engine (AITE)  
 - Windows System Capabilities Layer (WIN‑CAP)  
-- full documentation set (INDEX, ARCHITECTURE, MODULE MAP, STYLEGUIDE, TESTING, PERFORMANCE, INSTALLATION)  
+- full documentation set  
 
 ### Improved
 - safety boundaries  
@@ -57,4 +92,5 @@ This project follows a clean, structured, version‑based changelog format.
 ---
 
 # Document Status
-Current version: **ALPHA**
+Current version: **2.0.0 (Stable)**  
+Changelog will continue to evolve as new versions (2.x → 3.0.0 → 4.0.0) are released.
