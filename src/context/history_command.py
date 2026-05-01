@@ -16,17 +16,18 @@ class ContextHistoryCommand(BaseCommand):
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, limit: str = None, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA KONTEXTU
         # -----------------------------
-        if not self.context.validate():
+        if hasattr(self.context, "validate") and not self.context.validate():
             return "Chyba: Kontext nie je v konzistentnom stave."
 
         # -----------------------------
         #  LIMIT (voliteľný)
         # -----------------------------
         max_items = len(self.context.history)
+        limit = args[0] if args else None
 
         if limit is not None:
             try:
@@ -37,6 +38,9 @@ class ContextHistoryCommand(BaseCommand):
                 return "Chyba: limit musí byť číslo."
         else:
             limit = max_items
+
+        # Normalizácia limitu
+        limit = min(limit, max_items)
 
         # -----------------------------
         #  KONTROLA HISTÓRIE
@@ -49,7 +53,7 @@ class ContextHistoryCommand(BaseCommand):
         # -----------------------------
         out = ["=== HISTÓRIA SNAPSHOTOV ===\n"]
         out.append(f"Celkový počet snapshotov: {max_items}")
-        out.append(f"Zobrazujem posledných: {min(limit, max_items)}\n")
+        out.append(f"Zobrazujem posledných: {limit}\n")
 
         # -----------------------------
         #  VÝPIS SNAPSHOTOV
@@ -57,8 +61,8 @@ class ContextHistoryCommand(BaseCommand):
         start_index = max_items - limit
         snapshots = self.context.history[start_index:]
 
-        for idx, snap in enumerate(snapshots, start=start_index):
-            out.append(f"Snapshot #{idx + 1}:")
+        for i, snap in enumerate(snapshots, start=1):
+            out.append(f"Snapshot #{i}:")
             out.append(f"  - session: {len(snap['session'])} položiek")
             out.append(f"  - persistent: {len(snap['persistent'])} položiek")
             out.append(f"  - state: {len(snap['state'])} položiek")
