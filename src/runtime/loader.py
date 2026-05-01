@@ -1,15 +1,10 @@
 import os
 import json
 import importlib.util
-from typing import List
-from .runtime_manager import RuntimeManager
+import logging
 
-_runtime = None
+log = logging.getLogger(__name__)
 
-
-# ============================================================
-# PLUGINLOADER 2.0
-# ============================================================
 
 class PluginLoader:
     """
@@ -18,21 +13,19 @@ class PluginLoader:
     - číta manifest.json
     - importuje plugin.py
     - vytvára inštancie pluginov
-    - poskytuje RuntimeManageru zoznam pluginov
+    - registruje ich do RuntimeManagera
     """
 
     def __init__(self, plugins_dir: str = "plugins"):
         self.plugins_dir = plugins_dir
-        self.instances = []  # zoznam inštancií pluginov
+        self.instances = []
 
     # --------------------------------------------------------
     # PUBLIC API
     # --------------------------------------------------------
-    def load_all(self):
-        """
-        Načíta všetky pluginy z priečinka plugins/.
-        """
+    def load_all(self, runtime_manager):
         if not os.path.exists(self.plugins_dir):
+            log.warning("Plugins directory not found: %s", self.plugins_dir)
             return
 
         for folder in os.listdir(self.plugins_dir):
@@ -44,27 +37,33 @@ class PluginLoader:
             manifest_path = os.path.join(plugin_path, "manifest.json")
             plugin_file = os.path.join(plugin_path, "plugin.py")
 
-            # manifest musí existovať
             if not os.path.exists(manifest_path):
+                log.warning("Missing manifest.json in %s", plugin_path)
                 continue
 
-            # načítanie manifestu
             manifest = self._load_manifest(manifest_path)
             if not manifest:
+                log.error("Invalid manifest in %s", plugin_path)
                 continue
 
-            # plugin musí byť enabled
             if not manifest.get("enabled", True):
+                log.info("Plugin disabled: %s", manifest.get("name"))
                 continue
 
-            # plugin.py musí existovať
             if not os.path.exists(plugin_file):
+                log.error("Missing plugin.py in %s", plugin_path)
                 continue
 
-            # import pluginu
             instance = self._import_plugin(plugin_file, manifest)
-            if instance:
-                self.instances.append(instance)
+            if not instance:
+                continue
+
+            # registrácia pluginu do runtime
+            if hasattr(instance, "register"):
+                instance.register(runtime_manager)
+
+            self.instances.append(instance)
+            log.info("Plugin loaded: %s", manifest.get("name"))
 
     # --------------------------------------------------------
     # INTERNAL HELPERS
@@ -73,13 +72,11 @@ class PluginLoader:
         try:
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f)
-        except Exception:
+        except Exception as e:
+            log.exception("Failed to load manifest %s: %s", path, e)
             return None
 
     def _import_plugin(self, plugin_file: str, manifest: dict):
-        """
-        Dynamicky importuje plugin.py a vytvorí inštanciu triedy Plugin.
-        """
         try:
             spec = importlib.util.spec_from_file_location(
                 manifest["name"], plugin_file
@@ -88,27 +85,17 @@ class PluginLoader:
             spec.loader.exec_module(module)
 
             if not hasattr(module, "Plugin"):
+                log.error("Plugin class missing in %s", plugin_file)
                 return None
 
-            # vytvorenie inštancie pluginu
-            return module.Plugin
+            cls = module.Plugin
+
+            if not callable(cls):
+                log.error("Plugin is not a class in %s", plugin_file)
+                return None
+
+            return cls(manifest)
 
         except Exception as e:
-            print(f"PluginLoader error: {e}")
+            log.exception("PluginLoader error in %s: %s", plugin_file, e)
             return None
-
-
-# ============================================================
-# RUNTIME BOOTSTRAP
-# ============================================================
-
-def get_runtime():
-    """
-    Globálny runtime bootstrapper.
-    Vytvorí RuntimeManager iba raz a zdieľa ho v celom systéme.
-    """
-    global _runtime
-    if _runtime is None:
-        _runtime = RuntimeManager()
-        _runtime.initialize()
-    return _runtime
