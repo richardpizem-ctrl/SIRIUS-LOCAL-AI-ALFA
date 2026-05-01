@@ -4,6 +4,7 @@ from triage.aite_controller import AITEController
 from filesystem.fs_agent import FSAgent
 from .win_capabilities import WorkflowEngine
 from .sirius_agent import SiriusAgent
+from .nl_router import NaturalLanguageRouter
 from typing import Dict, Any, Optional
 
 
@@ -11,7 +12,7 @@ class RuntimeManager:
     """
     Runtime Manager
     - centrálna orchestrácia runtime systému
-    - drží RuntimeEngine, EventBus, FS‑AGENT, AITE, WorkflowEngine a SiriusAgent
+    - drží RuntimeEngine, EventBus, FS‑AGENT, AITE, WorkflowEngine, SiriusAgent a NL Router
     - poskytuje jednotné API pre vyššie vrstvy (NL router, AI agent, SIRIUS-LOCAL-AI)
     """
 
@@ -30,6 +31,9 @@ class RuntimeManager:
 
         # AUTONÓMNY AI AGENT (SiriusAgent)
         self.agent = SiriusAgent(self.workflow)
+
+        # NATURAL LANGUAGE ROUTER
+        self.nl = NaturalLanguageRouter(self)
 
         # AITE (AI Triage Engine)
         self.aite = AITEController()
@@ -80,3 +84,13 @@ class RuntimeManager:
         Poskytne AI základný systémový kontext (napr. aktívne okno, disky).
         """
         return self.workflow.cme.execute("system_state", {})
+
+    # --------------------------------------------------------
+    # NATURAL LANGUAGE API
+    # --------------------------------------------------------
+
+    def handle_nl(self, text: str) -> Dict[str, Any]:
+        """
+        Vstupný bod pre prirodzený jazyk.
+        """
+        return self.nl.handle(text)
