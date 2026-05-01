@@ -46,12 +46,6 @@ class WinCapabilities:
     # ACTIVE WINDOW
     # --------------------------------------------------------
     def get_active_window(self) -> Optional[WindowInfo]:
-        """
-        Vráti informácie o aktuálne aktívnom okne:
-        - handle
-        - title
-        - x, y, width, height
-        """
         try:
             user32 = ctypes.windll.user32
 
@@ -155,9 +149,6 @@ class WinCapabilities:
     # FOCUS APP BY NAME
     # --------------------------------------------------------
     def focus_app_by_name(self, name: str) -> bool:
-        """
-        Zaostrí okno aplikácie podľa názvu (fuzzy match).
-        """
         try:
             user32 = ctypes.windll.user32
             matches = []
@@ -200,10 +191,6 @@ class WinCapabilities:
     # AUDIO DEVICES
     # --------------------------------------------------------
     def list_audio_devices(self) -> List[AudioDevice]:
-        """
-        Vráti zoznam audio zariadení pomocou Windows Core Audio API (WASAPI).
-        Aktuálne vracia iba predvolené zariadenie.
-        """
         try:
             import ctypes
             from ctypes import POINTER
@@ -365,3 +352,68 @@ class WinCapabilities:
         except Exception as exc:
             log.exception("Failed to prepare folder structure: %s", exc)
             return False
+
+
+# ------------------------------------------------------------
+# COMMAND MEDIATION ENGINE (CME)
+# ------------------------------------------------------------
+
+class CommandMediationEngine:
+    """
+    CME = Command Mediation Engine
+    - prijíma príkazy od AI
+    - rozhoduje, či treba potvrdenie
+    - vykonáva cez WinCapabilities
+    - loguje a chráni systém
+    """
+
+    def __init__(self):
+        self.win = WinCapabilities()
+
+    def execute(self, command: str, args: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        log.info("CME received command: %s args=%s", command, args)
+
+        try:
+            if command == "snap_left":
+                return self._wrap(self.win.snap_active_window_left())
+
+            if command == "snap_right":
+                return self._wrap(self.win.snap_active_window_right())
+
+            if command == "focus_app":
+                return self._wrap(self.win.focus_app_by_name(args["name"]))
+
+            if command == "move_window":
+                return self._wrap(self.win.move_window(
+                    handle=args["handle"],
+                    x=args["x"],
+                    y=args["y"],
+                    width=args["width"],
+                    height=args["height"]
+                ))
+
+            if command == "list_audio_devices":
+                devices = self.win.list_audio_devices()
+                return {"ok": True, "devices": [d.__dict__ for d in devices]}
+
+            if command == "system_state":
+                state = self.win.get_system_state()
+                return {"ok": True, "state": state.__dict__}
+
+            if command == "find_projects":
+                projects = self.win.find_projects(args["roots"])
+                return {"ok": True, "projects": projects}
+
+            if command == "prepare_structure":
+                ok = self.win.prepare_folder_structure(args["base"], args["structure"])
+                return self._wrap(ok)
+
+            log.warning("Unknown command: %s", command)
+            return {"ok": False, "error": "Unknown command"}
+
+        except Exception as exc:
+            log.exception("CME failed: %s", exc)
+            return {"ok": False, "error": str(exc)}
+
+    def _wrap(self, result: bool) -> Dict[str, Any]:
+        return {"ok": bool(result)}
