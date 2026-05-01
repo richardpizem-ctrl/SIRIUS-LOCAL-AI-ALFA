@@ -24,7 +24,7 @@ class ContextInfoCommand(BaseCommand):
         # ============================================================
         #  VALIDÁCIA KONTEXTU
         # ============================================================
-        is_valid = self.context.validate()
+        is_valid = self.context.validate() if hasattr(self.context, "validate") else True
         output.append(f"Validita kontextu: {'OK' if is_valid else 'CHYBA'}")
 
         # ============================================================
@@ -65,7 +65,7 @@ class ContextInfoCommand(BaseCommand):
         output.append(f"  Max. kapacita: {self.context.max_history}")
 
         # ============================================================
-        #  POSLEDNÝ SNAPSHOT (ak existuje)
+        #  POSLEDNÝ SNAPSHOT
         # ============================================================
         if self.context.history:
             last = self.context.history[-1]
@@ -76,7 +76,4 @@ class ContextInfoCommand(BaseCommand):
         else:
             output.append("\nPosledný snapshot: (žiadny uložený)")
 
-        # ============================================================
-        #  ZÁVER
-        # ============================================================
         return "\n".join(output)
