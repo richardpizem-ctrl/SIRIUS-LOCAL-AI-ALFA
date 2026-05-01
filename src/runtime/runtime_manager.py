@@ -4,6 +4,7 @@ from triage.aite_controller import AITEController
 from filesystem.fs_agent import FSAgent
 from .win_capabilities import WorkflowEngine
 from .sirius_agent import SiriusAgent
+from typing import Dict, Any, Optional
 
 
 class RuntimeManager:
@@ -61,3 +62,21 @@ class RuntimeManager:
         Zastaví runtime engine.
         """
         self.engine.stop()
+
+    # --------------------------------------------------------
+    # SIRIUS-LOCAL-AI API VRSTVA
+    # --------------------------------------------------------
+
+    def handle_ai_task(self, goal: str, args: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        Vstupný bod pre SIRIUS-LOCAL-AI:
+        - goal: názov úlohy (napr. 'prepare_release', 'move_logs', 'open_project', 'snap_right')
+        - args: parametre úlohy
+        """
+        return self.agent.run_task(goal, args or {})
+
+    def get_ai_context(self) -> Dict[str, Any]:
+        """
+        Poskytne AI základný systémový kontext (napr. aktívne okno, disky).
+        """
+        return self.workflow.cme.execute("system_state", {})
