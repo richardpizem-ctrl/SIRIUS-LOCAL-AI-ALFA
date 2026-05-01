@@ -1,34 +1,96 @@
-def move_window(self, handle: int, x: int, y: int, width: int, height: int) -> bool:
+def list_audio_devices(self) -> List[AudioDevice]:
     """
-    Presunie a zmení veľkosť okna.
-    - handle: HWND okna
-    - x, y: nová pozícia
-    - width, height: nové rozmery
+    Vráti zoznam audio zariadení pomocou Windows Core Audio API (WASAPI).
     """
     try:
         import ctypes
-        import ctypes.wintypes as wt
+        from ctypes import POINTER, cast
+        from ctypes.wintypes import DWORD, WCHAR
 
-        user32 = ctypes.windll.user32
+        # COM interfaces
+        CLSCTX_ALL = 23
 
-        # Overenie handle
-        if not handle:
-            log.warning("move_window called with invalid handle")
-            return False
+        class IMMDeviceEnumerator(ctypes.c_void_p):
+            pass
 
-        # MoveWindow(handle, x, y, width, height, repaint=True)
-        success = user32.MoveWindow(handle, x, y, width, height, True)
+        class IMMDeviceCollection(ctypes.c_void_p):
+            pass
 
-        if success:
-            log.info(
-                "Moved window (hwnd=%s) to x=%s y=%s w=%s h=%s",
-                handle, x, y, width, height
+        class IMMDevice(ctypes.c_void_p):
+            pass
+
+        class IPropertyStore(ctypes.c_void_p):
+            pass
+
+        # GUIDs
+        CLSID_MMDeviceEnumerator = ctypes.c_char_p(
+            b"{BCDE0395-E52F-467C-8E3D-C4579291692E}"
+        )
+        IID_IMMDeviceEnumerator = ctypes.c_char_p(
+            b"{A95664D2-9614-4F35-A746-DE8DB63617E6}"
+        )
+
+        # Load COM
+        ole32 = ctypes.windll.ole32
+        ole32.CoInitialize(None)
+
+        enumerator = POINTER(IMMDeviceEnumerator)()
+        ole32.CoCreateInstance(
+            CLSID_MMDeviceEnumerator,
+            None,
+            CLSCTX_ALL,
+            IID_IMMDeviceEnumerator,
+            ctypes.byref(enumerator)
+        )
+
+        # 0 = eRender, 1 = eCapture, 2 = eAll
+        # 1 = DEVICE_STATE_ACTIVE
+        devices = POINTER(IMMDeviceCollection)()
+        enumerator.GetDefaultAudioEndpoint(0, 1, ctypes.byref(devices))
+
+        # For simplicity: return only default device
+        default_device = POINTER(IMMDevice)()
+        enumerator.GetDefaultAudioEndpoint(0, 1, ctypes.byref(default_device))
+
+        # Get device name
+        property_store = POINTER(IPropertyStore)()
+        default_device.OpenPropertyStore(0, ctypes.byref(property_store))
+
+        # PKEY_Device_FriendlyName
+        class PROPERTYKEY(ctypes.Structure):
+            _fields_ = [
+                ("fmtid", ctypes.c_byte * 16),
+                ("pid", DWORD),
+            ]
+
+        PKEY_Device_FriendlyName = PROPERTYKEY(
+            (0xA4, 0x41, 0x4F, 0xC6, 0xE4, 0xD8, 0x4A, 0xD1,
+             0x87, 0xB6, 0xE0, 0xDB, 0xEF, 0xE3, 0x5A, 0xA5),
+            14
+        )
+
+        class PROPVARIANT(ctypes.Structure):
+            _fields_ = [
+                ("vt", ctypes.c_ushort),
+                ("wReserved1", ctypes.c_ubyte),
+                ("wReserved2", ctypes.c_ubyte),
+                ("wReserved3", DWORD),
+                ("pszVal", ctypes.c_wchar_p),
+            ]
+
+        prop = PROPVARIANT()
+        property_store.GetValue(ctypes.byref(PKEY_Device_FriendlyName), ctypes.byref(prop))
+
+        name = prop.pszVal
+
+        return [
+            AudioDevice(
+                id="default",
+                name=name,
+                is_default=True
             )
-            return True
-        else:
-            log.error("MoveWindow failed for hwnd=%s", handle)
-            return False
+        ]
 
     except Exception as exc:
-        log.exception("Failed to move window: %s", exc)
-        return False
+        log.exception("Failed to list audio devices: %s", exc)
+        return []
