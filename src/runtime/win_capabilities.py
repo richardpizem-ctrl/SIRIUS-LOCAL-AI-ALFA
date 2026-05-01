@@ -11,7 +11,6 @@ def focus_app_by_name(self, name: str) -> bool:
 
         user32 = ctypes.windll.user32
 
-        # EnumWindows callback
         matches = []
 
         @ctypes.WINFUNCTYPE(ctypes.c_bool, wt.HWND, ctypes.c_void_p)
