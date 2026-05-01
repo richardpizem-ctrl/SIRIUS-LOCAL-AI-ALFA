@@ -1,0 +1,16 @@
+{
+    "name": "translator",
+    "version": "1.0.0",
+    "description": "Plugin na preklad textov pomocou ContextManager.translate().",
+    "author": "Richard Pizem",
+    "entry": "plugin.py",
+    "enabled": true,
+
+    "capabilities": {
+        "nl_commands": true,
+        "ai_tasks": true,
+        "workflows": true,
+        "ai_loop_rules": true,
+        "gui_elements": true
+    }
+}
