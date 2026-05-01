@@ -1,12 +1,15 @@
 import threading
 import time
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class AILoop:
     """
     AI Loop 2.0
-    - spracúva intervalové pravidlá z pluginov
-    - autonómny runtime scheduler
+    - intervalové pravidlá
+    - autonómny scheduler
     - kompatibilný s RuntimeManager 2.0
     """
 
@@ -20,18 +23,17 @@ class AILoop:
     # REGISTRÁCIA PRAVIDIEL
     # --------------------------------------------------------
     def register(self, rule: dict):
-        """
-        Registruje AI loop pravidlo.
-        Očakávaný formát:
-        {
-            "name": "...",
-            "trigger": "interval",
-            "interval": 300,
-            "action": "run_command",
-            "params": {...}
-        }
-        """
+        rule = dict(rule)  # copy
+
+        rule.setdefault("params", {})
+        rule.setdefault("interval", 60)
+        rule.setdefault("name", f"rule_{len(self.rules)}")
+
+        # minimálny interval 1 sekunda
+        rule["interval"] = max(1, rule["interval"])
+
         self.rules.append(rule)
+        log.info("AI rule registered: %s", rule["name"])
 
     # --------------------------------------------------------
     # ŠTART / STOP
@@ -43,9 +45,13 @@ class AILoop:
         self.running = True
         self.thread = threading.Thread(target=self._loop, daemon=True)
         self.thread.start()
+        log.info("AI Loop started")
 
     def stop(self):
         self.running = False
+        if self.thread:
+            self.thread.join(timeout=2)
+        log.info("AI Loop stopped")
 
     # --------------------------------------------------------
     # HLAVNÝ LOOP
@@ -60,14 +66,12 @@ class AILoop:
                 if rule.get("trigger") != "interval":
                     continue
 
-                interval = rule.get("interval", 60)
-                name = rule.get("name")
+                interval = rule["interval"]
+                name = rule["name"]
 
-                # prvé spustenie
                 if name not in last_run:
                     last_run[name] = 0
 
-                # čas spustiť?
                 if now - last_run[name] >= interval:
                     last_run[name] = now
                     self._execute_rule(rule)
@@ -83,5 +87,6 @@ class AILoop:
 
         try:
             self.rm.handle_ai_task(action, params)
+            log.info("AI rule executed: %s", rule.get("name"))
         except Exception as e:
-            print(f"[AI LOOP ERROR] {rule.get('name')}: {e}")
+            log.exception("AI LOOP ERROR (%s): %s", rule.get("name"), e)
