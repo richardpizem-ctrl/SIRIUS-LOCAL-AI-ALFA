@@ -1,25 +1,20 @@
 import copy
 import os
 import json
+import re
 
 
 class ProfileManager:
     """
     Spravuje profily kontextu.
-    Každý profil obsahuje:
-      - session memory
-      - persistent memory
-      - state
-      - history (snapshoty)
-
-    Profily sa ukladajú do JSON súborov v priečinku 'profiles/'.
     """
+
+    VALID_NAME = re.compile(r"^[A-Za-z0-9_\-]+$")
 
     def __init__(self, context_manager, base_path="profiles"):
         self.context = context_manager
         self.base_path = base_path
 
-        # Vytvor priečinok ak neexistuje
         if not os.path.exists(self.base_path):
             os.makedirs(self.base_path)
 
@@ -33,11 +28,17 @@ class ProfileManager:
     def _exists(self, name: str):
         return os.path.isfile(self._profile_path(name))
 
+    def _validate_name(self, name: str):
+        return bool(self.VALID_NAME.match(name))
+
     # ============================================================
     #  ULOŽENIE PROFILU
     # ============================================================
 
     def save_profile(self, name: str):
+        if not self._validate_name(name):
+            return False
+
         data = {
             "session": copy.deepcopy(self.context.session_memory),
             "persistent": copy.deepcopy(self.context.persistent_memory),
@@ -61,11 +62,31 @@ class ProfileManager:
         with open(self._profile_path(name), "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        # Obnova kontextu
-        self.context.session_memory = data.get("session", [])
-        self.context.persistent_memory = data.get("persistent", {})
-        self.context.state = data.get("state", {})
-        self.context.history = data.get("history", [])
+        # Validácia JSON štruktúry
+        if not isinstance(data, dict):
+            return None
+
+        session = data.get("session", [])
+        persistent = data.get("persistent", {})
+        state = data.get("state", {})
+        history = data.get("history", [])
+
+        if not isinstance(session, list):
+            return None
+        if not isinstance(persistent, dict):
+            return None
+        if not isinstance(state, dict):
+            return None
+        if not isinstance(history, list):
+            return None
+
+        # Obnova kontextu (deep copy)
+        self.context.session_memory = copy.deepcopy(session)
+        self.context.persistent_memory = copy.deepcopy(persistent)
+        self.context.state = copy.deepcopy(state)
+
+        # rešpektovať max_history
+        self.context.history = copy.deepcopy(history[-self.context.max_history:])
 
         return True
 
