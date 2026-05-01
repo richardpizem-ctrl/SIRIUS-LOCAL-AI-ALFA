@@ -1,19 +1,31 @@
 from dearpygui.core import *
 from dearpygui.simple import *
+
 from runtime.runtime_manager import RuntimeManager
+from runtime.plugin_loader import PluginLoader
+from runtime.nl_router import NaturalLanguageRouter
 
 
 class SiriusGUI:
     """
-    Jednoduché GUI pre SIRIUS-LOCAL-AI
-    - input na prirodzený jazyk
-    - tlačidlá na AI tasky
-    - log panel
+    GUI front-end pre SIRIUS LOCAL AI ALFA – v2.0.0
+    - prepojené s RuntimeManager 2.0
+    - používa NL Router 2.0
+    - podporuje AI tasky cez pluginy
     """
 
     def __init__(self):
-        self.rm = RuntimeManager()
-        self.rm.initialize()
+        # --- BOOTSTRAP RUNTIME 2.0 ---
+        self.runtime = RuntimeManager()
+        self.runtime.initialize()
+
+        # Pluginy
+        self.plugins = PluginLoader(self.runtime)
+        self.plugins.load_all()
+
+        # NL Router 2.0
+        self.router = NaturalLanguageRouter(self.runtime, self.plugins)
+        self.router.initialize()
 
     # --------------------------------------------------------
     # GUI LOGIKA
@@ -23,40 +35,49 @@ class SiriusGUI:
         if not text.strip():
             return
 
-        result = self.rm.handle_nl(text)
+        result = self.router.route(text)
+
         add_text(f"> {text}", parent="Log")
         add_text(str(result), parent="Log")
         set_value("##input", "")
 
-    def task_snap_left(self, sender, data):
-        result = self.rm.handle_ai_task("snap_left", {"app": "code.exe"})
-        add_text(str(result), parent="Log")
+    def run_ai_task(self, sender, data):
+        task_name = data.get("task")
+        params = data.get("params", {})
 
-    def task_snap_right(self, sender, data):
-        result = self.rm.handle_ai_task("snap_right", {"app": "code.exe"})
+        try:
+            result = self.runtime.handle_ai_task(task_name, params)
+        except Exception as e:
+            result = f"Error: {e}"
+
         add_text(str(result), parent="Log")
 
     # --------------------------------------------------------
     # GUI OKNO
     # --------------------------------------------------------
     def run(self):
-        with window("SIRIUS-LOCAL-AI", width=600, height=500):
+        with window("SIRIUS LOCAL AI – GUI", width=650, height=520):
 
-            add_text("SIRIUS – Local AI Runtime")
+            add_text("SIRIUS – Local AI Runtime (v2.0.0)")
             add_separator()
 
-            add_input_text("##input", label="Príkaz", width=400)
-            add_button("Odoslať", callback=self.send_nl)
+            add_input_text("##input", label="Command", width=450)
+            add_button("Send", callback=self.send_nl)
 
             add_separator()
-            add_text("Rýchle akcie:")
+            add_text("Quick actions:")
 
-            add_button("Daj VS Code doľava", callback=self.task_snap_left)
-            add_button("Daj VS Code doprava", callback=self.task_snap_right)
+            add_button("Snap VS Code Left",
+                       callback=self.run_ai_task,
+                       callback_data={"task": "snap_left", "params": {"app": "code.exe"}})
+
+            add_button("Snap VS Code Right",
+                       callback=self.run_ai_task,
+                       callback_data={"task": "snap_right", "params": {"app": "code.exe"}})
 
             add_separator()
             add_text("Log:")
-            add_child("Log", width=560, height=250)
+            add_child("Log", width=600, height=260)
 
         start_dearpygui()
 
