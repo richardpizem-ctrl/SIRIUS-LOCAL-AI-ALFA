@@ -17,11 +17,11 @@ class ContextClearCommand(BaseCommand):
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA KONTEXTU
         # -----------------------------
-        if not self.context.validate():
+        if hasattr(self.context, "validate") and not self.context.validate():
             return "Chyba: Kontext nie je v konzistentnom stave."
 
         # -----------------------------
