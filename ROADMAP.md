@@ -1,137 +1,98 @@
-# Roadmap – SIRIUS LOCAL AI ALFA
+# 🗺️ Roadmap – SIRIUS LOCAL AI (v2.0.0)
 
-This document defines the development plan, milestones, and sequence of steps from the ALPHA phase to the stable release.
+This document defines the long‑term development plan, milestones, and evolution of the SIRIUS LOCAL AI system.  
+The project is now built on the stable Runtime 2.0 architecture and continues toward intelligent automation and self‑repair capabilities.
 
----
-
-## ⚠️ ALPHA WARNING
-
-SIRIUS LOCAL AI ALFA interacts with Windows 11 system APIs, filesystem operations, window management, and application control.  
-The project is currently in **ALPHA**, and module behavior may evolve as development continues.
-
-- Some operations may require elevated permissions (UAC).  
-- Windows Defender or SmartScreen may classify the runtime as an “Unknown App”.  
-- Antivirus tools may generate false positives during development.  
-- Modules must run with the same privilege level as the applications they control.  
-- All processing is fully local; no data leaves the user's PC.
-
-**Users are encouraged to test features independently.**  
-This is an ALPHA‑stage developer tool — the author does not provide individual guidance for basic operations.
+All processing is fully local; no data leaves the user's PC.
 
 ---
 
-## 1. ALPHA – Design and Preparation (current phase)
-- architecture definition  
-- creation of the module map  
-- preparation of core documentation (README, ARCHITECTURE, MODULE_MAP)  
-- design of module-to-module APIs  
-- definition of security rules  
+# 1. Version 1.0.0 – Initial Stable Release (Completed)
+**Focus:** Foundational architecture
 
-**Output:** a complete system design ready for implementation.
+Delivered:
+- complete modular architecture  
+- Runtime Core 1.x  
+- Command Interpreter  
+- Filesystem Agent  
+- Context Memory Engine  
+- Workflow Tracker  
+- UI Confirm module  
+- AITE (early version)  
+- WIN‑CAP (early version)  
+- full documentation set  
 
----
-
-## 2. BETA – Core Implementation
-- implementation of the Runtime Core  
-- initial version of the Command Interpreter  
-- initial version of the Filesystem Agent  
-- minimal Context Memory Engine  
-- minimal Workflow Tracker  
-- text‑based UI Confirm module  
-
-**Output:** a functional prototype capable of executing simple commands.
+**Output:** A stable local AI runtime capable of executing simple and safe workflows.
 
 ---
 
-## 3. BETA 2 – Feature Expansion
-- extended file operations  
-- advanced confirmations and safety dialogs  
-- expanded context memory  
-- workflow logic for multi‑step actions  
-- integration of the Email Composer module  
+# 2. Version 2.0.0 – Extended Architecture (Current)
+**Focus:** Runtime 2.0 + Plugin System 2.0
 
-**Output:** a stable system capable of complex workflows.
+Delivered:
+- Runtime Core 2.0  
+- Natural Language Router 2.0  
+- Workflow Engine 2.0  
+- Plugin System 2.0  
+- AI Loop 2.0  
+- GUI Layer 2.0  
+- AITE 2.0  
+- WIN‑CAP 2.0  
+- deterministic execution model  
+- complete plugin suite  
+- updated documentation  
 
----
-
-## 4. RELEASE CANDIDATE – Stabilization
-- module optimization  
-- bug testing  
-- API documentation  
-- preparation of example scenarios  
-- preparation for public release  
-
-**Output:** a version ready for final testing.
+**Output:** A fully modular, extensible, plugin‑driven AI runtime.
 
 ---
 
-## 5. VERSION 1.0 – First Stable Release
-- full functionality  
-- stable modules  
-- safety confirmations  
-- workflow engine  
-- context memory  
-- UI interactions  
+# 3. Version 3.0.0 – Intelligent Runtime
+**Focus:** Visuals, semantics, and advanced interaction
 
-**Output:** a stable local AI runtime ready for everyday use.
+Planned:
+- AI‑assisted triage  
+- semantic workflows  
+- contextual automation  
+- advanced GUI/tray/voice integration  
+- expanded animation engine  
+- plugin‑driven visual components  
+- improved real‑time feedback  
 
----
-
-## 6. Post‑release – Future Extensions
-- UI Automation Layer  
-- Voice Command Layer  
-- Plugin API  
-- system monitoring  
-- integration with additional tools  
+**Output:** A more intelligent, context‑aware runtime with richer interaction.
 
 ---
 
-## 7. Windows System Capabilities Layer (WIN‑CAP)
+# 4. Version 4.0.0 – Self‑Repair & Health‑Check Layer
+**Focus:** Diagnostics and safe automatic recovery
 
-A major post‑release expansion enabling SIRIUS LOCAL AI to interact with the full Windows 11 environment through safe, abstracted system capabilities.
-
-### Planned capabilities:
-- **File Operations:**  
-  find projects, open folders, create structured directories  
-- **Application Control:**  
-  launch apps, detect running apps, focus windows  
-- **Window Management:**  
-  snap left/right, arrange layouts, position SIRIUS next to VS Code  
-- **Audio Device Control:**  
-  detect current output device, switch to preferred device  
-- **System Context Awareness:**  
-  active window, available devices, mounted drives  
-
-### Example user commands enabled by WIN‑CAP:
-- “Find all SIRIUS projects on disk and open the latest.”  
-- “Launch Real-Time MIDI Notation and place its window next to VS Code.”  
-- “Check if audio is going to the correct device and switch if not.”  
-- “Create a new folder for v1.3.0 and prepare the structure.”  
-
-WIN‑CAP transforms SIRIUS from a text-based assistant into a **true local OS-level AI agent**.
-
----
-
-## 8. Self‑Repair & Health‑Check Layer (v4.0.0)
-
-A long‑term module planned for version **4.0.0**, enabling diagnostics and safe automatic recovery.
-
-### Planned capabilities:
-- integrity checks for core modules (runtime, context, commands, filesystem)  
+Planned capabilities:
+- integrity checks for core modules  
 - detection of corrupted states, missing files, invalid configs  
 - safe automatic repairs (cache reset, index rebuild, default config restore)  
 - patch suggestions for code‑level fixes (manual approval required)  
 - strict protection against uncontrolled source‑code modifications  
-- reporting system health to Runtime Core  
+- system‑wide health reporting to Runtime Core  
 
-### Submodules:
+**Submodules:**
 - `health_check_engine.py` — diagnostics  
 - `self_repair_safe.py` — safe automatic repairs  
 - `repair_suggestions.py` — patch proposals (non‑executing)  
 
-This module will be implemented only after the system reaches full stability.
+**Output:** A self‑maintaining AI runtime with controlled repair logic.
 
 ---
 
-## Roadmap Status
-Current phase: **ALPHA**
+# 5. Long‑Term Vision
+- advanced plugin ecosystem  
+- voice command layer  
+- UI automation layer  
+- system monitoring layer  
+- semantic triage  
+- intelligent runtime behaviors  
+- deep Windows integration through WIN‑CAP expansions  
+
+---
+
+# Roadmap Status
+Current version: **2.0.0 (Stable)**  
+The system is fully modular and ready for future intelligent and self‑repairing capabilities.
