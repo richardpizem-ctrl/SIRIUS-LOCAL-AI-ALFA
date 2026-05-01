@@ -5,6 +5,7 @@ from typing import List, Optional, Dict, Any
 from dataclasses import dataclass
 import logging
 
+# FS‑AGENT (bezpečné operácie so súbormi)
 from filesystem.fs_agent import FSAgent
 
 log = logging.getLogger(__name__)
@@ -44,9 +45,6 @@ class SystemState:
 
 class WinCapabilities:
 
-    # --------------------------------------------------------
-    # ACTIVE WINDOW
-    # --------------------------------------------------------
     def get_active_window(self) -> Optional[WindowInfo]:
         try:
             user32 = ctypes.windll.user32
@@ -81,20 +79,15 @@ class WinCapabilities:
             log.exception("Failed to get active window: %s", exc)
             return None
 
-    # --------------------------------------------------------
-    # WINDOW SNAPPING
-    # --------------------------------------------------------
     def snap_active_window_left(self) -> bool:
         try:
             user32 = ctypes.windll.user32
-
             hwnd = user32.GetForegroundWindow()
             if not hwnd:
                 return False
 
             screen_width = user32.GetSystemMetrics(0)
             screen_height = user32.GetSystemMetrics(1)
-
             user32.MoveWindow(hwnd, 0, 0, screen_width // 2, screen_height, True)
             return True
 
@@ -105,14 +98,12 @@ class WinCapabilities:
     def snap_active_window_right(self) -> bool:
         try:
             user32 = ctypes.windll.user32
-
             hwnd = user32.GetForegroundWindow()
             if not hwnd:
                 return False
 
             screen_width = user32.GetSystemMetrics(0)
             screen_height = user32.GetSystemMetrics(1)
-
             user32.MoveWindow(hwnd, screen_width // 2, 0, screen_width // 2, screen_height, True)
             return True
 
@@ -120,24 +111,17 @@ class WinCapabilities:
             log.exception("Failed to snap window right: %s", exc)
             return False
 
-    # --------------------------------------------------------
-    # WINDOW MOVE
-    # --------------------------------------------------------
     def move_window(self, handle: int, x: int, y: int, width: int, height: int) -> bool:
         try:
             user32 = ctypes.windll.user32
-
             if not handle:
                 log.warning("move_window called with invalid handle")
                 return False
 
             success = user32.MoveWindow(handle, x, y, width, height, True)
-
             if success:
-                log.info(
-                    "Moved window (hwnd=%s) to x=%s y=%s w=%s h=%s",
-                    handle, x, y, width, height
-                )
+                log.info("Moved window (hwnd=%s) to x=%s y=%s w=%s h=%s",
+                         handle, x, y, width, height)
                 return True
             else:
                 log.error("MoveWindow failed for hwnd=%s", handle)
@@ -147,9 +131,6 @@ class WinCapabilities:
             log.exception("Failed to move window: %s", exc)
             return False
 
-    # --------------------------------------------------------
-    # FOCUS APP BY NAME
-    # --------------------------------------------------------
     def focus_app_by_name(self, name: str) -> bool:
         try:
             user32 = ctypes.windll.user32
@@ -177,7 +158,6 @@ class WinCapabilities:
                 return False
 
             hwnd, title = matches[0]
-
             SW_RESTORE = 9
             user32.ShowWindow(hwnd, SW_RESTORE)
             user32.SetForegroundWindow(hwnd)
@@ -189,9 +169,6 @@ class WinCapabilities:
             log.exception("Failed to focus app by name: %s", exc)
             return False
 
-    # --------------------------------------------------------
-    # AUDIO DEVICES
-    # --------------------------------------------------------
     def list_audio_devices(self) -> List[AudioDevice]:
         try:
             import ctypes
@@ -200,14 +177,9 @@ class WinCapabilities:
 
             CLSCTX_ALL = 23
 
-            class IMMDeviceEnumerator(ctypes.c_void_p):
-                pass
-
-            class IMMDevice(ctypes.c_void_p):
-                pass
-
-            class IPropertyStore(ctypes.c_void_p):
-                pass
+            class IMMDeviceEnumerator(ctypes.c_void_p): pass
+            class IMMDevice(ctypes.c_void_p): pass
+            class IPropertyStore(ctypes.c_void_p): pass
 
             CLSID_MMDeviceEnumerator = ctypes.c_char_p(
                 b"{BCDE0395-E52F-467C-8E3D-C4579291692E}"
@@ -221,11 +193,8 @@ class WinCapabilities:
 
             enumerator = POINTER(IMMDeviceEnumerator)()
             ole32.CoCreateInstance(
-                CLSID_MMDeviceEnumerator,
-                None,
-                CLSCTX_ALL,
-                IID_IMMDeviceEnumerator,
-                ctypes.byref(enumerator)
+                CLSID_MMDeviceEnumerator, None, CLSCTX_ALL,
+                IID_IMMDeviceEnumerator, ctypes.byref(enumerator)
             )
 
             default_device = POINTER(IMMDevice)()
@@ -235,10 +204,7 @@ class WinCapabilities:
             default_device.OpenPropertyStore(0, ctypes.byref(property_store))
 
             class PROPERTYKEY(ctypes.Structure):
-                _fields_ = [
-                    ("fmtid", ctypes.c_byte * 16),
-                    ("pid", DWORD),
-                ]
+                _fields_ = [("fmtid", ctypes.c_byte * 16), ("pid", DWORD)]
 
             PKEY_Device_FriendlyName = PROPERTYKEY(
                 (0xA4, 0x41, 0x4F, 0xC6, 0xE4, 0xD8, 0x4A, 0xD1,
@@ -260,21 +226,12 @@ class WinCapabilities:
 
             device_name = prop.pszVal
 
-            return [
-                AudioDevice(
-                    id="default",
-                    name=device_name,
-                    is_default=True
-                )
-            ]
+            return [AudioDevice(id="default", name=device_name, is_default=True)]
 
         except Exception as exc:
             log.exception("Failed to list audio devices: %s", exc)
             return []
 
-    # --------------------------------------------------------
-    # SYSTEM CONTEXT
-    # --------------------------------------------------------
     def _list_mounted_drives(self) -> List[str]:
         try:
             import string
@@ -302,18 +259,10 @@ class WinCapabilities:
             mounted_drives=mounted_drives,
         )
 
-    # --------------------------------------------------------
-    # PROJECT UTILITIES
-    # --------------------------------------------------------
     def find_projects(self, root_paths: List[str]) -> List[str]:
         log.info("Searching for projects in: %s", root_paths)
 
-        markers = [
-            ".git",
-            "pyproject.toml",
-            "sirius.json",
-        ]
-
+        markers = [".git", "pyproject.toml", "sirius.json"]
         found = []
 
         try:
@@ -347,7 +296,6 @@ class WinCapabilities:
             walk(base_path, structure)
 
             log.info("Prepared folder structure plan: %s", plan)
-
             self._pending_folder_plan = plan
             return True
 
@@ -361,13 +309,6 @@ class WinCapabilities:
 # ------------------------------------------------------------
 
 class CommandMediationEngine:
-    """
-    CME = Command Mediation Engine
-    - prijíma príkazy od AI
-    - rozhoduje, či treba potvrdenie
-    - vykonáva cez WinCapabilities
-    - loguje a chráni systém
-    """
 
     def __init__(self):
         self.win = WinCapabilities()
@@ -422,26 +363,23 @@ class CommandMediationEngine:
 
 
 # ------------------------------------------------------------
-# UI CONFIRM LAYER
+# UI CONFIRM LAYER (rozšírené o FS operácie)
 # ------------------------------------------------------------
 
 class UIConfirm:
-    """
-    UI Confirm Layer
-    - zachytáva nebezpečné alebo systémové príkazy
-    - vyžaduje potvrdenie od používateľa
-    - integruje sa s CME
-    """
 
     def __init__(self, cme: CommandMediationEngine):
         self.cme = cme
 
+        # 🔥 VARIANTA B – bezpečné workflowy
         self.confirm_required = {
             "move_window",
             "prepare_structure",
             "delete_file",
             "delete_folder",
-            "switch_audio_device",
+            "move_file",
+            "move_files",
+            "copy_file",
         }
 
     def request(self, command: str, args: Dict[str, Any]) -> Dict[str, Any]:
@@ -460,6 +398,22 @@ class UIConfirm:
         }
 
     def _describe(self, command: str, args: Dict[str, Any]) -> str:
+
+        if command == "move_file":
+            return f"Chceš presunúť súbor '{args['source']}' do '{args['target']}'?"
+
+        if command == "move_files":
+            return f"Chceš presunúť {len(args['files'])} súborov do '{args['target']}'?"
+
+        if command == "copy_file":
+            return f"Chceš kopírovať súbor '{args['source']}' do '{args['target']}'?"
+
+        if command == "delete_file":
+            return f"Chceš odstrániť súbor '{args['path']}'?"
+
+        if command == "delete_folder":
+            return f"Chceš odstrániť priečinok '{args['path']}'?"
+
         if command == "move_window":
             return (
                 f"Chceš presunúť okno (hwnd={args['handle']}) "
@@ -473,34 +427,21 @@ class UIConfirm:
                 f"({len(args['structure'])} položiek)?"
             )
 
-        if command == "switch_audio_device":
-            return f"Chceš prepínať audio zariadenie na '{args['name']}'?"
-
-        if command == "delete_file":
-            return f"Chceš odstrániť súbor '{args['path']}'?"
-
-        if command == "delete_folder":
-            return f"Chceš odstrániť priečinok '{args['path']}'?"
-
         return f"Chceš vykonať príkaz '{command}'?"
 
     def confirm(self, command: str, args: Dict[str, Any], answer: str) -> Dict[str, Any]:
         if answer.upper() != "ANO":
             return {"ok": False, "cancelled": True}
 
-        return self.cme.execute(command, args)
+        # FS operácie nejdú cez CME – vykoná ich WorkflowEngine
+        return {"ok": True, "confirmed": True}
 
 
 # ------------------------------------------------------------
-# WORKFLOW ENGINE 2.0
+# WORKFLOW ENGINE 2.0 + FS‑AGENT (VARIANTA B)
 # ------------------------------------------------------------
 
 class WorkflowEngine:
-    """
-    Workflow Engine 2.0
-    - skladá jednoduché príkazy do workflowov
-    - používa UIConfirm + CME + WinCapabilities + FSAgent
-    """
 
     def __init__(self):
         self.cme = CommandMediationEngine()
@@ -508,7 +449,7 @@ class WorkflowEngine:
         self.fs = FSAgent()
 
     # --------------------------------------------------------
-    # VYSOKOÚROVŇOVÉ WORKFLOWY – OKNÁ / PROJEKTY
+    # OKNÁ / PROJEKTY
     # --------------------------------------------------------
 
     def snap_app_right(self, app_name: str) -> Dict[str, Any]:
@@ -533,12 +474,14 @@ class WorkflowEngine:
 
         return {"ok": True}
 
+    # --------------------------------------------------------
+    # RELEASE STRUCTURE
+    # --------------------------------------------------------
+
     def prepare_release_structure(self, base_path: str, structure: Dict[str, Any]) -> Dict[str, Any]:
         request = self.ui.request("prepare_structure", {"base": base_path, "structure": structure})
-
         if request.get("requires_confirmation"):
             return request
-
         return request
 
     def confirm_and_execute(self, payload: Dict[str, Any], answer: str) -> Dict[str, Any]:
@@ -548,22 +491,24 @@ class WorkflowEngine:
         return self.ui.confirm(payload["command"], payload["args"], answer)
 
     # --------------------------------------------------------
-    # FS‑AGENT WORKFLOWY
+    # FS‑AGENT WORKFLOWY (VARIANTA B – bezpečné)
     # --------------------------------------------------------
 
     def move_file(self, source: str, target_dir: str) -> Dict[str, Any]:
-        """
-        Presunie jeden súbor pomocou FSAgent.
-        """
-        if not self.fs.path_exists(source):
-            return {"ok": False, "error": "Source file does not exist"}
+        request = self.ui.request("move_file", {"source": source, "target": target_dir})
+        if request.get("requires_confirmation"):
+            return request
 
         ok = self.fs.move(source, target_dir)
         return {"ok": ok}
 
     def move_files(self, file_list: List[str], target_dir: str) -> Dict[str, Any]:
-        """
-        Presunie viacero súborov pomocou FSAgent.
-        """
+        request = self.ui.request("move_files", {"files": file_list, "target": target_dir})
+        if request.get("requires_confirmation"):
+            return request
+
         ok = self.fs.move_files(file_list, target_dir)
         return {"ok": ok}
+
+    def copy_file(self, source: str, target_dir: str) -> Dict[str, Any]:
+        request = self.ui.request("copy_file
