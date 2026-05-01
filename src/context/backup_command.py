@@ -20,30 +20,34 @@ class ContextBackupCommand(BaseCommand):
         self.context = context
         self.backup_dir = backup_dir
 
-        # Vytvor priečinok ak neexistuje
-        if not os.path.exists(self.backup_dir):
-            os.makedirs(self.backup_dir)
-
-    def execute(self, filename: str = None, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA KONTEXTU
         # -----------------------------
-        if not self.context.validate():
-            return "Chyba: Kontext nie je v konzistentnom stave. Backup zrušený."
+        if hasattr(self.context, "validate"):
+            if not self.context.validate():
+                return "Chyba: Kontext nie je v konzistentnom stave. Backup zrušený."
 
         # -----------------------------
         #  GENEROVANIE NÁZVU SÚBORU
         # -----------------------------
+        filename = args[0] if args else None
+
         if filename is None:
             timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
             filename = f"backup_{timestamp}.json"
 
+        # -----------------------------
+        #  PRIEČINOK
+        # -----------------------------
+        os.makedirs(self.backup_dir, exist_ok=True)
         filepath = os.path.join(self.backup_dir, filename)
 
         # -----------------------------
         #  PRÍPRAVA DÁT NA BACKUP
         # -----------------------------
         data = {
+            "timestamp": datetime.now().isoformat(),
             "session": self.context.session_memory,
             "persistent": self.context.persistent_memory,
             "state": self.context.state,
@@ -59,7 +63,4 @@ class ContextBackupCommand(BaseCommand):
         except Exception as e:
             return f"Chyba pri vytváraní backupu: {e}"
 
-        # -----------------------------
-        #  POTVRDENIE
-        # -----------------------------
         return f"Backup bol vytvorený: {filepath}"
