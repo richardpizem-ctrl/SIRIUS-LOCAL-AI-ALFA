@@ -1,4 +1,4 @@
-# 🧭 CODE OF CONDUCT – SIRIUS LOCAL AI ALFA
+# 🧭 CODE OF CONDUCT – SIRIUS LOCAL AI (v2.0.0)
 
 This project follows a professional and respectful standard of behavior.  
 The goal is to maintain a **safe, friendly, and productive environment** for all contributors.
@@ -15,6 +15,7 @@ The goal is to maintain a **safe, friendly, and productive environment** for all
 - disagreements handled calmly and professionally  
 - assume good intentions unless proven otherwise  
 - focus on collaboration, not competition  
+- maintain clarity, professionalism, and transparency  
 
 These principles ensure that collaboration remains focused, respectful, and effective.
 
@@ -31,6 +32,7 @@ These principles ensure that collaboration remains focused, respectful, and effe
 - providing constructive feedback  
 - acknowledging mistakes and correcting them  
 - asking questions when unsure  
+- contributing improvements in good faith  
 
 ---
 
@@ -44,6 +46,7 @@ These principles ensure that collaboration remains focused, respectful, and effe
 - attempts to intimidate or pressure contributors  
 - dismissing others’ work without explanation  
 - intentionally misleading or deceptive behavior  
+- exploiting project features for harmful purposes  
 
 Such behavior harms the community and will not be tolerated.
 
@@ -59,8 +62,9 @@ Project maintainers have the right and responsibility to:
 - enforce rules consistently and fairly  
 - clarify expectations when misunderstandings occur  
 - protect contributors from harassment or abuse  
+- preserve the integrity and stability of the project  
 
-Maintainers act to protect the integrity of the project.
+Maintainers act to protect the long‑term health of the project.
 
 ---
 
@@ -119,4 +123,4 @@ and help maintain a respectful, safe, and productive environment.
 
 ---
 
-**Document Status:** ALPHA
+**Document Status:** v2.0.0 (Stable)
