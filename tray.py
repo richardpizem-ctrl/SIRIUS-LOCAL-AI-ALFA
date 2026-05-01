@@ -5,25 +5,31 @@ from PIL import Image, ImageDraw
 import subprocess
 import sys
 import os
+import pathlib
 
 
 class SiriusTray:
     """
-    Windows Tray ikonka pre SIRIUS-LOCAL-AI
-    - otvára GUI
-    - reštartuje runtime
+    Windows Tray ikonka pre SIRIUS LOCAL AI – v2.0.0
+    - otvára GUI (cez python -m)
+    - reštartuje celý SIRIUS runtime
     - vypína systém
     """
 
     def __init__(self):
-        self.icon = pystray.Icon("SIRIUS", self._create_icon(), "SIRIUS-LOCAL-AI", self._menu())
+        self.icon = pystray.Icon(
+            "SIRIUS",
+            self._create_icon(),
+            "SIRIUS LOCAL AI",
+            self._menu()
+        )
 
     # --------------------------------------------------------
     # IKONA
     # --------------------------------------------------------
     def _create_icon(self):
         """
-        Vytvorí jednoduchú čiernobielu ikonku (32x32).
+        Jednoduchá čiernobiela ikonka (32x32).
         """
         img = Image.new("RGB", (32, 32), "black")
         d = ImageDraw.Draw(img)
@@ -35,9 +41,9 @@ class SiriusTray:
     # --------------------------------------------------------
     def _menu(self):
         return (
-            Item("Otvoriť GUI", self.open_gui),
-            Item("Reštartovať runtime", self.restart_runtime),
-            Item("Vypnúť SIRIUS", self.exit_app)
+            Item("Open GUI", self.open_gui),
+            Item("Restart SIRIUS", self.restart_sirius),
+            Item("Exit Tray", self.exit_app)
         )
 
     # --------------------------------------------------------
@@ -45,17 +51,27 @@ class SiriusTray:
     # --------------------------------------------------------
     def open_gui(self, icon, item):
         """
-        Spustí gui.py v novom procese.
+        Spustí GUI cez python -m, aby fungovalo aj pri rôznych cestách.
         """
         python = sys.executable
-        subprocess.Popen([python, "gui.py"])
 
-    def restart_runtime(self, icon, item):
+        # GUI modul v root priečinku
+        gui_path = pathlib.Path(__file__).parent / "gui.py"
+
+        subprocess.Popen([python, str(gui_path)])
+
+    def restart_sirius(self, icon, item):
         """
-        Reštartuje celý proces SIRIUS (jednoduchý spôsob).
+        Reštartuje celý SIRIUS systém.
+        Použije python -m sirius, aby sa spustil hlavný orchestrátor.
         """
         python = sys.executable
-        os.execv(python, [python] + sys.argv)
+
+        # Hlavný orchestrátor sirius.py
+        sirius_path = pathlib.Path(__file__).parent / "sirius.py"
+
+        subprocess.Popen([python, str(sirius_path)])
+        os._exit(0)
 
     def exit_app(self, icon, item):
         """
