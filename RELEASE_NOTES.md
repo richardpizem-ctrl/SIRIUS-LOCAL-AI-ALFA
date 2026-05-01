@@ -1,61 +1,95 @@
-# 🚀 RELEASE NOTES – SIRIUS LOCAL AI ALFA v1.0.0
+# 🚀 RELEASE NOTES – SIRIUS LOCAL AI v2.0.0
 
-This document summarizes the key changes, features, and improvements included in the **first stable release** of SIRIUS LOCAL AI ALFA.
+This document summarizes the key changes, features, and improvements included in the **second major stable release** of SIRIUS LOCAL AI.
 
 ---
 
 # 🎯 Overview
 
-SIRIUS LOCAL AI ALFA is a modular, offline‑only AI runtime designed for secure, predictable, and fully local execution of commands and workflows on Windows 11.  
-Version **1.0.0** represents the first fully stable release of the system.
+SIRIUS LOCAL AI is a modular, offline‑only AI runtime designed for secure, predictable, and fully local execution of commands, workflows, and plugins on Windows 11.  
+Version **2.0.0** introduces the complete Runtime 2.0 architecture, Plugin System 2.0, Workflow Engine 2.0, AI Loop 2.0, GUI 2.0, and a fully stabilized module ecosystem.
 
 All processing is performed locally.  
 No data leaves the user’s PC.
 
 ---
 
-# ✅ New in v1.0.0 (Stable Release)
+# ✅ New in v2.0.0 (Major Stable Release)
 
 ## 🧱 Core Architecture
-- complete modular system design  
-- Runtime Core with strict capability boundaries  
+- Runtime Core 2.0  
 - deterministic execution model  
-- no background tasks, no hidden automation  
+- strict module isolation  
+- plugin sandboxing  
+- unified event routing  
+- no hidden automation, no background tasks  
+
+## 🔌 Plugin System 2.0
+- manifest‑based plugin definitions  
+- NL commands  
+- AI tasks  
+- workflows  
+- AI loop rules  
+- GUI elements  
+- safe plugin isolation  
+- official plugin suite:
+  - automation  
+  - clipboard  
+  - example  
+  - file_manager  
+  - notes  
+  - system_tools  
+  - translator  
 
 ## 🧠 Command & Workflow System
-- Command Interpreter (CME)  
-- Context Memory Engine (CME‑MEM)  
-- Workflow Tracker with predictable state transitions  
-- full confirmation‑based execution model  
+- Natural Language Router 2.0  
+- Workflow Engine 2.0  
+- context‑aware transitions  
+- deterministic multi‑step logic  
+- plugin workflow support  
+- improved ambiguity handling  
 
 ## 📁 Filesystem & Input Handling
-- Filesystem Agent (FS‑AGENT) with safety validation  
-- double‑confirmation deletion  
-- path validation and rollback‑safe operations  
-- Automatic Input Triage Engine (AITE)  
-  - text, image, installer detection  
+- Filesystem Agent (FS‑AGENT 2.0)  
+  - path validation  
+  - conflict detection  
+  - rollback‑safe operations  
+- Automatic Input Triage Engine (AITE 2.0)  
+  - text, image, installer, document detection  
   - metadata generation  
   - safe routing  
 
-## 🪟 Windows System Capabilities (WIN‑CAP)
+## 🪟 Windows System Capabilities (WIN‑CAP 2.0)
 - window snapping and arrangement  
 - application launching and focusing  
 - audio device detection and switching  
 - system context awareness  
+- safe OS‑level wrappers  
+- deterministic capability access  
 
 All system‑level actions require explicit confirmation.
 
 ---
 
-# 🖥 UI Layer
-- confirmation dialogs  
-- folder selection  
-- workflow step presentation  
+# 🖥 GUI Layer 2.0
+- plugin‑driven UI  
+- dynamic button rendering  
+- workflow visualization  
 - safe UI‑driven execution  
+- modular UI components  
+- animation system prepared for v3.0.0  
 
 ---
 
-# 📚 Documentation (Complete)
+# 🔁 AI Loop 2.0
+- safe interval‑based execution  
+- plugin heartbeat rules  
+- deterministic scheduling  
+- no blocking operations  
+
+---
+
+# 📚 Documentation (Complete & Updated)
 - INDEX.md  
 - ARCHITECTURE.md  
 - MODULE_MAP.md  
@@ -63,24 +97,27 @@ All system‑level actions require explicit confirmation.
 - TESTING_GUIDE.md  
 - PERFORMANCE_GUIDE.md  
 - INSTALLATION.md  
-- SECURITY_POLICY.md  
+- SECURITY.md  
 - CONTRIBUTING.md  
 - CODE_OF_CONDUCT.md  
 - CHANGELOG.md  
+- RELEASE_NOTES.md  
+- ROADMAP.md  
 
 ---
 
 # 🔐 Security Highlights
 - strict no‑network policy  
 - no telemetry, no cloud access  
+- deterministic behavior  
+- plugin sandboxing  
+- safe OS‑level capability wrappers  
 - no hidden background tasks  
-- all privileged actions routed through WIN‑CAP  
-- deterministic, reversible behavior  
-- protected directory blocking  
+- reversible operations where possible  
 
 ---
 
-# ⚠️ Known Limitations (ALPHA‑Stage Behavior)
+# ⚠️ Known Limitations
 - some Windows 11 APIs may require elevated permissions  
 - SmartScreen may classify the runtime as “Unknown App”  
 - antivirus tools may produce false positives  
@@ -88,25 +125,23 @@ All system‑level actions require explicit confirmation.
 
 ---
 
-# 🛠 Planned for v2.0.0
-- EventBus deque  
-- Graphic Primitives separation  
-- multithreaded StreamHandler  
-- undo/redo  
-- cached grid rendering  
-- TextInput class  
-- hover effects  
-- expanded UI components  
+# 🛠 Planned for v3.0.0
+- AI‑assisted triage  
+- semantic workflows  
+- advanced GUI/tray/voice integration  
+- contextual automation  
+- expanded animation system  
+- plugin‑driven visual components  
 
 ---
 
 # 📌 Release Status
-**Version:** 1.0.0  
+**Version:** 2.0.0  
 **Stage:** Stable  
-**Release Date:** 2026‑04‑22  
+**Release Date:** 2026‑05‑01  
 
 ---
 
 # 🙌 Acknowledgments
-Created and maintained by **Richard**, Independent Researcher.  
-Thank you for using SIRIUS LOCAL AI ALFA.
+Created and maintained by **Richard Pizem**, Independent Researcher.  
+Thank you for using SIRIUS LOCAL AI.
