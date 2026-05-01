@@ -18,13 +18,13 @@ class ContextDumpCommand(BaseCommand):
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, *args):
+    def execute(self, *args, **kwargs):
         out = ["=== DUMP KONTEKSTU ===\n"]
 
         # ============================================================
         #  VALIDITA KONTEXTU
         # ============================================================
-        is_valid = self.context.validate()
+        is_valid = self.context.validate() if hasattr(self.context, "validate") else True
         out.append(f"Validita kontextu: {'OK' if is_valid else 'CHYBA'}\n")
 
         # ============================================================
@@ -79,7 +79,4 @@ class ContextDumpCommand(BaseCommand):
         else:
             out.append("\nPosledný snapshot: (žiadny uložený)")
 
-        # ============================================================
-        #  ZÁVER
-        # ============================================================
         return "\n".join(out)
