@@ -1,5 +1,8 @@
 import shutil
 import os
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class FSAgent:
@@ -50,8 +53,10 @@ class FSAgent:
             filename = os.path.basename(source)
             target_path = os.path.join(target_dir, filename)
             shutil.move(source, target_path)
+            log.info("Moved file: %s -> %s", source, target_path)
             return True
-        except Exception:
+        except Exception as exc:
+            log.exception("Failed to move file: %s", exc)
             return False
 
     @staticmethod
@@ -73,5 +78,6 @@ class FSAgent:
 
             return True
 
-        except Exception:
+        except Exception as exc:
+            log.exception("Failed to move multiple files: %s", exc)
             return False
