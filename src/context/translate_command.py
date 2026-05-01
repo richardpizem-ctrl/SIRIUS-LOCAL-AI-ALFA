@@ -6,7 +6,7 @@ class TranslateCommand(BaseCommand):
     """
     Preloží text pomocou placeholder prekladača v ContextManageri.
     Použitie:
-      translate en Ahoj svet
+      translate <lang> <text>
     """
 
     name = "translate"
@@ -15,28 +15,27 @@ class TranslateCommand(BaseCommand):
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, target_lang: str = None, *text):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA VSTUPU
         # -----------------------------
-        if target_lang is None or not text:
+        if len(args) < 2:
             return "Použitie: translate <lang> <text>"
+
+        target_lang = args[0]
+        sentence = " ".join(args[1:])
 
         # -----------------------------
         #  VALIDÁCIA KONTEXTU
         # -----------------------------
-        if not self.context.validate():
+        if hasattr(self.context, "validate") and not self.context.validate():
             return "Chyba: Kontext nie je v konzistentnom stave."
 
         # -----------------------------
         #  SNAPSHOT PRED OPERÁCIOU
         # -----------------------------
-        self.context.snapshot()
-
-        # -----------------------------
-        #  PRÍPRAVA TEXTU
-        # -----------------------------
-        sentence = " ".join(text)
+        if hasattr(self.context, "snapshot"):
+            self.context.snapshot()
 
         # -----------------------------
         #  PREKLAD
@@ -44,11 +43,13 @@ class TranslateCommand(BaseCommand):
         translated = self.context.translate(sentence, target_lang)
 
         # -----------------------------
-        #  LOGOVANIE DO STAVU
+        #  LOGOVANIE DO STAVU (bezpečný merge)
         # -----------------------------
-        # Uloží posledný preklad do state, aby ho mohli čítať iné moduly
-        self.context.set_state("last_translation", translated)
-        self.context.set_state("last_translation_lang", target_lang)
+        self.context.merge({
+            "last_translation": translated,
+            "last_translation_lang": target_lang,
+            "last_translation_source": sentence
+        })
 
         # -----------------------------
         #  POTVRDENIE
