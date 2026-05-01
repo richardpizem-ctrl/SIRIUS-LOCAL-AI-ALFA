@@ -1,12 +1,12 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "SIRIUS LOCAL AI ALFA"
-version: "1.0.0"
-date-released: 2026-04-22
+title: "SIRIUS LOCAL AI"
+version: "2.0.0"
+date-released: 2026-05-01
 
 authors:
-  - family-names: "Richard"
-    given-names: ""
+  - family-names: "Pizem"
+    given-names: "Richard"
     affiliation: "Independent Researcher"
 
 repository-code: "https://github.com/SeeBus-Global/SIRIUS-LOCAL-AI-ALFA"
@@ -17,5 +17,14 @@ keywords:
   - "workflow automation"
   - "secure local processing"
   - "SIRIUS architecture"
+  - "plugin system"
+  - "runtime engine"
+  - "Windows automation"
 
-abstract: "SIRIUS LOCAL AI ALFA is a modular offline AI assistant designed for secure, local-only execution of commands, workflows, and context-aware automation. It emphasizes safety, clarity, and strict control over all operations."
+abstract: >
+  SIRIUS LOCAL AI is a fully modular, offline AI runtime designed for secure,
+  local-only execution of commands, workflows, plugins, and context-aware automation.
+  Version 2.0.0 introduces the complete Runtime 2.0 architecture, Plugin System 2.0,
+  Workflow Engine 2.0, AI Loop 2.0, GUI 2.0, and a fully stabilized module ecosystem.
+  All processing is performed locally on the user's machine with strict safety,
+  determinism, and full control over system operations.
