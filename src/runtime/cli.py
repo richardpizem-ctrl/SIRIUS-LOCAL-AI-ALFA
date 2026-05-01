@@ -6,19 +6,14 @@ from workflow.logger import WorkflowLogger
 
 class CLI:
     """
-    Jednoduchý CLI parser pre SIRIUS LOCAL AI.
-    Umožňuje spúšťať commandy cez terminál:
-
-        python sirius.py move_text_files "C:/src" "C:/target"
+    CLI pre SIRIUS LOCAL AI 2.0
     """
 
-    def __init__(self):
+    def __init__(self, context):
+        self.context = context
         self.logger = WorkflowLogger()
 
     def run(self, argv: list[str]):
-        """
-        Spracuje argumenty a spustí command.
-        """
         if len(argv) < 2:
             print("Usage: python sirius.py <command> [args...]")
             return
@@ -28,19 +23,18 @@ class CLI:
 
         self.logger.info(f"CLI – received command: {command_name}")
 
-        # Špeciálny prípad: help (podpora aj pre help <command>)
+        # HELP
         if command_name == "help":
             registry = CommandRegistry._commands
-            help_cmd = HelpCommand(registry)
+            help_cmd = HelpCommand(registry, self.context)
 
             if args:
                 print(help_cmd.execute(args[0]))
             else:
                 print(help_cmd.execute())
-
             return
 
-        # Nájdeme command v registri
+        # FIND COMMAND
         command_class = CommandRegistry.get(command_name)
 
         if command_class is None:
@@ -48,21 +42,28 @@ class CLI:
             print(f"Unknown command: {command_name}")
             return
 
-        # Vytvoríme inštanciu commandu
+        # CREATE INSTANCE
         try:
-            command_instance = command_class(*args)
-        except TypeError:
-            self.logger.error(f"Invalid arguments for command: {command_name}")
-            print(f"Invalid arguments for command: {command_name}")
+            command_instance = command_class(self.context)
+        except Exception as exc:
+            self.logger.error(f"Failed to create command instance: {exc}")
+            print("Internal error.")
             return
 
-        # Validácia
-        if not command_instance.validate():
+        # VALIDATE
+        if hasattr(command_instance, "validate") and not command_instance.validate():
             self.logger.error(f"Validation failed for: {command_name}")
             print("Validation failed.")
             return
 
-        # Spustenie
-        self.logger.info(f"Executing command: {command_name}")
-        command_instance.execute()
+        # EXECUTE
+        try:
+            result = command_instance.execute(*args)
+            if result:
+                print(result)
+        except Exception as exc:
+            self.logger.error(f"Execution error: {exc}")
+            print("Execution failed.")
+            return
+
         self.logger.info(f"Command finished: {command_name}")
