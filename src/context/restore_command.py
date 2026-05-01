@@ -2,13 +2,12 @@ from commands.base_command import BaseCommand
 from context.context_manager import ContextManager
 import json
 import os
+import copy
 
 
 class RestoreCommand(BaseCommand):
     """
     Obnoví kontext zo súboru vytvoreného príkazom context-backup.
-    Použitie:
-      context-restore <filename>
     """
 
     name = "context-restore"
@@ -18,10 +17,12 @@ class RestoreCommand(BaseCommand):
         self.context = context
         self.backup_dir = backup_dir
 
-    def execute(self, filename: str = None, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA VSTUPU
         # -----------------------------
+        filename = args[0] if args else None
+
         if filename is None:
             return (
                 "Použitie:\n"
@@ -57,24 +58,41 @@ class RestoreCommand(BaseCommand):
         if not isinstance(data, dict) or not all(k in data for k in required_keys):
             return "Chyba: backup súbor nemá správnu štruktúru (session/persistent/state/history)."
 
+        # typová validácia
+        if not isinstance(data["session"], list):
+            return "Chyba: session musí byť zoznam."
+        if not isinstance(data["persistent"], dict):
+            return "Chyba: persistent musí byť objekt."
+        if not isinstance(data["state"], dict):
+            return "Chyba: state musí byť objekt."
+        if not isinstance(data["history"], list):
+            return "Chyba: history musí byť zoznam snapshotov."
+
         # -----------------------------
-        #  OBNOVA KONTEXTU
+        #  OBNOVA KONTEXTU (deep copy)
         # -----------------------------
-        self.context.session_memory = data["session"]
-        self.context.persistent_memory = data["persistent"]
-        self.context.state = data["state"]
-        self.context.history = data["history"]
+        self.context.session_memory = copy.deepcopy(data["session"])
+        self.context.persistent_memory = copy.deepcopy(data["persistent"])
+        self.context.state = copy.deepcopy(data["state"])
+
+        # rešpektovať max_history
+        self.context.history = copy.deepcopy(
+            data["history"][-self.context.max_history:]
+        )
+
+        # -----------------------------
+        #  SNAPSHOT PO OBNOVE
+        # -----------------------------
+        if hasattr(self.context, "snapshot"):
+            self.context.snapshot()
 
         # -----------------------------
         #  VALIDÁCIA PO OBNOVE
         # -----------------------------
-        if not self.context.validate():
+        if hasattr(self.context, "validate") and not self.context.validate():
             return (
                 "Upozornenie: Kontext bol obnovený, "
                 "ale nie je v konzistentnom stave."
             )
 
-        # -----------------------------
-        #  POTVRDENIE
-        # -----------------------------
         return f"Kontext bol obnovený zo súboru '{filepath}'."
