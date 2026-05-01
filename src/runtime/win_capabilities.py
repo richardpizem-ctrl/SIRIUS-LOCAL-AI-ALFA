@@ -487,3 +487,81 @@ class UIConfirm:
             return {"ok": False, "cancelled": True}
 
         return self.cme.execute(command, args)
+
+
+# ------------------------------------------------------------
+# WORKFLOW ENGINE 2.0
+# ------------------------------------------------------------
+
+class WorkflowEngine:
+    """
+    Workflow Engine 2.0
+    - skladá jednoduché príkazy do workflowov
+    - používa UIConfirm + CME + WinCapabilities
+    - poskytuje vysokú úroveň akcií typu:
+      - 'daj VS Code doprava'
+      - 'otvor projekt a zaostri okno'
+      - 'priprav štruktúru pre release'
+    """
+
+    def __init__(self):
+        self.cme = CommandMediationEngine()
+        self.ui = UIConfirm(self.cme)
+
+    # --------------------------------------------------------
+    # VYSOKOÚROVŇOVÉ WORKFLOWY
+    # --------------------------------------------------------
+
+    def snap_app_right(self, app_name: str) -> Dict[str, Any]:
+        """
+        Workflow:
+        1) Zaostri app podľa názvu
+        2) Snap doprava
+        """
+        focus = self.cme.execute("focus_app", {"name": app_name})
+        if not focus.get("ok"):
+            return {"ok": False, "step": "focus_app", "error": focus.get("error")}
+
+        snap = self.cme.execute("snap_right", {})
+        if not snap.get("ok"):
+            return {"ok": False, "step": "snap_right", "error": snap.get("error")}
+
+        return {"ok": True}
+
+    def open_project_and_focus(self, project_root: str, app_name: str) -> Dict[str, Any]:
+        """
+        Workflow:
+        1) Over projekt
+        2) Zaostri app
+        """
+        projects = self.cme.execute("find_projects", {"roots": [project_root]})
+        if not projects.get("ok") or not projects.get("projects"):
+            return {"ok": False, "step": "find_projects", "error": "Project not found"}
+
+        focus = self.cme.execute("focus_app", {"name": app_name})
+        if not focus.get("ok"):
+            return {"ok": False, "step": "focus_app", "error": focus.get("error")}
+
+        return {"ok": True}
+
+    def prepare_release_structure(self, base_path: str, structure: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Workflow:
+        1) Požiadať o potvrdenie (UIConfirm)
+        2) Po potvrdení spustiť prepare_structure cez CME
+        """
+        request = self.ui.request("prepare_structure", {"base": base_path, "structure": structure})
+
+        if request.get("requires_confirmation"):
+            return request  # UI zobrazí otázku
+
+        return request
+
+    def confirm_and_execute(self, payload: Dict[str, Any], answer: str) -> Dict[str, Any]:
+        """
+        Používateľ odpovie ANO/NIE.
+        """
+        if not payload.get("requires_confirmation"):
+            return {"ok": False, "error": "Nothing to confirm"}
+
+        return self.ui.confirm(payload["command"], payload["args"], answer)
