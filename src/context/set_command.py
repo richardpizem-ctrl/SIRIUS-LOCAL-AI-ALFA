@@ -6,7 +6,7 @@ class ContextSetCommand(BaseCommand):
     """
     Nastaví hodnotu v stave systému.
     Použitie:
-      context-set mood happy
+      context-set <key> <value>
     """
 
     name = "context-set"
@@ -15,26 +15,29 @@ class ContextSetCommand(BaseCommand):
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, key: str = None, value: str = None, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA VSTUPU
         # -----------------------------
-        if key is None or value is None:
+        if len(args) < 2:
             return "Použitie: context-set <key> <value>"
+
+        key, value = args[0], args[1]
 
         # -----------------------------
         #  VALIDÁCIA KONTEXTU
         # -----------------------------
-        if not self.context.validate():
+        if hasattr(self.context, "validate") and not self.context.validate():
             return "Chyba: Kontext nie je v konzistentnom stave."
 
         # -----------------------------
         #  SNAPSHOT PRED ZMENOU
         # -----------------------------
-        self.context.snapshot()
+        if hasattr(self.context, "snapshot"):
+            self.context.snapshot()
 
         # -----------------------------
-        #  DIFF (ak existuje stará hodnota)
+        #  DIFF
         # -----------------------------
         old_value = self.context.get_state(key)
         if old_value is not None and old_value != value:
@@ -43,9 +46,10 @@ class ContextSetCommand(BaseCommand):
             diff_info = ""
 
         # -----------------------------
-        #  NASTAVENIE STAVU
+        #  BEZPEČNÝ MERGE
         # -----------------------------
-        self.context.set_state(key, value)
+        if isinstance(key, str):
+            self.context.merge({key: value})
 
         # -----------------------------
         #  POTVRDENIE
