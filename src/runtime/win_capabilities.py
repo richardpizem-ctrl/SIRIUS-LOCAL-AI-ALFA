@@ -43,3 +43,60 @@ def get_active_window(self) -> Optional[WindowInfo]:
     except Exception as exc:
         log.exception("Failed to get active window: %s", exc)
         return None
+
+
+def snap_active_window_left(self) -> bool:
+    """
+    Zarovná aktívne okno na ľavú polovicu obrazovky.
+    """
+    try:
+        import ctypes
+        import ctypes.wintypes as wt
+
+        user32 = ctypes.windll.user32
+
+        # 1. Získaj aktívne okno
+        hwnd = user32.GetForegroundWindow()
+        if not hwnd:
+            return False
+
+        # 2. Získaj rozlíšenie obrazovky
+        screen_width = user32.GetSystemMetrics(0)
+        screen_height = user32.GetSystemMetrics(1)
+
+        # 3. Presuň okno na ľavú polovicu
+        user32.MoveWindow(hwnd, 0, 0, screen_width // 2, screen_height, True)
+        return True
+
+    except Exception as exc:
+        log.exception("Failed to snap window left: %s", exc)
+        return False
+
+
+def snap_active_window_right(self) -> bool:
+    """
+    Zarovná aktívne okno na pravú polovicu obrazovky.
+    """
+    try:
+        import ctypes
+        import ctypes.wintypes as wt
+
+        user32 = ctypes.windll.user32
+
+        # 1. Získaj aktívne okno
+        hwnd = user32.GetForegroundWindow()
+        if not hwnd:
+            return False
+
+        # 2. Získaj rozlíšenie obrazovky
+        screen_width = user32.GetSystemMetrics(0)
+        screen_height = user32.GetSystemMetrics(1)
+
+        # 3. Presuň okno na pravú polovicu
+        user32.MoveWindow(hwnd, screen_width // 2, 0, screen_width // 2, screen_height, True)
+        return True
+
+    except Exception as exc:
+        log.exception("Failed to snap window right: %s", exc)
+        return False
+
