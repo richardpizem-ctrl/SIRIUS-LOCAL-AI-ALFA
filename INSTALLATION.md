@@ -1,65 +1,83 @@
-# 📦 Installation Guide – SIRIUS LOCAL AI ALFA
+# 📦 Installation Guide – SIRIUS LOCAL AI (v2.0.0)
 
-SIRIUS LOCAL AI ALFA is currently in the **ALPHA** phase.  
-There is no installation process yet — the system is not packaged, compiled, or distributed as an executable.
+SIRIUS LOCAL AI is a fully local, modular AI runtime built on the stable Runtime 2.0 architecture.
+The system is currently distributed as clean Python source code, intended for developers, testers, and advanced users.
 
-All modules are provided as clean Python source code for developers and testers.
-
----
-
-## ⚠️ ALPHA WARNING
-
-This project interacts with Windows 11 system APIs, filesystem operations, and window management.  
-Windows Defender or SmartScreen may classify it as an “Unknown App”.  
-Antivirus tools may generate false positives during development.
-
-**Users are encouraged to test features independently.**  
-The author does not provide individual guidance for basic operations.
+A packaged installer will be introduced in a future release.
 
 All processing is fully local; no data leaves your PC.
 
 ---
 
+## ⚠️ System Notes (v2.0.0)
+
+SIRIUS LOCAL AI interacts with Windows 11 system APIs, including:
+
+- filesystem operations
+- window management
+- application control
+- accessibility interfaces
+- plugin-driven system actions
+
+Windows Defender or SmartScreen may classify the runtime as an “Unknown App”.
+Antivirus tools may generate false positives during development.
+
+All modules operate offline, with strict safety boundaries and deterministic behavior.
+
+---
+
 ## 🔧 How to Run (Developer Mode)
 
-1. Install Python 3.10+  
-2. Clone the repository  
-3. Open the project in VS Code or terminal  
-4. Run modules manually for testing purposes
+1. Install Python 3.10+
+2. Clone the repository:
+   git clone https://github.com/richardpizem-ctrl/SIRIUS-LOCAL-AI-ALFA
+3. Open the project in VS Code or any terminal
+4. Run the main entrypoint:
+   python sirius.py
+5. Optional: run individual modules for testing (runtime, plugins, GUI, workflows)
 
-A full installation process will be added in a future release.
+Developer mode provides full access to:
+
+- Runtime Core 2.0
+- Plugin System 2.0
+- Workflow Engine 2.0
+- AI Loop 2.0
+- GUI 2.0
+- AITE 2.0
+- WIN-CAP 2.0
 
 ---
 
 ## 🛠️ Future Installation System (Planned)
 
-### **v1.0.0 – Basic Packaging**
-- simple startup script  
-- minimal Windows integration  
-- developer‑friendly execution  
+### v2.1.0 – Basic Packaging
+- simple startup executable
+- minimal Windows integration
+- bundled Python environment
+- plugin auto-loader
 
-### **v2.0.0 – Extended Architecture**
-- optional module bundles  
-- improved startup logic  
-- packaging experiments  
+### v3.0.0 – Intelligent Runtime Builds
+- optional UI/animation bundles
+- performance-optimized packaging
+- tray/voice integration
+- semantic triage extensions
 
-### **v3.0.0 – Visualization‑focused builds**
-- optional UI/animation bundles  
-- performance‑optimized packaging  
+### v4.0.0 – Self-Repair & Health-Check Layer
+The installation system will integrate with the diagnostic layer:
 
-### **v4.0.0 – Self‑Repair & Health‑Check Layer**
-The installation system will integrate with the new diagnostic layer:
+- integrity checks before startup
+- detection of corrupted configs or missing files
+- automatic safe repairs (cache reset, index rebuild, default config restore)
+- pre-launch validation
+- user-approved patch suggestions
 
-- integrity checks before startup  
-- detection of corrupted configs or missing files  
-- automatic safe repairs (cache reset, index rebuild)  
-- pre‑launch validation  
-- user‑approved patch suggestions  
-
-This ensures that the packaged version of SIRIUS remains stable even after long‑term use.
+This ensures long-term stability even in packaged builds.
 
 ---
 
-## 📌 Status
-Installation system: **Not yet implemented**  
-Packaging: **Planned for BETA / RC phase**
+## 📌 Status (v2.0.0)
+Installation system: Not yet implemented
+Packaging: Planned for v2.1.0+
+Runtime: Stable
+Plugins: Stable
+Architecture: Stable
