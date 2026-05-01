@@ -21,7 +21,7 @@ class MoveTextFilesCommand(BaseCommand):
     into a newly created or existing target folder.
     """
 
-    command_name = "move_text_files"
+    name = "move_text_files"
 
     def __init__(self, source_path: str, target_path: str):
         self.source_path = source_path
@@ -36,7 +36,6 @@ class MoveTextFilesCommand(BaseCommand):
             self.logger.error(f"validate_path – source not found: {self.source_path}")
             return False
 
-        # Target folder may not exist yet — that's OK.
         return True
 
     def execute(self) -> None:
@@ -48,6 +47,10 @@ class MoveTextFilesCommand(BaseCommand):
         4. Move files using FS-Agent.
         """
         self.logger.info("MoveTextFilesCommand – start")
+
+        if not self.validate():
+            return
+
         self.logger.info(f"Source: {self.source_path}")
         self.logger.info(f"Target: {self.target_path}")
 
@@ -77,7 +80,11 @@ class MoveTextFilesCommand(BaseCommand):
             return
 
         # Step 4: Move files (cut → paste)
-        success = FSAgent.move_files(txt_files, self.target_path)
+        try:
+            success = FSAgent.move_files(txt_files, self.target_path)
+        except Exception as e:
+            self.logger.error(f"move_files – exception: {e}")
+            return
 
         if success:
             self.logger.info(f"move_files – {len(txt_files)} items moved")
