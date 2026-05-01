@@ -6,12 +6,6 @@ from context.context_manager import ContextManager
 class ContextProfileCommand(BaseCommand):
     """
     Správa profilov kontextu.
-    Použitie:
-      context-profile save <name>
-      context-profile load <name>
-      context-profile delete <name>
-      context-profile list
-      context-profile info <name>
     """
 
     name = "context-profile"
@@ -19,13 +13,12 @@ class ContextProfileCommand(BaseCommand):
 
     def __init__(self, context: ContextManager):
         self.context = context
-        self.profiles = ProfileManager(context)
 
-    def execute(self, action: str = None, name: str = None, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
-        #  VALIDÁCIA AKCIE
+        #  VALIDÁCIA VSTUPU
         # -----------------------------
-        if action is None:
+        if not args:
             return (
                 "Použitie:\n"
                 "  context-profile save <name>\n"
@@ -35,7 +28,17 @@ class ContextProfileCommand(BaseCommand):
                 "  context-profile info <name>"
             )
 
-        action = action.lower()
+        action = args[0].lower()
+        name = args[1] if len(args) > 1 else None
+
+        # -----------------------------
+        #  VALIDÁCIA KONTEXTU
+        # -----------------------------
+        if hasattr(self.context, "validate") and not self.context.validate():
+            return "Chyba: Kontext nie je v konzistentnom stave."
+
+        # Dynamické vytvorenie managera
+        profiles = ProfileManager(self.context)
 
         # ============================================================
         #  SAVE
@@ -44,7 +47,8 @@ class ContextProfileCommand(BaseCommand):
             if not name:
                 return "Chyba: zadaj názov profilu. Použitie: context-profile save <name>"
 
-            self.profiles.save_profile(name)
+            self.context.snapshot()
+            profiles.save_profile(name)
             return f"Profil '{name}' bol uložený."
 
         # ============================================================
@@ -54,7 +58,8 @@ class ContextProfileCommand(BaseCommand):
             if not name:
                 return "Chyba: zadaj názov profilu. Použitie: context-profile load <name>"
 
-            result = self.profiles.load_profile(name)
+            self.context.snapshot()
+            result = profiles.load_profile(name)
             if not result:
                 return f"Chyba: profil '{name}' neexistuje."
 
@@ -67,7 +72,7 @@ class ContextProfileCommand(BaseCommand):
             if not name:
                 return "Chyba: zadaj názov profilu. Použitie: context-profile delete <name>"
 
-            result = self.profiles.delete_profile(name)
+            result = profiles.delete_profile(name)
             if not result:
                 return f"Chyba: profil '{name}' neexistuje."
 
@@ -77,12 +82,12 @@ class ContextProfileCommand(BaseCommand):
         #  LIST
         # ============================================================
         if action == "list":
-            profiles = self.profiles.list_profiles()
-            if not profiles:
+            items = profiles.list_profiles()
+            if not items:
                 return "Žiadne profily neexistujú."
 
             out = ["Dostupné profily:"]
-            for p in profiles:
+            for p in items:
                 out.append(f"  - {p}")
             return "\n".join(out)
 
@@ -93,7 +98,7 @@ class ContextProfileCommand(BaseCommand):
             if not name:
                 return "Chyba: zadaj názov profilu. Použitie: context-profile info <name>"
 
-            info = self.profiles.get_profile_info(name)
+            info = profiles.get_profile_info(name)
             if not info:
                 return f"Chyba: profil '{name}' neexistuje."
 
