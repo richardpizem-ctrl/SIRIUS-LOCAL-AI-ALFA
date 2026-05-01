@@ -16,16 +16,18 @@ class ContextDiffCommand(BaseCommand):
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, key: str = None, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA KONTEXTU
         # -----------------------------
-        if not self.context.validate():
+        if hasattr(self.context, "validate") and not self.context.validate():
             return "Chyba: Kontext nie je v konzistentnom stave."
 
         # -----------------------------
         #  DIFF PRE KONKRÉTNY KEY
         # -----------------------------
+        key = args[0] if args else None
+
         if key is not None:
             mem_value = self.context.recall(key)
             state_value = self.context.get_state(key)
@@ -55,6 +57,6 @@ class ContextDiffCommand(BaseCommand):
         for k, info in diff.items():
             out.append(f"{k}:")
             out.append(f"  - current:  {info['current']}")
-            out.append(f"  - incoming: {info['incoming']}\n")
+            out.append(f"  - memory:   {info['incoming']}\n")
 
         return "\n".join(out)
