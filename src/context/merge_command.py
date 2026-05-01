@@ -2,30 +2,21 @@ from commands.base_command import BaseCommand
 from context.context_manager import ContextManager
 import json
 import os
+import copy
 
 
 class ContextMergeCommand(BaseCommand):
-    """
-    Zlúči externý JSON kontext s aktuálnym kontextom.
-    Použitie:
-      context-merge all <filename>
-      context-merge session <filename>
-      context-merge persistent <filename>
-      context-merge state <filename>
-      context-merge history <filename>
-    """
-
     name = "context-merge"
     description = "Zlúči externý JSON kontext s aktuálnym kontextom."
 
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, section: str = None, filename: str = None, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA VSTUPU
         # -----------------------------
-        if section is None or filename is None:
+        if len(args) < 2:
             return (
                 "Použitie:\n"
                 "  context-merge all <filename>\n"
@@ -35,7 +26,8 @@ class ContextMergeCommand(BaseCommand):
                 "  context-merge history <filename>"
             )
 
-        section = section.lower()
+        section = args[0].lower()
+        filename = args[1]
 
         if not os.path.isfile(filename):
             return f"Chyba: súbor '{filename}' neexistuje."
@@ -50,58 +42,85 @@ class ContextMergeCommand(BaseCommand):
             return f"Chyba pri načítaní JSON: {e}"
 
         # -----------------------------
+        #  SNAPSHOT PRED MERGE
+        # -----------------------------
+        if hasattr(self.context, "snapshot"):
+            self.context.snapshot()
+
+        # -----------------------------
         #  MERGE PODĽA SEKCIÍ
         # -----------------------------
-        if section == "all":
-            if not isinstance(incoming, dict):
-                return "Chyba: JSON musí obsahovať objekt s kľúčmi session/persistent/state/history."
+        try:
+            if section == "all":
+                if not isinstance(incoming, dict):
+                    return "Chyba: JSON musí obsahovať objekt."
 
-            # SESSION: append
-            if isinstance(incoming.get("session"), list):
-                self.context.session_memory.extend(incoming["session"])
+                # SESSION
+                if isinstance(incoming.get("session"), list):
+                    for item in incoming["session"]:
+                        if isinstance(item, str):
+                            self.context.session_memory.append(item)
 
-            # PERSISTENT: merge keys
-            if isinstance(incoming.get("persistent"), dict):
-                self.context.persistent_memory.update(incoming["persistent"])
+                # PERSISTENT
+                if isinstance(incoming.get("persistent"), dict):
+                    for k, v in incoming["persistent"].items():
+                        if isinstance(k, str) and isinstance(v, str):
+                            self.context.persistent_memory[k] = v
 
-            # STATE: merge keys
-            if isinstance(incoming.get("state"), dict):
-                self.context.state.update(incoming["state"])
+                # STATE
+                if isinstance(incoming.get("state"), dict):
+                    for k, v in incoming["state"].items():
+                        if isinstance(k, str) and isinstance(v, str):
+                            self.context.state[k] = v
 
-            # HISTORY: append snapshots
-            if isinstance(incoming.get("history"), list):
-                self.context.history.extend(incoming["history"])
+                # HISTORY
+                if isinstance(incoming.get("history"), list):
+                    for snap in incoming["history"]:
+                        if isinstance(snap, dict):
+                            self.context.history.append(copy.deepcopy(snap))
 
-        elif section == "session":
-            if not isinstance(incoming, list):
-                return "Chyba: session musí byť zoznam."
-            self.context.session_memory.extend(incoming)
+                    # rešpektovať max_history
+                    self.context.history = self.context.history[-self.context.max_history:]
 
-        elif section == "persistent":
-            if not isinstance(incoming, dict):
-                return "Chyba: persistent musí byť objekt."
-            self.context.persistent_memory.update(incoming)
+            elif section == "session":
+                if not isinstance(incoming, list):
+                    return "Chyba: session musí byť zoznam."
+                for item in incoming:
+                    if isinstance(item, str):
+                        self.context.session_memory.append(item)
 
-        elif section == "state":
-            if not isinstance(incoming, dict):
-                return "Chyba: state musí byť objekt."
-            self.context.state.update(incoming)
+            elif section == "persistent":
+                if not isinstance(incoming, dict):
+                    return "Chyba: persistent musí byť objekt."
+                for k, v in incoming.items():
+                    if isinstance(k, str) and isinstance(v, str):
+                        self.context.persistent_memory[k] = v
 
-        elif section == "history":
-            if not isinstance(incoming, list):
-                return "Chyba: history musí byť zoznam snapshotov."
-            self.context.history.extend(incoming)
+            elif section == "state":
+                if not isinstance(incoming, dict):
+                    return "Chyba: state musí byť objekt."
+                for k, v in incoming.items():
+                    if isinstance(k, str) and isinstance(v, str):
+                        self.context.state[k] = v
 
-        else:
-            return f"Neznáma sekcia '{section}'. Použi: all/session/persistent/state/history."
+            elif section == "history":
+                if not isinstance(incoming, list):
+                    return "Chyba: history musí byť zoznam snapshotov."
+                for snap in incoming:
+                    if isinstance(snap, dict):
+                        self.context.history.append(copy.deepcopy(snap))
+                self.context.history = self.context.history[-self.context.max_history:]
+
+            else:
+                return f"Neznáma sekcia '{section}'."
+
+        except Exception as e:
+            return f"Chyba pri merge: {e}"
 
         # -----------------------------
-        #  VALIDÁCIA KONTEXTU PO MERGE
+        #  VALIDÁCIA PO MERGE
         # -----------------------------
-        if not self.context.validate():
+        if hasattr(self.context, "validate") and not self.context.validate():
             return "Upozornenie: merge prebehol, ale kontext nie je v konzistentnom stave."
 
-        # -----------------------------
-        #  POTVRDENIE
-        # -----------------------------
         return f"Kontextová sekcia '{section}' bola zlúčená so súborom '{filename}'."
