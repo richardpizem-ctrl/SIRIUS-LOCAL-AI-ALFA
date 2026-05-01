@@ -31,6 +31,15 @@ class SiriusAgent:
         if goal == "move_logs":
             return self._task_move_logs(args)
 
+        if goal == "move_file":
+            return self._task_move_file(args)
+
+        if goal == "move_files":
+            return self._task_move_files(args)
+
+        if goal == "copy_file":
+            return self._task_copy_file(args)
+
         # 3) Open project
         if goal == "open_project":
             return self._task_open_project(args)
@@ -39,6 +48,21 @@ class SiriusAgent:
         if goal == "snap_right":
             return self.wf.snap_app_right(args.get("app", ""))
 
+        if goal == "snap_left":
+            return self.wf.snap_app_left(args.get("app", ""))
+
+        # 5) Backup
+        if goal == "backup_project":
+            return self._task_backup_project(args)
+
+        # 6) Create structure
+        if goal == "create_project_structure":
+            return self._task_create_structure(args)
+
+        # 7) Cleanup logs
+        if goal == "cleanup_logs":
+            return self._task_cleanup_logs(args)
+
         return {"ok": False, "error": f"Unknown task '{goal}'"}
 
     # --------------------------------------------------------
@@ -46,9 +70,6 @@ class SiriusAgent:
     # --------------------------------------------------------
 
     def _task_prepare_release(self, args: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Pripraví priečinkovú štruktúru pre release.
-        """
         base = args.get("base")
         structure = args.get("structure")
 
@@ -63,9 +84,6 @@ class SiriusAgent:
         return {"ok": True}
 
     def _task_move_logs(self, args: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Presunie logy do cieľového priečinka.
-        """
         files = args.get("files")
         target = args.get("target")
 
@@ -79,10 +97,34 @@ class SiriusAgent:
 
         return {"ok": True}
 
+    def _task_move_file(self, args: Dict[str, Any]) -> Dict[str, Any]:
+        source = args.get("source")
+        target = args.get("target")
+
+        if not source or not target:
+            return {"ok": False, "error": "Missing source or target"}
+
+        return self.wf.move_file(source, target)
+
+    def _task_move_files(self, args: Dict[str, Any]) -> Dict[str, Any]:
+        files = args.get("files")
+        target = args.get("target")
+
+        if not files or not target:
+            return {"ok": False, "error": "Missing files or target"}
+
+        return self.wf.move_files(files, target)
+
+    def _task_copy_file(self, args: Dict[str, Any]) -> Dict[str, Any]:
+        source = args.get("source")
+        target = args.get("target")
+
+        if not source or not target:
+            return {"ok": False, "error": "Missing source or target"}
+
+        return self.wf.copy_file(source, target)
+
     def _task_open_project(self, args: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Otvorí projekt a zaostrí okno.
-        """
         root = args.get("root")
         app = args.get("app")
 
@@ -90,3 +132,29 @@ class SiriusAgent:
             return {"ok": False, "error": "Missing root or app"}
 
         return self.wf.open_project_and_focus(root, app)
+
+    def _task_backup_project(self, args: Dict[str, Any]) -> Dict[str, Any]:
+        source = args.get("source")
+        target = args.get("target")
+
+        if not source or not target:
+            return {"ok": False, "error": "Missing source or target"}
+
+        return self.wf.backup_project(source, target)
+
+    def _task_create_structure(self, args: Dict[str, Any]) -> Dict[str, Any]:
+        root = args.get("root")
+        folders = args.get("folders")
+
+        if not root or not folders:
+            return {"ok": False, "error": "Missing root or folders"}
+
+        return self.wf.create_project_structure(root, folders)
+
+    def _task_cleanup_logs(self, args: Dict[str, Any]) -> Dict[str, Any]:
+        folder = args.get("folder")
+
+        if not folder:
+            return {"ok": False, "error": "Missing folder"}
+
+        return self.wf.cleanup_logs(folder)
