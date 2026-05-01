@@ -21,11 +21,11 @@ class ContextExportCommand(BaseCommand):
     def __init__(self, context: ContextManager):
         self.context = context
 
-    def execute(self, section: str = None, filename: str = None, *args):
+    def execute(self, *args, **kwargs):
         # -----------------------------
         #  VALIDÁCIA VSTUPU
         # -----------------------------
-        if section is None or filename is None:
+        if len(args) < 2:
             return (
                 "Použitie:\n"
                 "  context-export all <filename>\n"
@@ -35,7 +35,14 @@ class ContextExportCommand(BaseCommand):
                 "  context-export history <filename>"
             )
 
-        section = section.lower()
+        section = args[0].lower()
+        filename = args[1]
+
+        # -----------------------------
+        #  VALIDÁCIA KONTEXTU
+        # -----------------------------
+        if hasattr(self.context, "validate") and not self.context.validate():
+            return "Chyba: Kontext nie je v konzistentnom stave. Export zrušený."
 
         # -----------------------------
         #  PRÍPRAVA DÁT NA EXPORT
@@ -64,6 +71,13 @@ class ContextExportCommand(BaseCommand):
             return f"Neznáma sekcia '{section}'. Použi: all/session/persistent/state/history."
 
         # -----------------------------
+        #  ZABEZPEČENIE PRIEČINKA
+        # -----------------------------
+        folder = os.path.dirname(filename)
+        if folder:
+            os.makedirs(folder, exist_ok=True)
+
+        # -----------------------------
         #  EXPORT DO JSON
         # -----------------------------
         try:
@@ -72,7 +86,4 @@ class ContextExportCommand(BaseCommand):
         except Exception as e:
             return f"Chyba pri exporte: {e}"
 
-        # -----------------------------
-        #  POTVRDENIE
-        # -----------------------------
         return f"Kontextová sekcia '{section}' bola exportovaná do súboru '{filename}'."
