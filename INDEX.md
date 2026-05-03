@@ -33,7 +33,7 @@ Each module is isolated and follows strict boundaries:
 - `ui_components/` – graphical elements  
 - `workflow/` – Workflow Engine 2.0  
 - `plugins/` – Plugin System 2.0  
-- `security_family/` – **NEW (planned for v3.0.0): behavior‑based identity & family safety layer**
+- `security_family/` – **NEW (planned for v3.0.0): behavior‑based identity, family safety, time‑limits, schoolwork priority**
 
 The system is designed to be extended **without modifying the core**.
 
@@ -61,6 +61,7 @@ It ensures:
 - safe routing  
 - deterministic behavior  
 - zero conflicts between modules  
+- **(v3.0.0) Schoolwork Priority Mode — academic tasks always bypass FAMILY restrictions**
 
 ---
 
@@ -108,8 +109,7 @@ src/
 ├── workflow/
 ├── plugins/
 ├── security_family/   ← NEW (planned for v3.0.0)
-└── sirius.py
-
+└── sirius.py 
 Each directory has a clear responsibility and is described in **MODULE_MAP.md**.
 
 ---
@@ -159,7 +159,9 @@ More in **PERFORMANCE_GUIDE.md**.
 - semantic workflows  
 - advanced GUI/tray/voice integration  
 - contextual automation  
-- **SECURITY FAMILY – behavior‑based identity & family safety layer**
+- **SECURITY FAMILY – behavior‑based identity & family safety layer**  
+- **time‑based limits for children**  
+- **Schoolwork Priority Mode (schoolwork always allowed)**  
 
 ### **v4.0.0 – Self‑Repair & Health‑Check Layer**
 - integrity checks  
