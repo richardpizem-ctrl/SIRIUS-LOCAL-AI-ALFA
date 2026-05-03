@@ -96,8 +96,6 @@ All processing is fully local; no data leaves the user's PC.
 - integration with FS‑AGENT and CME‑MEM  
 - rejecting unsupported or unsafe inputs  
 
-AITE ensures that SIRIUS immediately understands what the user inserted or downloaded.
-
 ---
 
 # 9. Windows System Capabilities Layer (WIN‑CAP 2.0)
@@ -111,11 +109,11 @@ This module transforms SIRIUS into a true local OS‑level AI agent.
 - enabling multi‑step system actions through AI reasoning  
 
 **Submodules:**
-- `file_ops` — project discovery, structured directories  
-- `app_ops` — launching, focusing, detecting running apps  
-- `window_ops` — snapping, arranging, positioning windows  
-- `audio_ops` — detecting and switching audio devices  
-- `system_context` — active window, drives, devices  
+- `file_ops`  
+- `app_ops`  
+- `window_ops`  
+- `audio_ops`  
+- `system_context`  
 
 ---
 
@@ -132,8 +130,6 @@ This module transforms SIRIUS into a true local OS‑level AI agent.
 - `animation_objects.py`  
 - `animation_scenes.py`  
 - `animation_manager.py`  
-
-These files prepare the animation system for v2.0.0 and v3.0.0.
 
 ---
 
@@ -206,7 +202,31 @@ Possible future modules:
 
 ---
 
-# 16. Module Interconnections
+# 16. SECURITY FAMILY (planned for v3.0.0)
+**Purpose:** Behavior‑based identity and family safety layer.  
+This module introduces **OWNER / FAMILY / STRANGER** identity levels.
+
+**Responsibilities:**
+- behavior‑based identity recognition  
+- offline learning of owner and family profiles  
+- safe‑mode for unknown users  
+- restricted mode for children  
+- protection of sensitive operations  
+- integration with NL Router and WIN‑CAP  
+
+**Submodules (already scaffolded):**
+- `identity_engine.py`  
+- `behavior_audit.py`  
+- `access_control.py`  
+- `family_mode.py`  
+- `stranger_mode.py`  
+- `profile_store.json`  
+
+This becomes a **core security module** in version **3.0.0**.
+
+---
+
+# 17. Module Interconnections
 
 - **NL Router → FS‑AGENT:** determines file operations  
 - **NL Router → Plugins:** routes NL commands  
@@ -216,6 +236,7 @@ Possible future modules:
 - **WIN‑CAP → Runtime Core:** privileged capability layer  
 - **Runtime Core → all modules:** initialization and security  
 - **Plugins → Runtime Core:** register capabilities  
+- **SECURITY FAMILY → Runtime Core (v3.0.0):** identity‑based access control  
 
 All communication is explicit and controlled.
 
