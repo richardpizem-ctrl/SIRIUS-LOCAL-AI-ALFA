@@ -38,19 +38,38 @@ Included:
 - updated documentation  
 - complete plugin suite  
 - deterministic execution model  
+- **foundation prepared for SECURITY FAMILY (identity, time‑limits, schoolwork priority)**  
 
 ---
 
-# Version 3.0.0 – Advanced Visualizations
+# Version 3.0.0 – Intelligent Runtime & Family Safety Layer
 **Focus:**
-- RGB pulsing based on velocity  
-- polyphonic key‑pressure waveform  
-- 3D key‑press effect  
-- MPE visualization (X/Y/Z)  
-- per‑note vibrato animation  
-- advanced animation engine  
-- expanded GUI components  
+- AI‑assisted triage  
+- semantic workflows  
+- advanced GUI/tray/voice integration  
+- contextual automation  
+- expanded animation engine  
 - visual plugin extensions  
+
+**NEW Core Module: SECURITY FAMILY**
+- behavior‑based identity (OWNER / FAMILY / STRANGER)  
+- offline identity learning  
+- safe‑mode for unknown users  
+- restricted mode for children  
+- **time‑based limits for children**  
+- **Schoolwork Priority Mode (schoolwork always allowed)**  
+- integration with NL Router, AITE, and WIN‑CAP  
+- new submodules:
+  - `identity_engine.py`  
+  - `behavior_audit.py`  
+  - `access_control.py`  
+  - `family_mode.py`  
+  - `stranger_mode.py`  
+  - `time_limits.py`  
+  - `schoolwork_detector.py`  
+  - `profile_store.json`  
+
+This version introduces the first generation of **intelligent, behavior‑based runtime safety**.
 
 ---
 
@@ -79,6 +98,8 @@ This version introduces the first generation of **safe, controlled self‑repair
 - system monitoring layer  
 - semantic triage  
 - intelligent runtime behaviors  
+- deeper FAMILY safety automation  
+- adaptive identity learning  
 
 ---
 
