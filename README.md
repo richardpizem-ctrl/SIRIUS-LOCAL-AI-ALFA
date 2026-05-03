@@ -1,6 +1,6 @@
 <!--
 SEO META BLOCK – improves GitHub search visibility
-Keywords: local AI, offline AI, Windows automation, AI runtime, workflow automation, modular AI, secure AI, natural language automation, Windows 11 tools, local assistant, AI agent, filesystem automation, command interpreter, context engine, workflow engine, plugin system, runtime core
+Keywords: local AI, offline AI, Windows automation, AI runtime, workflow automation, modular AI, secure AI, natural language automation, Windows 11 tools, local assistant, AI agent, filesystem automation, command interpreter, context engine, workflow engine, plugin system, runtime core, family safety, behavior-based identity, schoolwork priority
 Description: SIRIUS LOCAL AI is a fully local, modular AI runtime for Windows 11. It executes natural‑language commands, manages workflows, automates filesystem operations, and interacts with the OS through a secure capability layer — all without cloud dependencies.
 -->
 
@@ -33,6 +33,7 @@ All processing is fully offline — no cloud, no telemetry, no external dependen
 - **Human‑controlled** — SIRIUS never performs destructive actions without explicit approval  
 - **Extensible** — Plugin System 2.0 allows new features without modifying the core  
 - **Deterministic** — Runtime 2.0 ensures stable, repeatable behavior  
+- **Family‑safe** — SECURITY FAMILY (v3.0.0) introduces identity, time‑limits, and schoolwork priority  
 
 ---
 
@@ -143,12 +144,14 @@ Automatically classifies user inputs.
 - image/photo  
 - application/installer  
 - documents  
+- **(v3.0.0) schoolwork — triggers Schoolwork Priority Mode**
 
 **Responsibilities:**
 - input type detection  
 - routing  
 - metadata generation  
 - integration with FS‑AGENT and CME‑MEM  
+- **schoolwork bypass for FAMILY restrictions**  
 
 ---
 
@@ -191,6 +194,21 @@ Official plugins include:
 
 ---
 
+# 🔐 SECURITY FAMILY (planned for v3.0.0)
+
+A new core module introducing:
+
+- **behavior‑based identity** (OWNER / FAMILY / STRANGER)  
+- **time‑limits for children**  
+- **restricted mode for unknown users**  
+- **Schoolwork Priority Mode** — schoolwork always allowed  
+- **offline identity learning**  
+- **safe‑mode for sensitive operations**  
+
+This module becomes a core part of the intelligent runtime in v3.0.0.
+
+---
+
 # 🔌 Module Interconnections
 
 - **NL Router → FS‑AGENT:** determines file operations  
@@ -198,6 +216,7 @@ Official plugins include:
 - **CME‑MEM → Workflow Engine:** provides context  
 - **AITE → FS‑AGENT:** routes inputs based on type  
 - **AITE → CME‑MEM:** stores metadata  
+- **AITE → SECURITY FAMILY:** schoolwork detection → bypass time limits  
 - **WIN‑CAP → Runtime Core:** privileged capability layer  
 - **Runtime Core → all modules:** initialization and security  
 - **Plugins → Runtime Core:** register capabilities  
@@ -223,6 +242,7 @@ All communication is explicit and controlled.
 - semantic workflows  
 - advanced GUI/tray/voice integration  
 - contextual automation  
+- **SECURITY FAMILY (identity, time‑limits, schoolwork priority)**  
 
 ### **v4.0.0 – Self‑Repair & Health‑Check Layer**
 - integrity checks  
