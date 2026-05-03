@@ -95,6 +95,7 @@ All processing is fully local; no data leaves the user's PC.
 - metadata generation  
 - integration with FS‑AGENT and CME‑MEM  
 - rejecting unsupported or unsafe inputs  
+- **(v3.0.0) detecting schoolwork and triggering Schoolwork Priority Mode**  
 
 ---
 
@@ -213,6 +214,8 @@ This module introduces **OWNER / FAMILY / STRANGER** identity levels.
 - restricted mode for children  
 - protection of sensitive operations  
 - integration with NL Router and WIN‑CAP  
+- **time‑based limits for children**  
+- **Schoolwork Priority Mode (schoolwork always allowed)**  
 
 **Submodules (already scaffolded):**
 - `identity_engine.py`  
@@ -220,6 +223,8 @@ This module introduces **OWNER / FAMILY / STRANGER** identity levels.
 - `access_control.py`  
 - `family_mode.py`  
 - `stranger_mode.py`  
+- `time_limits.py`  
+- `schoolwork_detector.py`  
 - `profile_store.json`  
 
 This becomes a **core security module** in version **3.0.0**.
@@ -233,10 +238,11 @@ This becomes a **core security module** in version **3.0.0**.
 - **CME‑MEM → Workflow Engine:** provides context  
 - **AITE → FS‑AGENT:** routes inputs based on type  
 - **AITE → CME‑MEM:** stores metadata  
+- **AITE → SECURITY FAMILY:** schoolwork detection → bypass time limits  
+- **SECURITY FAMILY → Runtime Core:** identity‑based access control  
 - **WIN‑CAP → Runtime Core:** privileged capability layer  
 - **Runtime Core → all modules:** initialization and security  
 - **Plugins → Runtime Core:** register capabilities  
-- **SECURITY FAMILY → Runtime Core (v3.0.0):** identity‑based access control  
 
 All communication is explicit and controlled.
 
