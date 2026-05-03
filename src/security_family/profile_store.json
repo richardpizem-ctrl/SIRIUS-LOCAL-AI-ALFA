@@ -1,7 +1,46 @@
 {
-    "owner": {},
-    "family": [],
+    "owner": {
+        "behavior_profile": {
+            "typing_speed": 0.0,
+            "command_pattern": 0.0,
+            "vocabulary": 0.0,
+            "task_type": 0.0,
+            "error_rate": 0.0,
+            "time_of_day": 0.0
+        },
+        "last_update": null,
+        "confidence_history": []
+    },
+
+    "family": [
+        {
+            "id": "child_1",
+            "behavior_profile": {
+                "typing_speed": 0.0,
+                "command_pattern": 0.0,
+                "vocabulary": 0.0,
+                "task_type": 0.0,
+                "error_rate": 0.0,
+                "time_of_day": 0.0
+            },
+            "last_update": null,
+            "confidence_history": []
+        }
+    ],
+
+    "stranger_baseline": {
+        "expected_noise": 0.25,
+        "max_allowed_similarity": 0.35
+    },
+
     "settings": {
-        "audit_sensitivity": 0.85
+        "audit_sensitivity": 0.85,
+        "learning_rate": 0.2,
+        "max_family_members": 5,
+        "risk_thresholds": {
+            "low": 0.3,
+            "medium": 0.6,
+            "high": 0.8
+        }
     }
 }
