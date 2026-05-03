@@ -1,63 +1,74 @@
 # 🌟 Future Vision (v3.0.0 – v4.0.0)
 
-SIRIUS LOCAL AI is evolving from a modular automation runtime into a **full offline household AI assistant**, while staying safe, predictable, and fully local.  
-The following modules represent the next generation of capabilities planned for v3.0.0 and v4.0.0.
+SIRIUS LOCAL AI is evolving from a modular automation runtime into a **full offline household AI assistant**, while staying safe, predictable, and fully local.
 
-All future features remain **100% offline**, **family‑safe**, and **under full user control**.
+This vision introduces **new intelligent modules**, **family‑safe identity**, **offline knowledge packs**, and **self‑repair capabilities**.
+
+All future features remain:
+
+- **100% offline**
+- **family‑safe**
+- **predictable**
+- **under full user control**
+- **modular and replaceable**
 
 ---
 
-# 🧠 New Intelligent Modules (v3.0.0)
+# 🧠 1. Intelligent Assistant Modules (v3.0.0)
 
-## 🏠 HOME_ASSISTANT
+These modules expand SIRIUS beyond system automation into **daily‑life assistance**, while preserving strict safety and offline operation.
+
+---
+
+## 🏠 1.1 HOME_ASSISTANT  
 General household assistant for everyday tasks.
 
 **Responsibilities:**
 - safe household recommendations  
-- cleaning tips  
+- cleaning and maintenance tips  
 - organization workflows  
 - safety‑first guidance  
 - integration with IMAGE_ANALYZER for object recognition  
 
 ---
 
-## 🍳 COOKING_ADVISOR
+## 🍳 1.2 COOKING_ADVISOR  
 Offline cooking and recipe assistant.
 
 **Responsibilities:**
 - recipe generation  
 - suggestions based on available ingredients  
 - step‑by‑step cooking workflows  
-- dietary filters  
+- dietary filters (vegetarian, low‑budget, quick meals)  
 - integration with Knowledge Packs  
 
 ---
 
-## 🔧 DEVICE_DIAGNOSTICS
+## 🔧 1.3 DEVICE_DIAGNOSTICS  
 Safe troubleshooting for household devices.
 
 **Responsibilities:**
 - identifying common device issues  
-- providing safe repair suggestions  
-- detecting dangerous situations  
-- routing to OWNER‑only actions if needed  
+- safe repair suggestions  
+- detection of dangerous situations  
+- OWNER‑only escalation for risky actions  
 - integration with SECURITY FAMILY  
 
 ---
 
-## 🎓 SCHOOL_HELPER
+## 🎓 1.4 SCHOOL_HELPER  
 Offline schoolwork assistant for children and students.
 
 **Responsibilities:**
 - math, language, science explanations  
 - step‑by‑step reasoning  
 - safe educational help  
-- integration with SCHOOLWORK PRIORITY MODE  
 - image‑based homework recognition  
+- integration with SCHOOLWORK PRIORITY MODE  
 
 ---
 
-## 🖼 IMAGE_ANALYZER
+## 🖼 1.5 IMAGE_ANALYZER  
 Local image understanding engine.
 
 **Responsibilities:**
@@ -68,7 +79,7 @@ Local image understanding engine.
 
 ---
 
-## 🧭 CONTEXT_ROUTER v3
+## 🧭 1.6 CONTEXT_ROUTER v3  
 Smarter intent routing for all new modules.
 
 **Responsibilities:**
@@ -80,7 +91,7 @@ Smarter intent routing for all new modules.
 
 ---
 
-## 📚 KNOWLEDGE_PACKS
+## 📚 1.7 KNOWLEDGE_PACKS  
 Modular offline knowledge expansions.
 
 **Responsibilities:**
@@ -91,40 +102,75 @@ Modular offline knowledge expansions.
 
 ---
 
-# 🛡 SECURITY FAMILY (v3.0.0)
-A new core module introducing:
+# 🛡 2. Core Identity & Safety Layer (v3.0.0)
 
-- behavior‑based identity (OWNER / FAMILY / STRANGER)  
+## SECURITY FAMILY  
+A new core module introducing **behavior‑based identity** and **family‑safe automation**.
+
+### Identity Levels:
+- **OWNER** – full access  
+- **FAMILY** – safe mode for children  
+- **STRANGER** – restricted mode  
+
+### Capabilities:
+- behavior‑based identity learning  
+- offline recognition (no biometrics, no cloud)  
 - time‑limits for children  
 - restricted mode for unknown users  
-- Schoolwork Priority Mode  
-- offline identity learning  
-- safe‑mode for sensitive operations  
+- protection of sensitive operations  
+- Schoolwork Priority Mode (schoolwork always allowed)  
 
-This module becomes a core part of the intelligent runtime in v3.0.0.
+This module becomes a **core part of the intelligent runtime** in v3.0.0.
 
 ---
 
-# 🩺 Self‑Repair & Health‑Check Layer (v4.0.0)
-A future system layer for long‑term stability.
+# 🩺 3. Self‑Repair & Health‑Check Layer (v4.0.0)
+
+A future system layer for long‑term stability and reliability.
 
 **Responsibilities:**
-- integrity checks  
+- integrity checks for core modules  
+- detection of corrupted states  
 - safe automatic repairs  
-- patch suggestions  
+- patch suggestions (manual approval required)  
 - system‑wide health reporting  
+
+This layer ensures SIRIUS remains stable even as modules evolve.
 
 ---
 
-# 🚀 Long‑Term Vision
+# 🚀 4. Long‑Term Vision (Beyond v4.0.0)
+
 SIRIUS LOCAL AI aims to become the **first fully local, modular AI agent** capable of safely assisting with:
 
-- Windows automation  
-- household tasks  
-- cooking  
-- device troubleshooting  
-- schoolwork  
-- daily workflows  
+### 🖥 Windows Automation
+- file operations  
+- workflows  
+- system tasks  
+
+### 🏠 Household Tasks
+- cleaning  
+- organization  
+- maintenance  
+
+### 🍳 Cooking
+- recipes  
+- ingredient‑based suggestions  
+- step‑by‑step cooking  
+
+### 🔧 Device Troubleshooting
+- safe diagnostics  
+- repair guidance  
+
+### 🎓 Schoolwork
+- explanations  
+- step‑by‑step reasoning  
+- homework recognition  
+
+### 🧩 Daily Workflows
+- reminders  
+- organization  
+- productivity  
 
 All without cloud, telemetry, or external dependencies.
 
