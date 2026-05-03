@@ -41,6 +41,7 @@ Delivered:
 - deterministic execution model  
 - complete plugin suite  
 - updated documentation  
+- **foundation prepared for SECURITY FAMILY (identity, time‑limits, schoolwork priority)**  
 
 **Output:** A fully modular, extensible, plugin‑driven AI runtime.
 
@@ -58,16 +59,18 @@ Planned:
 - plugin‑driven visual components  
 - improved real‑time feedback  
 
-### 🔐 New Module: SECURITY FAMILY
+### 🔐 New Core Module: SECURITY FAMILY
 Behavior‑based identity and access control.
 
 Capabilities:
-- **Owner Recognition** – AI sa naučí štýl písania, práce a príkazov majiteľa  
-- **Family Profiles** – rozpoznanie detí majiteľa, bezpečný režim pre hry a multimédiá  
-- **Stranger Detection** – safe‑mode pre neznámych používateľov  
+- **Owner Recognition** – AI learns the owner’s behavior, writing style, command patterns  
+- **Family Profiles** – recognizes children, applies safe‑mode for games and multimedia  
+- **Stranger Detection** – restricted safe‑mode for unknown users  
 - **Access Levels** – OWNER / FAMILY / STRANGER  
-- **Protection of sensitive operations** – mazanie, systémové príkazy, konfigurácie  
-- **Fully offline** – žiadna biometria, žiadny cloud, čistá behaviorálna identita  
+- **Protection of sensitive operations** – deletion, system commands, configuration changes  
+- **Time‑Limits for Children** – configurable daily usage limits  
+- **Schoolwork Priority Mode** – schoolwork always allowed, bypasses time‑limits  
+- **Fully offline** – no biometrics, no cloud, pure behavior‑based identity  
 
 **Output:** A more intelligent, context‑aware runtime with user‑level identity and family‑safe behavior.
 
@@ -101,6 +104,8 @@ Planned capabilities:
 - semantic triage  
 - intelligent runtime behaviors  
 - deep Windows integration through WIN‑CAP expansions  
+- **adaptive identity learning in SECURITY FAMILY**  
+- **expanded family‑safe automation**  
 
 ---
 
