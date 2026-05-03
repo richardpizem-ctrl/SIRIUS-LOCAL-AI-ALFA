@@ -16,6 +16,7 @@ All processing is fully local; no data leaves the user's PC.
 - deterministic behavior across all modules  
 - minimal overhead in all operations  
 - plugin execution must follow strict performance rules  
+- **safety modules (SECURITY FAMILY) must not introduce latency or blocking behavior**  
 
 ---
 
@@ -29,6 +30,7 @@ All processing is fully local; no data leaves the user's PC.
 - event routing is O(1)  
 - plugin loading is cached and isolated  
 - AI Loop 2.0 uses safe interval scheduling  
+- **identity checks (v3.0.0) must remain constant‑time**  
 
 ---
 
@@ -41,6 +43,7 @@ Rules:
 - avoid repeated directory enumeration  
 - ensure rollback‑safe operations  
 - minimize disk I/O during workflows  
+- **SECURITY FAMILY must not slow down FS‑AGENT operations**  
 
 ---
 
@@ -52,6 +55,7 @@ Rules:
 - system context must be lightweight  
 - avoid repeated OS queries  
 - capability wrappers must remain fast and predictable  
+- **identity‑restricted operations (v3.0.0) must not add overhead**  
 
 ---
 
@@ -63,6 +67,7 @@ Rules:
 - avoid unnecessary redraws  
 - UI components must remain modular and efficient  
 - plugin‑driven UI elements must not block the main loop  
+- **FAMILY mode warnings must be non‑blocking and instant**  
 
 ---
 
@@ -74,6 +79,7 @@ Rules:
 - plugin workflows must follow deterministic rules  
 - no long‑running tasks inside workflows  
 - avoid deep recursion or nested transitions  
+- **schoolwork workflows (v3.0.0) must bypass restrictions without extra overhead**  
 
 ---
 
@@ -84,7 +90,8 @@ Rules:
 - no heavy computations  
 - plugin heartbeat rules must be optimized  
 - deterministic scheduling  
-- safe error handling without retries loops  
+- safe error handling without retry loops  
+- **time‑limit checks (v3.0.0) must be constant‑time and lightweight**  
 
 ---
 
@@ -96,6 +103,7 @@ Rules:
 - no timestamps unless needed  
 - avoid logging inside tight loops  
 - plugin logs must follow the same rules  
+- **SECURITY FAMILY must not log identity data or behavior patterns**  
 
 ---
 
@@ -107,6 +115,36 @@ Rules:
 - GUI elements must not block runtime  
 - AI tasks must be optimized  
 - plugins must not introduce heavy operations  
+- **plugins must not bypass or slow down SECURITY FAMILY checks**  
+
+---
+
+# 10. SECURITY FAMILY Performance (v3.0.0)
+
+Although introduced in v3.0.0, performance rules are defined now:
+
+### Identity Engine
+- identity classification must be constant‑time  
+- no heavy behavioral analysis  
+- no background training loops  
+- no scanning of large datasets  
+
+### Time‑Limits Engine
+- time checks must be O(1)  
+- no timers running in tight loops  
+- no blocking UI alerts  
+- no repeated disk writes  
+
+### Schoolwork Priority Mode
+- schoolwork detection must be lightweight  
+- no semantic analysis loops  
+- no deep inspection of documents  
+- bypass logic must be instant  
+
+### Family Mode
+- restrictions must not slow down NL routing  
+- safe‑mode must not block runtime operations  
+- warnings must be non‑blocking  
 
 ---
 
