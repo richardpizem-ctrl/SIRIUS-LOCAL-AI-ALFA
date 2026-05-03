@@ -20,6 +20,9 @@ keywords:
   - "plugin system"
   - "runtime engine"
   - "Windows automation"
+  - "family safety"
+  - "behavior-based identity"
+  - "schoolwork priority mode"
 
 abstract: >
   SIRIUS LOCAL AI is a fully modular, offline AI runtime designed for secure,
@@ -28,3 +31,8 @@ abstract: >
   Workflow Engine 2.0, AI Loop 2.0, GUI 2.0, and a fully stabilized module ecosystem.
   All processing is performed locally on the user's machine with strict safety,
   determinism, and full control over system operations.
+
+  The architecture also prepares for version 3.0.0, which introduces the SECURITY FAMILY
+  module — a behavior-based identity and family safety layer with OWNER/FAMILY/STRANGER
+  profiles, time-based limits for children, and a Schoolwork Priority Mode ensuring that
+  academic tasks always bypass restrictions.
