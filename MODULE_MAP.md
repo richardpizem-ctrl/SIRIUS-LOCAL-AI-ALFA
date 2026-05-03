@@ -231,7 +231,88 @@ This becomes a **core security module** in version **3.0.0**.
 
 ---
 
-# 17. Module Interconnections
+# 17. Future Vision Modules (v3.0.0 – v4.0.0)
+
+These modules extend SIRIUS from a system automation runtime into a **full offline household assistant**, while staying safe, modular, and local‑only.
+
+---
+
+## 17.1 HOME_ASSISTANT (v3.0.0)
+**Purpose:** General household advice and daily assistance.  
+**Responsibilities:**
+- safe household recommendations  
+- cleaning tips  
+- organization workflows  
+- safety‑first guidance  
+- integration with IMAGE_ANALYZER for object recognition  
+
+---
+
+## 17.2 COOKING_ADVISOR (v3.0.0)
+**Purpose:** Offline cooking and recipe assistant.  
+**Responsibilities:**
+- recipe generation  
+- suggestions based on available ingredients  
+- step‑by‑step cooking workflows  
+- dietary filters  
+- integration with Knowledge Packs  
+
+---
+
+## 17.3 DEVICE_DIAGNOSTICS (v3.0.0)
+**Purpose:** Safe troubleshooting for household devices.  
+**Responsibilities:**
+- identifying common device issues  
+- providing safe repair suggestions  
+- detecting dangerous situations  
+- routing to OWNER‑only actions if needed  
+- integration with SECURITY FAMILY  
+
+---
+
+## 17.4 SCHOOL_HELPER (v3.0.0)
+**Purpose:** Offline schoolwork assistant.  
+**Responsibilities:**
+- math, language, science explanations  
+- step‑by‑step reasoning  
+- safe educational help  
+- integration with SCHOOLWORK PRIORITY MODE  
+- image‑based homework recognition  
+
+---
+
+## 17.5 IMAGE_ANALYZER (v3.0.0)
+**Purpose:** Local image understanding.  
+**Responsibilities:**
+- reading homework from photos  
+- identifying household objects  
+- detecting device issues visually  
+- routing results to correct modules  
+
+---
+
+## 17.6 CONTEXT_ROUTER v3 (v3.0.0)
+**Purpose:** Smarter routing of user intent.  
+**Responsibilities:**
+- detecting household tasks  
+- detecting cooking tasks  
+- detecting device issues  
+- detecting schoolwork  
+- routing to new v3 modules  
+
+---
+
+## 17.7 KNOWLEDGE_PACKS (v3.0.0+)
+**Purpose:** Modular offline knowledge expansions.  
+**Responsibilities:**
+- domain‑specific knowledge (kitchen, repairs, school subjects)  
+- safe curated datasets  
+- plug‑and‑play expansions  
+- no internet required  
+
+---
+
+# 18. Module Interconnections
 
 - **NL Router → FS‑AGENT:** determines file operations  
 - **NL Router → Plugins:** routes NL commands  
@@ -243,6 +324,8 @@ This becomes a **core security module** in version **3.0.0**.
 - **WIN‑CAP → Runtime Core:** privileged capability layer  
 - **Runtime Core → all modules:** initialization and security  
 - **Plugins → Runtime Core:** register capabilities  
+- **IMAGE_ANALYZER → SCHOOL_HELPER / DEVICE_DIAGNOSTICS / HOME_ASSISTANT**  
+- **CONTEXT_ROUTER v3 → all v3 modules**  
 
 All communication is explicit and controlled.
 
@@ -250,4 +333,4 @@ All communication is explicit and controlled.
 
 # Document Status
 Current version: **2.0.0 (Stable)**  
-Module structure is fully defined and ready for future expansions in v3.0.0 and v4.0.0.
+Future modules for **v3.0.0** and **v4.0.0** are defined as part of the long‑term vision.
