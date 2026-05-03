@@ -7,6 +7,7 @@ The project follows a clean, structured, version‑based changelog format.
 
 # 2.0.0 – Full System Stabilization (Current Release)
 **Status:** Stable  
+**Phase:** ALFA → BETA transition  
 **Target:** Complete Runtime 2.0 architecture
 
 ### Added
@@ -21,6 +22,7 @@ The project follows a clean, structured, version‑based changelog format.
 - Full plugin suite (automation, clipboard, example, file_manager, notes, system_tools, translator)  
 - Stabilized core modules (runtime, context, filesystem, commands)  
 - Updated documentation set (ARCHITECTURE, MODULE_MAP, RELEASE_NOTES, ROADMAP, SECURITY, INSTALLATION)  
+- Complete documentation refresh for Runtime 2.0 architecture  
 
 ### Improved
 - deterministic behavior across all modules  
@@ -30,6 +32,7 @@ The project follows a clean, structured, version‑based changelog format.
 - NL routing accuracy and fallback logic  
 - filesystem safety checks  
 - context memory consistency  
+- GUI responsiveness and safety prompts  
 
 ### Security
 - strict no‑network policy  
@@ -37,15 +40,20 @@ The project follows a clean, structured, version‑based changelog format.
 - validated filesystem operations  
 - deterministic AI loop execution  
 - controlled access to Windows capabilities  
+- expanded safety boundaries for destructive operations  
 
 ### (NEW – v3.0.0 PREVIEW)
 - SECURITY FAMILY module scaffolding  
 - behavior‑based identity (OWNER / FAMILY / STRANGER)  
+- restricted mode for children  
+- safe‑mode for unknown users  
 - time‑based limits for children  
 - **Schoolwork Priority Mode** — schoolwork always bypasses FAMILY restrictions and time limits  
 - integration hooks for AITE → SECURITY FAMILY (schoolwork detection)  
 - new submodule: `time_limits.py`  
-- new submodule: `schoolwork_detector` (planned)  
+- new submodule: `schoolwork_detector.py` (planned)  
+- new submodule: `identity_engine.py` (planned)  
+- new submodule: `family_mode.py` (planned)  
 
 ---
 
