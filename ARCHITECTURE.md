@@ -156,6 +156,7 @@ Recognized types:
 - images/photos  
 - installers/applications  
 - documents  
+- **(v3.0.0) schoolwork** — academic content with priority bypass
 
 Responsibilities:
 
@@ -163,8 +164,9 @@ Responsibilities:
 - routing  
 - metadata generation  
 - integration with FS‑AGENT and CME‑MEM  
+- **bypassing FAMILY time limits for schoolwork (NEW)**  
 
-AITE ensures the system always knows **what kind of input it is handling**.
+AITE ensures the system always knows **what kind of input it is handling** and gives **schoolwork absolute priority**.
 
 ---
 
@@ -211,15 +213,18 @@ Purpose:
 - safe‑mode for unknown users  
 - restricted mode for children (games, multimedia, safe operations only)  
 - protection of sensitive operations and system‑level commands  
+- **time‑based limits for children (NEW)**  
+- **schoolwork bypass mode (NEW)**  
 
 Submodules (already scaffolded in `src/security_family/`):
 
-- `identity_engine.py` – behavior learning & identity classification  
-- `behavior_audit.py` – continuous behavioral audits  
-- `access_control.py` – permission levels (OWNER/FAMILY/STRANGER)  
-- `family_mode.py` – safe environment for children  
-- `stranger_mode.py` – restricted mode for unknown users  
-- `profile_store.json` – local identity profiles  
+- `identity_engine.py`  
+- `behavior_audit.py`  
+- `access_control.py`  
+- `family_mode.py`  
+- `stranger_mode.py`  
+- `time_limits.py`  
+- `profile_store.json`  
 
 This module becomes a **core security layer** in version **3.0.0**.
 
@@ -243,6 +248,7 @@ Runtime Core → WIN‑CAP → Windows 11 APIs
 - AITE → CME‑MEM  
 - Workflow Engine → Runtime Core  
 - WIN‑CAP → Runtime Core  
+- **AITE → SECURITY FAMILY (schoolwork bypass)**  
 
 All communication is **explicit and controlled**.
 
