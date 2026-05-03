@@ -1,7 +1,7 @@
 # 🗺️ Roadmap – SIRIUS LOCAL AI (v2.0.0)
 
 This document defines the long‑term development plan, milestones, and evolution of the SIRIUS LOCAL AI system.  
-The project is now built on the stable Runtime 2.0 architecture and continues toward intelligent automation and self‑repair capabilities.
+The project is now built on the stable Runtime 2.0 architecture and continues toward intelligent automation, family‑safe behavior, and self‑repair capabilities.
 
 All processing is fully local; no data leaves the user's PC.
 
@@ -48,7 +48,7 @@ Delivered:
 ---
 
 # 3. Version 3.0.0 – Intelligent Runtime
-**Focus:** Visuals, semantics, advanced interaction & identity
+**Focus:** Semantics, identity, household assistance, schoolwork, and advanced interaction
 
 Planned:
 - AI‑assisted triage  
@@ -59,7 +59,9 @@ Planned:
 - plugin‑driven visual components  
 - improved real‑time feedback  
 
-### 🔐 New Core Module: SECURITY FAMILY
+---
+
+## 🔐 New Core Module: SECURITY FAMILY (v3.0.0)
 Behavior‑based identity and access control.
 
 Capabilities:
@@ -73,6 +75,94 @@ Capabilities:
 - **Fully offline** – no biometrics, no cloud, pure behavior‑based identity  
 
 **Output:** A more intelligent, context‑aware runtime with user‑level identity and family‑safe behavior.
+
+---
+
+# 3.1 New Intelligent Modules (v3.0.0)
+
+These modules expand SIRIUS from a system automation runtime into a **full offline household assistant**, while staying safe, predictable, and local‑only.
+
+---
+
+## 🏠 HOME_ASSISTANT
+General household assistant.
+
+Responsibilities:
+- safe household recommendations  
+- cleaning tips  
+- organization workflows  
+- safety‑first guidance  
+- integration with IMAGE_ANALYZER  
+
+---
+
+## 🍳 COOKING_ADVISOR
+Offline cooking and recipe assistant.
+
+Responsibilities:
+- recipe generation  
+- suggestions based on available ingredients  
+- step‑by‑step cooking workflows  
+- dietary filters  
+- integration with Knowledge Packs  
+
+---
+
+## 🔧 DEVICE_DIAGNOSTICS
+Safe troubleshooting for household devices.
+
+Responsibilities:
+- identifying common device issues  
+- providing safe repair suggestions  
+- detecting dangerous situations  
+- routing to OWNER‑only actions if needed  
+- integration with SECURITY FAMILY  
+
+---
+
+## 🎓 SCHOOL_HELPER
+Offline schoolwork assistant.
+
+Responsibilities:
+- math, language, science explanations  
+- step‑by‑step reasoning  
+- safe educational help  
+- image‑based homework recognition  
+- integration with SCHOOLWORK PRIORITY MODE  
+
+---
+
+## 🖼 IMAGE_ANALYZER
+Local image understanding engine.
+
+Responsibilities:
+- reading homework from photos  
+- identifying household objects  
+- detecting device issues visually  
+- routing results to correct modules  
+
+---
+
+## 🧭 CONTEXT_ROUTER v3
+Smarter intent routing.
+
+Responsibilities:
+- detecting household tasks  
+- detecting cooking tasks  
+- detecting device issues  
+- detecting schoolwork  
+- routing to new v3 modules  
+
+---
+
+## 📚 KNOWLEDGE_PACKS
+Modular offline knowledge expansions.
+
+Responsibilities:
+- domain‑specific knowledge (kitchen, repairs, school subjects)  
+- safe curated datasets  
+- plug‑and‑play expansions  
+- no internet required  
 
 ---
 
@@ -106,9 +196,10 @@ Planned capabilities:
 - deep Windows integration through WIN‑CAP expansions  
 - **adaptive identity learning in SECURITY FAMILY**  
 - **expanded family‑safe automation**  
+- **full household assistance through v3 modules**  
 
 ---
 
 # Roadmap Status
 Current version: **2.0.0 (Stable)**  
-The system is fully modular and ready for future intelligent and self‑repairing capabilities.
+The system is fully modular and ready for future intelligent, household‑aware, and self‑repairing capabilities.
