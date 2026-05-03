@@ -47,7 +47,7 @@ Delivered:
 ---
 
 # 3. Version 3.0.0 – Intelligent Runtime
-**Focus:** Visuals, semantics, and advanced interaction
+**Focus:** Visuals, semantics, advanced interaction & identity
 
 Planned:
 - AI‑assisted triage  
@@ -58,7 +58,18 @@ Planned:
 - plugin‑driven visual components  
 - improved real‑time feedback  
 
-**Output:** A more intelligent, context‑aware runtime with richer interaction.
+### 🔐 New Module: SECURITY FAMILY
+Behavior‑based identity and access control.
+
+Capabilities:
+- **Owner Recognition** – AI sa naučí štýl písania, práce a príkazov majiteľa  
+- **Family Profiles** – rozpoznanie detí majiteľa, bezpečný režim pre hry a multimédiá  
+- **Stranger Detection** – safe‑mode pre neznámych používateľov  
+- **Access Levels** – OWNER / FAMILY / STRANGER  
+- **Protection of sensitive operations** – mazanie, systémové príkazy, konfigurácie  
+- **Fully offline** – žiadna biometria, žiadny cloud, čistá behaviorálna identita  
+
+**Output:** A more intelligent, context‑aware runtime with user‑level identity and family‑safe behavior.
 
 ---
 
