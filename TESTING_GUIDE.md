@@ -18,6 +18,7 @@ All behavior must remain deterministic, safe, and reversible.
 - plugin tests must follow Plugin System 2.0 rules  
 - WIN‑CAP tests must validate permission boundaries  
 - workflows must behave deterministically  
+- **SECURITY FAMILY tests must validate identity, time‑limits, and schoolwork bypass logic**  
 
 ---
 
@@ -138,6 +139,25 @@ Checklist:
 
 ---
 
+## H) SECURITY FAMILY Tests (v3.0.0)
+Validate:
+- identity classification (OWNER / FAMILY / STRANGER)  
+- behavior‑based recognition  
+- restricted mode for children  
+- safe‑mode for unknown users  
+- time‑limit enforcement  
+- Schoolwork Priority Mode (schoolwork always allowed)  
+- integration with NL Router, AITE, and WIN‑CAP  
+
+Checklist:
+- identity must be deterministic  
+- time‑limits must trigger correctly  
+- schoolwork must bypass restrictions instantly  
+- stranger mode must block sensitive operations  
+- no module may override SECURITY FAMILY decisions  
+
+---
+
 # 3. Test Execution Rules
 
 - run tests in a clean environment  
@@ -147,19 +167,22 @@ Checklist:
 - log results in plain text  
 - repeat tests after major module changes  
 - plugin tests must be isolated  
+- SECURITY FAMILY tests must be performed with multiple user profiles  
 
 ---
 
 # 4. Logging Format
 [MODULE] action – status – notes
 
-Example:
+Examples:
 [FS-AGENT] delete_file – blocked – protected directory
 [WIN-CAP] snap_window – confirmed – window positioned left
-[PLUGIN:notes] create_note – success – workflow completed 
+[PLUGIN:notes] create_note – success – workflow completed
+[SECURITY_FAMILY] time_limit_check – enforced – child profile exceeded limit
+[SECURITY_FAMILY] schoolwork_detected – bypass – restrictions lifted 
 ---
 
 # 5. Document Status
 
 Current version: **2.0.0 (Stable)**  
-This guide will expand as new modules and capabilities are introduced.
+This guide will expand as new modules and capabilities are introduced in v3.0.0 and v4.0.0.
