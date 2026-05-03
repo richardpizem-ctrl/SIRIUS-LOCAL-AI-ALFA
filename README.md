@@ -25,6 +25,28 @@ All processing is fully offline — no cloud, no telemetry, no external dependen
 
 ---
 
+# ℹ️ About SIRIUS LOCAL AI
+
+SIRIUS LOCAL AI is a fully local, modular AI runtime for Windows 11 designed for developers, testers, and power‑users who need safe, deterministic automation on a single PC.  
+It provides a complete runtime architecture (Runtime 2.0) with a plugin system, workflow engine, natural‑language routing, Windows capability layer, and advanced safety modules — all running fully offline.
+
+Unlike cloud‑based AI agents, SIRIUS LOCAL AI executes every operation locally, ensuring privacy, predictability, and full user control.  
+The system is distributed as clean Python source code and is built as a long‑term, extensible platform for local AI automation.
+
+**Key characteristics:**
+- 100% offline, no telemetry  
+- modular architecture with replaceable components  
+- deterministic behavior and strict safety boundaries  
+- plugin ecosystem for extending capabilities  
+- workflow automation and NL command routing  
+- Windows 11 integration through a secure capability layer  
+- upcoming intelligent features (identity, time‑limits, schoolwork priority) in v3.0.0  
+
+SIRIUS LOCAL AI aims to become a new category of software:  
+a **local AI runtime** that safely controls a Windows PC through natural language.
+
+---
+
 # 🧩 Core Philosophy
 
 - **Local‑only AI** — no cloud, no external services  
