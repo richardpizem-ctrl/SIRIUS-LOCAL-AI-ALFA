@@ -38,6 +38,15 @@ The project follows a clean, structured, version‑based changelog format.
 - deterministic AI loop execution  
 - controlled access to Windows capabilities  
 
+### (NEW – v3.0.0 PREVIEW)
+- SECURITY FAMILY module scaffolding  
+- behavior‑based identity (OWNER / FAMILY / STRANGER)  
+- time‑based limits for children  
+- **Schoolwork Priority Mode** — schoolwork always bypasses FAMILY restrictions and time limits  
+- integration hooks for AITE → SECURITY FAMILY (schoolwork detection)  
+- new submodule: `time_limits.py`  
+- new submodule: `schoolwork_detector` (planned)  
+
 ---
 
 # 1.0.0 – Initial Stable Release (Historical)
