@@ -33,6 +33,7 @@ Each module is isolated and follows strict boundaries:
 - `ui_components/` – graphical elements  
 - `workflow/` – Workflow Engine 2.0  
 - `plugins/` – Plugin System 2.0  
+- `security_family/` – **NEW (planned for v3.0.0): behavior‑based identity & family safety layer**
 
 The system is designed to be extended **without modifying the core**.
 
@@ -92,6 +93,8 @@ The workflow layer manages:
 - UI feedback  
 
 ---
+
+## 📁 Project Structure (v2.0.0)
 src/
 ├── commands/
 ├── context/
@@ -104,8 +107,8 @@ src/
 │    └── animations/
 ├── workflow/
 ├── plugins/
+├── security_family/   ← NEW (planned for v3.0.0)
 └── sirius.py
-## 📁 Project Structure (v2.0.0)
 
 Each directory has a clear responsibility and is described in **MODULE_MAP.md**.
 
@@ -156,6 +159,7 @@ More in **PERFORMANCE_GUIDE.md**.
 - semantic workflows  
 - advanced GUI/tray/voice integration  
 - contextual automation  
+- **SECURITY FAMILY – behavior‑based identity & family safety layer**
 
 ### **v4.0.0 – Self‑Repair & Health‑Check Layer**
 - integrity checks  
@@ -175,4 +179,3 @@ The license is provided in **LICENSE**.
 **Richard Pizem**  
 Visionary architect & solo maintainer  
 SIRIUS‑LOCAL‑AI
-
