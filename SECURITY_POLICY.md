@@ -16,7 +16,8 @@ All processing is fully local; no data leaves the user’s PC.
 - **No hidden automation or background tasks.**  
 - **No global mutable state.**  
 - **All privileged actions must go through WIN‑CAP 2.0.**  
-- **Plugins must follow strict capability boundaries.**
+- **Plugins must follow strict capability boundaries.**  
+- **Safety‑critical modules (SECURITY FAMILY) must never be bypassed or weakened.**
 
 These principles ensure predictable, transparent, and safe behavior.
 
@@ -80,6 +81,8 @@ Every release must include:
 - WIN‑CAP capability tests  
 - plugin sandboxing tests  
 - error‑state and fallback tests  
+- **SECURITY FAMILY identity and time‑limit tests (v3.0.0)**  
+- **Schoolwork Priority Mode tests (v3.0.0)**  
 
 Security tests must be reproducible and manual.
 
@@ -104,7 +107,31 @@ You will receive a response within **72 hours**.
 
 ---
 
-# 7. 🛠️ Self‑Repair & Health‑Check Layer (v4.0.0)
+# 7. 🛡 SECURITY FAMILY (v3.0.0)
+
+A future core module responsible for identity‑based safety and family protection.
+
+### Responsibilities:
+- behavior‑based identity recognition (OWNER / FAMILY / STRANGER)  
+- offline learning of user behavior (no biometrics, no cloud)  
+- restricted mode for children  
+- safe‑mode for unknown users  
+- protection of sensitive operations  
+- integration with NL Router, AITE, and WIN‑CAP  
+- **time‑based limits for children**  
+- **Schoolwork Priority Mode — schoolwork always allowed**  
+
+### Security Guarantees:
+- identity classification must be deterministic  
+- no biometric data, no external services  
+- no background training loops  
+- time‑limit enforcement must be constant‑time  
+- schoolwork bypass must be instant and safe  
+- no module may override SECURITY FAMILY decisions  
+
+---
+
+# 8. 🛠️ Self‑Repair & Health‑Check Layer (v4.0.0)
 
 A future security‑critical module designed to maintain long‑term system stability.
 
@@ -127,13 +154,13 @@ This layer will be implemented in **version 4.0.0**, after the system reaches fu
 
 ---
 
-# 8. 📄 Supported Versions
+# 9. 📄 Supported Versions
 
 Only the **latest stable release** receives security updates.
 
 ---
 
-# 9. 📌 Document Status
+# 10. 📌 Document Status
 
 Current version: **2.0.0 (Stable)**  
 This policy will evolve as new modules and capabilities are introduced.
