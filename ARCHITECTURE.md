@@ -201,7 +201,7 @@ All official plugins are **v2‑ready**.
 
 ---
 
-# 🔐 (NEW) Future Core Module – SECURITY FAMILY (planned for v3.0.0)
+# 🔐 Future Core Module – SECURITY FAMILY (planned for v3.0.0)
 
 Although not active in **v2.0.0**, the architecture already reserves space for a new core module:
 
@@ -216,7 +216,7 @@ Purpose:
 - **time‑based limits for children (NEW)**  
 - **schoolwork bypass mode (NEW)**  
 
-Submodules (already scaffolded in `src/security_family/`):
+Submodules:
 
 - `identity_engine.py`  
 - `behavior_audit.py`  
@@ -227,6 +227,94 @@ Submodules (already scaffolded in `src/security_family/`):
 - `profile_store.json`  
 
 This module becomes a **core security layer** in version **3.0.0**.
+
+---
+
+# 🌟 Future Architecture Extensions (v3.0.0 – v4.0.0)
+
+These modules expand SIRIUS from a system automation runtime into a **full offline household assistant**, while staying safe, predictable, and local‑only.
+
+---
+
+## 🏠 HOME_ASSISTANT (v3.0.0)
+General household assistant.
+
+Responsibilities:
+- safe household recommendations  
+- cleaning tips  
+- organization workflows  
+- safety‑first guidance  
+- integration with IMAGE_ANALYZER  
+
+---
+
+## 🍳 COOKING_ADVISOR (v3.0.0)
+Offline cooking and recipe assistant.
+
+Responsibilities:
+- recipe generation  
+- suggestions based on available ingredients  
+- step‑by‑step cooking workflows  
+- dietary filters  
+- integration with Knowledge Packs  
+
+---
+
+## 🔧 DEVICE_DIAGNOSTICS (v3.0.0)
+Safe troubleshooting for household devices.
+
+Responsibilities:
+- identifying common device issues  
+- providing safe repair suggestions  
+- detecting dangerous situations  
+- routing to OWNER‑only actions  
+- integration with SECURITY FAMILY  
+
+---
+
+## 🎓 SCHOOL_HELPER (v3.0.0)
+Offline schoolwork assistant.
+
+Responsibilities:
+- math, language, science explanations  
+- step‑by‑step reasoning  
+- safe educational help  
+- image‑based homework recognition  
+- integration with SCHOOLWORK PRIORITY MODE  
+
+---
+
+## 🖼 IMAGE_ANALYZER (v3.0.0)
+Local image understanding engine.
+
+Responsibilities:
+- reading homework from photos  
+- identifying household objects  
+- detecting device issues visually  
+- routing results to correct modules  
+
+---
+
+## 🧭 CONTEXT_ROUTER v3 (v3.0.0)
+Smarter intent routing.
+
+Responsibilities:
+- detecting household tasks  
+- detecting cooking tasks  
+- detecting device issues  
+- detecting schoolwork  
+- routing to new v3 modules  
+
+---
+
+## 📚 KNOWLEDGE_PACKS (v3.0.0+)
+Modular offline knowledge expansions.
+
+Responsibilities:
+- domain‑specific knowledge (kitchen, repairs, school subjects)  
+- safe curated datasets  
+- plug‑and‑play expansions  
+- no internet required  
 
 ---
 
@@ -249,40 +337,10 @@ Runtime Core → WIN‑CAP → Windows 11 APIs
 - Workflow Engine → Runtime Core  
 - WIN‑CAP → Runtime Core  
 - **AITE → SECURITY FAMILY (schoolwork bypass)**  
+- **IMAGE_ANALYZER → SCHOOL_HELPER / DEVICE_DIAGNOSTICS / HOME_ASSISTANT**  
+- **CONTEXT_ROUTER v3 → all v3 modules**  
 
 All communication is **explicit and controlled**.
-
----
-
-# 🧱 Module Isolation Model
-
-Each module:
-
-- runs independently  
-- exposes only documented interfaces  
-- cannot access other modules’ internals  
-- communicates through Runtime Core  
-- cannot bypass safety layers  
-
-This ensures **predictable, auditable behavior**.
-
----
-
-# 🧪 Deterministic Execution Model
-
-SIRIUS LOCAL AI guarantees:
-
-- no race conditions  
-- no hidden background threads  
-- no unpredictable behavior  
-
-Every action follows:
-
-1. Interpretation  
-2. Validation  
-3. Execution  
-4. Logging  
-5. Optional reversal  
 
 ---
 
