@@ -199,6 +199,32 @@ All official plugins are **v2‑ready**.
 
 ---
 
+# 🔐 (NEW) Future Core Module – SECURITY FAMILY (planned for v3.0.0)
+
+Although not active in **v2.0.0**, the architecture already reserves space for a new core module:
+
+## SECURITY FAMILY (Behavior‑Based Identity & Family Safety Layer)
+
+Purpose:
+- behavior‑based recognition of **OWNER**, **FAMILY**, and **STRANGER**  
+- offline identity learning (no biometrics, no cloud)  
+- safe‑mode for unknown users  
+- restricted mode for children (games, multimedia, safe operations only)  
+- protection of sensitive operations and system‑level commands  
+
+Submodules (already scaffolded in `src/security_family/`):
+
+- `identity_engine.py` – behavior learning & identity classification  
+- `behavior_audit.py` – continuous behavioral audits  
+- `access_control.py` – permission levels (OWNER/FAMILY/STRANGER)  
+- `family_mode.py` – safe environment for children  
+- `stranger_mode.py` – restricted mode for unknown users  
+- `profile_store.json` – local identity profiles  
+
+This module becomes a **core security layer** in version **3.0.0**.
+
+---
+
 # 🔌 Module Interconnections
 
 User Input  
