@@ -58,6 +58,7 @@ No data leaves the user’s PC.
   - text, image, installer, document detection  
   - metadata generation  
   - safe routing  
+  - **(v3.0.0) schoolwork detection → Schoolwork Priority Mode**
 
 ## 🪟 Windows System Capabilities (WIN‑CAP 2.0)
 - window snapping and arrangement  
@@ -114,6 +115,11 @@ All system‑level actions require explicit confirmation.
 - safe OS‑level capability wrappers  
 - no hidden background tasks  
 - reversible operations where possible  
+- **foundation prepared for SECURITY FAMILY (v3.0.0)**  
+  - behavior‑based identity  
+  - time‑limits for children  
+  - Schoolwork Priority Mode  
+  - safe‑mode for unknown users  
 
 ---
 
@@ -132,6 +138,7 @@ All system‑level actions require explicit confirmation.
 - contextual automation  
 - expanded animation system  
 - plugin‑driven visual components  
+- **SECURITY FAMILY (identity, time‑limits, schoolwork priority)**  
 
 ---
 
