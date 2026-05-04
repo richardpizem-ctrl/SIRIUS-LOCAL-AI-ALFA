@@ -4,54 +4,98 @@ from context.context_manager import ContextManager
 
 class ContextSetCommand(BaseCommand):
     """
-    Nastaví hodnotu v stave systému.
-    Použitie:
-      context-set <key> <value>
+    ContextSetCommand 4.0
+    Sets a value in the system state with validation, snapshot,
+    diff reporting, and safe merge.
+
+    New in v4.0:
+    - NL Router metadata
+    - SECURITY FAMILY enforcement
+    - risk-aware execution
+    - capability flags (context_write)
+    - snapshot before modification
+    - structured output for Workflow Engine 4.0
     """
 
+    # ---------------------------------------------------------
+    # METADATA (v4.0)
+    # ---------------------------------------------------------
     name = "context-set"
-    description = "Nastaví hodnotu v kontexte (stav systému) s validáciou, snapshotom a diff."
+    description = "Sets a value in the context state with validation, snapshot, and diff."
+    category = "context"
 
+    required_identity = "OWNER"     # Only OWNER can modify system state
+    risk_level = 0.4                # Medium risk (state modification)
+    capabilities = ["context_write"]
+
+    keywords = ["set", "context", "state", "update"]
+    examples = ["context-set mood happy"]
+
+    # ---------------------------------------------------------
+    # INIT
+    # ---------------------------------------------------------
     def __init__(self, context: ContextManager):
         self.context = context
 
+    # ---------------------------------------------------------
+    # EXECUTION (v4.0)
+    # ---------------------------------------------------------
     def execute(self, *args, **kwargs):
+        """
+        Sets a state variable with snapshot and diff reporting.
+        """
+
         # -----------------------------
-        #  VALIDÁCIA VSTUPU
+        # INPUT VALIDATION
         # -----------------------------
         if len(args) < 2:
-            return "Použitie: context-set <key> <value>"
+            return {
+                "status": "error",
+                "message": "Usage: context-set <key> <value>"
+            }
 
         key, value = args[0], args[1]
 
         # -----------------------------
-        #  VALIDÁCIA KONTEXTU
+        # CONTEXT VALIDATION
         # -----------------------------
         if hasattr(self.context, "validate") and not self.context.validate():
-            return "Chyba: Kontext nie je v konzistentnom stave."
+            return {
+                "status": "invalid",
+                "message": "Context is not in a consistent state."
+            }
 
         # -----------------------------
-        #  SNAPSHOT PRED ZMENOU
+        # SNAPSHOT BEFORE CHANGE
         # -----------------------------
         if hasattr(self.context, "snapshot"):
             self.context.snapshot()
 
         # -----------------------------
-        #  DIFF
+        # DIFF (old vs new)
         # -----------------------------
         old_value = self.context.get_state(key)
+        diff = None
+
         if old_value is not None and old_value != value:
-            diff_info = f"(zmena: '{old_value}' → '{value}')"
-        else:
-            diff_info = ""
+            diff = {
+                "old": old_value,
+                "new": value
+            }
 
         # -----------------------------
-        #  BEZPEČNÝ MERGE
+        # SAFE MERGE
         # -----------------------------
         if isinstance(key, str):
             self.context.merge({key: value})
 
         # -----------------------------
-        #  POTVRDENIE
+        # SUCCESS RESPONSE
         # -----------------------------
-        return f"Nastavené: {key} = {value} {diff_info}".strip()
+        return {
+            "status": "success",
+            "key": key,
+            "value": value,
+            "diff": diff,
+            "message": f"State variable '{key}' updated."
+        }
