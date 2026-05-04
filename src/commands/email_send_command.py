@@ -7,14 +7,6 @@ class EmailSendCommand(BaseCommand):
     EmailSendCommand 4.0
     Sends an email using EmailManager with validation, snapshot,
     profile loading, and structured JSON output.
-
-    New in v4.0:
-    - NL Router metadata
-    - SECURITY FAMILY enforcement
-    - OWNER-only execution
-    - risk-aware classification
-    - structured JSON output
-    - safe email sending pipeline
     """
 
     # ---------------------------------------------------------
@@ -24,8 +16,8 @@ class EmailSendCommand(BaseCommand):
     description = "Sends an email using EmailManager."
     category = "email"
 
-    required_identity = "OWNER"     # Only OWNER can send emails
-    risk_level = 0.8                # High risk (external communication)
+    required_identity = "OWNER"
+    risk_level = 0.8
     capabilities = ["context_read", "context_write", "fs_read", "fs_write"]
 
     keywords = ["email", "send", "mail"]
@@ -97,13 +89,16 @@ class EmailSendCommand(BaseCommand):
         # -----------------------------
         sent_email = self.email_manager.send_email(draft, profile)
 
+        # Extract actual email object
+        email = sent_email["email"]
+
         # -----------------------------
         # LOG INTO CONTEXT STATE
         # -----------------------------
         self.context.merge({
-            "last_email_sent_id": sent_email["id"],
-            "last_email_sent_to": sent_email["to"],
-            "last_email_sent_subject": sent_email["subject"]
+            "last_email_sent_id": email["id"],
+            "last_email_sent_to": email["to"],
+            "last_email_sent_subject": email["subject"]
         })
 
         # -----------------------------
@@ -112,8 +107,8 @@ class EmailSendCommand(BaseCommand):
         return {
             "status": "success",
             "message": "Email sent successfully.",
-            "email_id": sent_email["id"],
-            "to": sent_email["to"],
-            "subject": sent_email["subject"],
+            "email_id": email["id"],
+            "to": email["to"],
+            "subject": email["subject"],
             "profile_used": profile_name
         }
