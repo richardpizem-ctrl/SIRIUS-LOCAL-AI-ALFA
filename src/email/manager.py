@@ -3,6 +3,12 @@ import os
 import copy
 from datetime import datetime
 
+# NEW BACKEND MODULES
+from email.email_storage import EmailStorage
+from email.email_validator import EmailValidator
+from email.email_renderer import EmailRenderer
+from email.email_profile_manager import EmailProfileManager
+
 
 class EmailManager:
     """
@@ -15,10 +21,8 @@ class EmailManager:
     - store emails locally
     - manage attachments
     - manage sender profiles
-    - provide structured metadata for commands
-
-    This module is intentionally backend‑only.
-    Commands (email-send, email-draft, etc.) will call this manager.
+    - validate email fields
+    - render previews and exports
     """
 
     def __init__(self, base_path="emails", profile_path="email_profiles"):
@@ -27,6 +31,12 @@ class EmailManager:
 
         os.makedirs(self.base_path, exist_ok=True)
         os.makedirs(self.profile_path, exist_ok=True)
+
+        # BACKEND MODULES
+        self.storage = EmailStorage(base_path=self.base_path)
+        self.validator = EmailValidator()
+        self.renderer = EmailRenderer()
+        self.profile_manager = EmailProfileManager(base_path=self.profile_path)
 
     # ============================================================
     #  INTERNAL HELPERS
@@ -46,6 +56,16 @@ class EmailManager:
         """
         Creates a new email draft and stores it locally.
         """
+
+        # VALIDATION
+        validation = self.validator.validate_full(to, subject, body)
+        if not validation["all_valid"]:
+            return {
+                "status": "error",
+                "message": "Validation failed.",
+                "details": validation
+            }
+
         attachments = attachments or []
 
         draft = {
@@ -58,11 +78,7 @@ class EmailManager:
             "status": "draft"
         }
 
-        filename = f"draft_{draft['id']}.json"
-
-        with open(self._email_path(filename), "w", encoding="utf-8") as f:
-            json.dump(draft, f, indent=2, ensure_ascii=False)
-
+        self.storage.save(draft, prefix="draft")
         return draft
 
     # ============================================================
@@ -80,11 +96,7 @@ class EmailManager:
         sent["sent_at"] = datetime.now().isoformat()
         sent["sender_profile"] = sender_profile or {}
 
-        filename = f"sent_{sent['id']}.json"
-
-        with open(self._email_path(filename), "w", encoding="utf-8") as f:
-            json.dump(sent, f, indent=2, ensure_ascii=False)
-
+        self.storage.save(sent, prefix="sent")
         return sent
 
     # ============================================================
@@ -92,88 +104,47 @@ class EmailManager:
     # ============================================================
 
     def list_emails(self, status=None):
-        """
-        Lists all emails or filters by status (draft/sent).
-        """
-        files = os.listdir(self.base_path)
-        emails = []
-
-        for f in files:
-            if not f.endswith(".json"):
-                continue
-
-            with open(self._email_path(f), "r", encoding="utf-8") as file:
-                data = json.load(file)
-
-            if status is None or data.get("status") == status:
-                emails.append(data)
-
-        return emails
+        return self.storage.list(status=status)
 
     # ============================================================
     #  LOAD EMAIL
     # ============================================================
 
     def load_email(self, email_id: str):
-        """
-        Loads a draft or sent email by ID.
-        """
-        for f in os.listdir(self.base_path):
-            if f.endswith(".json") and email_id in f:
-                with open(self._email_path(f), "r", encoding="utf-8") as file:
-                    return json.load(file)
-        return None
+        return self.storage.load(email_id)
 
     # ============================================================
     #  DELETE EMAIL
     # ============================================================
 
     def delete_email(self, email_id: str):
-        """
-        Deletes an email by ID.
-        """
-        for f in os.listdir(self.base_path):
-            if f.endswith(".json") and email_id in f:
-                os.remove(self._email_path(f))
-                return True
-        return False
+        return self.storage.delete(email_id)
 
     # ============================================================
     #  PROFILE MANAGEMENT
     # ============================================================
 
     def save_profile(self, name: str, profile: dict):
-        """
-        Saves a sender profile.
-        """
-        with open(self._profile_path(name), "w", encoding="utf-8") as f:
-            json.dump(profile, f, indent=2, ensure_ascii=False)
-        return True
+        return self.profile_manager.save_profile(name, profile)
 
     def load_profile(self, name: str):
-        """
-        Loads a sender profile.
-        """
-        path = self._profile_path(name)
-        if not os.path.isfile(path):
-            return None
-
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        return self.profile_manager.load_profile(name)
 
     def list_profiles(self):
-        """
-        Lists all sender profiles.
-        """
-        files = os.listdir(self.profile_path)
-        return [f.replace(".json", "") for f in files if f.endswith(".json")]
+        return self.profile_manager.list_profiles()
 
     def delete_profile(self, name: str):
-        """
-        Deletes a sender profile.
-        """
-        path = self._profile_path(name)
-        if os.path.isfile(path):
-            os.remove(path)
-            return True
-        return False
+        return self.profile_manager.delete_profile(name)
+
+    # ============================================================
+    #  RENDERING
+    # ============================================================
+
+    def render_preview(self, email: dict):
+        return self.renderer.render_preview(email)
+
+    def render_full(self, email: dict):
+        return self.renderer.render_full(email)
+
+    def render_export(self, email: dict):
+        return self.renderer.render_export(email)
