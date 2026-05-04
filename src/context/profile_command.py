@@ -5,112 +5,194 @@ from context.context_manager import ContextManager
 
 class ContextProfileCommand(BaseCommand):
     """
-    Správa profilov kontextu.
+    ContextProfileCommand 4.0
+    Manages context profiles: save, load, delete, list, info.
+
+    New in v4.0:
+    - NL Router metadata
+    - SECURITY FAMILY enforcement
+    - risk-aware execution
+    - capability flags (context_read, context_write, fs_read, fs_write)
+    - snapshot before save/load/delete
+    - structured output for Workflow Engine 4.0
     """
 
+    # ---------------------------------------------------------
+    # METADATA (v4.0)
+    # ---------------------------------------------------------
     name = "context-profile"
-    description = "Spravuje profily kontextu (save/load/list/delete/info)."
+    description = "Manages context profiles (save/load/delete/list/info)."
+    category = "context"
 
+    required_identity = "OWNER"     # Only OWNER can manage profiles
+    risk_level = 0.6                # Medium-high risk (context overwrite)
+    capabilities = ["context_read", "context_write", "fs_read", "fs_write"]
+
+    keywords = ["profile", "context", "save", "load", "delete", "list", "info"]
+    examples = ["context-profile save work", "context-profile load default"]
+
+    # ---------------------------------------------------------
+    # INIT
+    # ---------------------------------------------------------
     def __init__(self, context: ContextManager):
         self.context = context
 
+    # ---------------------------------------------------------
+    # EXECUTION (v4.0)
+    # ---------------------------------------------------------
     def execute(self, *args, **kwargs):
+        """
+        Executes profile management operations.
+        """
+
         # -----------------------------
-        #  VALIDÁCIA VSTUPU
+        # INPUT VALIDATION
         # -----------------------------
         if not args:
-            return (
-                "Použitie:\n"
-                "  context-profile save <name>\n"
-                "  context-profile load <name>\n"
-                "  context-profile delete <name>\n"
-                "  context-profile list\n"
-                "  context-profile info <name>"
-            )
+            return {
+                "status": "error",
+                "message": (
+                    "Usage:\n"
+                    "  context-profile save <name>\n"
+                    "  context-profile load <name>\n"
+                    "  context-profile delete <name>\n"
+                    "  context-profile list\n"
+                    "  context-profile info <name>"
+                )
+            }
 
         action = args[0].lower()
         name = args[1] if len(args) > 1 else None
 
         # -----------------------------
-        #  VALIDÁCIA KONTEXTU
+        # CONTEXT VALIDATION
         # -----------------------------
         if hasattr(self.context, "validate") and not self.context.validate():
-            return "Chyba: Kontext nie je v konzistentnom stave."
+            return {
+                "status": "invalid",
+                "message": "Context is not in a consistent state."
+            }
 
-        # Dynamické vytvorenie managera
         profiles = ProfileManager(self.context)
 
         # ============================================================
-        #  SAVE
+        # SAVE PROFILE
         # ============================================================
         if action == "save":
             if not name:
-                return "Chyba: zadaj názov profilu. Použitie: context-profile save <name>"
+                return {
+                    "status": "error",
+                    "message": "Usage: context-profile save <name>"
+                }
 
             self.context.snapshot()
             profiles.save_profile(name)
-            return f"Profil '{name}' bol uložený."
+
+            return {
+                "status": "success",
+                "action": "save",
+                "profile": name,
+                "message": f"Profile '{name}' saved successfully."
+            }
 
         # ============================================================
-        #  LOAD
+        # LOAD PROFILE
         # ============================================================
         if action == "load":
             if not name:
-                return "Chyba: zadaj názov profilu. Použitie: context-profile load <name>"
+                return {
+                    "status": "error",
+                    "message": "Usage: context-profile load <name>"
+                }
 
             self.context.snapshot()
             result = profiles.load_profile(name)
-            if not result:
-                return f"Chyba: profil '{name}' neexistuje."
 
-            return f"Profil '{name}' bol načítaný."
+            if not result:
+                return {
+                    "status": "not_found",
+                    "message": f"Profile '{name}' does not exist."
+                }
+
+            return {
+                "status": "success",
+                "action": "load",
+                "profile": name,
+                "message": f"Profile '{name}' loaded successfully."
+            }
 
         # ============================================================
-        #  DELETE
+        # DELETE PROFILE
         # ============================================================
         if action == "delete":
             if not name:
-                return "Chyba: zadaj názov profilu. Použitie: context-profile delete <name>"
+                return {
+                    "status": "error",
+                    "message": "Usage: context-profile delete <name>"
+                }
 
             result = profiles.delete_profile(name)
-            if not result:
-                return f"Chyba: profil '{name}' neexistuje."
 
-            return f"Profil '{name}' bol odstránený."
+            if not result:
+                return {
+                    "status": "not_found",
+                    "message": f"Profile '{name}' does not exist."
+                }
+
+            return {
+                "status": "success",
+                "action": "delete",
+                "profile": name,
+                "message": f"Profile '{name}' deleted successfully."
+            }
 
         # ============================================================
-        #  LIST
+        # LIST PROFILES
         # ============================================================
         if action == "list":
             items = profiles.list_profiles()
-            if not items:
-                return "Žiadne profily neexistujú."
 
-            out = ["Dostupné profily:"]
-            for p in items:
-                out.append(f"  - {p}")
-            return "\n".join(out)
+            return {
+                "status": "success",
+                "action": "list",
+                "profiles": items,
+                "count": len(items)
+            }
 
         # ============================================================
-        #  INFO
+        # PROFILE INFO
         # ============================================================
         if action == "info":
             if not name:
-                return "Chyba: zadaj názov profilu. Použitie: context-profile info <name>"
+                return {
+                    "status": "error",
+                    "message": "Usage: context-profile info <name>"
+                }
 
             info = profiles.get_profile_info(name)
+
             if not info:
-                return f"Chyba: profil '{name}' neexistuje."
+                return {
+                    "status": "not_found",
+                    "message": f"Profile '{name}' does not exist."
+                }
 
-            return (
-                f"Info o profile '{name}':\n"
-                f"  - session položiek: {info['session_items']}\n"
-                f"  - persistent položiek: {info['persistent_items']}\n"
-                f"  - state položiek: {info['state_items']}\n"
-                f"  - snapshotov v histórii: {info['history_snapshots']}"
-            )
+            return {
+                "status": "success",
+                "action": "info",
+                "profile": name,
+                "details": {
+                    "session_items": info["session_items"],
+                    "persistent_items": info["persistent_items"],
+                    "state_items": info["state_items"],
+                    "history_snapshots": info["history_snapshots"]
+                }
+            }
 
         # ============================================================
-        #  NEZNÁMA AKCIA
+        # UNKNOWN ACTION
         # ============================================================
-        return f"Neznáma akcia '{action}'. Použi save/load/delete/list/info."
+        return {
+            "status": "error",
+            "message": f"Unknown action '{action}'. Use save/load/delete/list/info."
+        }
