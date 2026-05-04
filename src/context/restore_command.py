@@ -7,92 +7,143 @@ import copy
 
 class RestoreCommand(BaseCommand):
     """
-    Obnoví kontext zo súboru vytvoreného príkazom context-backup.
+    RestoreCommand 4.0
+    Restores the entire context from a backup JSON file created by context-backup.
+
+    New in v4.0:
+    - NL Router metadata
+    - SECURITY FAMILY enforcement
+    - high-risk classification
+    - capability flags (context_write, fs_read)
+    - strict backup validation
+    - deep-copy restoration
+    - post-restore snapshot
+    - structured output for Workflow Engine 4.0
     """
 
+    # ---------------------------------------------------------
+    # METADATA (v4.0)
+    # ---------------------------------------------------------
     name = "context-restore"
-    description = "Obnoví celý kontext zo záložného JSON súboru."
+    description = "Restores the entire context from a backup JSON file."
+    category = "context"
 
+    required_identity = "OWNER"     # Only OWNER can restore full context
+    risk_level = 0.9                # Extremely high risk (full overwrite)
+    capabilities = ["context_write", "fs_read"]
+
+    keywords = ["restore", "backup", "context", "load"]
+    examples = ["context-restore backup_2026-04-24_11-25-55.json"]
+
+    # ---------------------------------------------------------
+    # INIT
+    # ---------------------------------------------------------
     def __init__(self, context: ContextManager, backup_dir="backups"):
         self.context = context
         self.backup_dir = backup_dir
 
+    # ---------------------------------------------------------
+    # EXECUTION (v4.0)
+    # ---------------------------------------------------------
     def execute(self, *args, **kwargs):
+        """
+        Restores the entire context from a backup JSON file.
+        """
+
         # -----------------------------
-        #  VALIDÁCIA VSTUPU
+        # INPUT VALIDATION
         # -----------------------------
         filename = args[0] if args else None
 
         if filename is None:
-            return (
-                "Použitie:\n"
-                "  context-restore <filename>\n\n"
-                "Príklad:\n"
-                "  context-restore backup_2026-04-24_11-25-55.json"
-            )
+            return {
+                "status": "error",
+                "message": (
+                    "Usage:\n"
+                    "  context-restore <filename>\n\n"
+                    "Example:\n"
+                    "  context-restore backup_2026-04-24_11-25-55.json"
+                )
+            }
 
         filepath = filename
 
-        # Ak používateľ zadal len názov, doplníme cestu backups/
+        # If only filename is given, try backups/ directory
         if not os.path.isfile(filepath):
             candidate = os.path.join(self.backup_dir, filename)
             if os.path.isfile(candidate):
                 filepath = candidate
             else:
-                return f"Chyba: súbor '{filename}' neexistuje ani v '{self.backup_dir}/'."
+                return {
+                    "status": "error",
+                    "message": f"File '{filename}' does not exist in current directory or '{self.backup_dir}/'."
+                }
 
         # -----------------------------
-        #  NAČÍTANIE JSON
+        # LOAD JSON
         # -----------------------------
         try:
             with open(filepath, "r", encoding="utf-8") as f:
                 data = json.load(f)
         except Exception as e:
-            return f"Chyba pri načítaní backup súboru: {e}"
+            return {
+                "status": "error",
+                "message": "Failed to load backup file.",
+                "exception": str(e)
+            }
 
         # -----------------------------
-        #  VALIDÁCIA OBSAHU BACKUPU
+        # VALIDATE BACKUP STRUCTURE
         # -----------------------------
         required_keys = ["session", "persistent", "state", "history"]
 
         if not isinstance(data, dict) or not all(k in data for k in required_keys):
-            return "Chyba: backup súbor nemá správnu štruktúru (session/persistent/state/history)."
+            return {
+                "status": "error",
+                "message": "Backup file has invalid structure. Required keys: session, persistent, state, history."
+            }
 
-        # typová validácia
         if not isinstance(data["session"], list):
-            return "Chyba: session musí byť zoznam."
+            return {"status": "error", "message": "Backup 'session' must be a list."}
         if not isinstance(data["persistent"], dict):
-            return "Chyba: persistent musí byť objekt."
+            return {"status": "error", "message": "Backup 'persistent' must be an object."}
         if not isinstance(data["state"], dict):
-            return "Chyba: state musí byť objekt."
+            return {"status": "error", "message": "Backup 'state' must be an object."}
         if not isinstance(data["history"], list):
-            return "Chyba: history musí byť zoznam snapshotov."
+            return {"status": "error", "message": "Backup 'history' must be a list of snapshots."}
 
         # -----------------------------
-        #  OBNOVA KONTEXTU (deep copy)
+        # RESTORE CONTEXT (deep copy)
         # -----------------------------
         self.context.session_memory = copy.deepcopy(data["session"])
         self.context.persistent_memory = copy.deepcopy(data["persistent"])
         self.context.state = copy.deepcopy(data["state"])
 
-        # rešpektovať max_history
+        # Enforce max_history
         self.context.history = copy.deepcopy(
             data["history"][-self.context.max_history:]
         )
 
         # -----------------------------
-        #  SNAPSHOT PO OBNOVE
+        # SNAPSHOT AFTER RESTORE
         # -----------------------------
         if hasattr(self.context, "snapshot"):
             self.context.snapshot()
 
         # -----------------------------
-        #  VALIDÁCIA PO OBNOVE
+        # VALIDATE AFTER RESTORE
         # -----------------------------
         if hasattr(self.context, "validate") and not self.context.validate():
-            return (
-                "Upozornenie: Kontext bol obnovený, "
-                "ale nie je v konzistentnom stave."
-            )
+            return {
+                "status": "warning",
+                "message": "Context restored, but validation failed."
+            }
 
-        return f"Kontext bol obnovený zo súboru '{filepath}'."
+        # -----------------------------
+        # SUCCESS RESPONSE
+        # -----------------------------
+        return {
+            "status": "success",
+            "file": filepath,
+            "message": f"Context restored successfully from '{filepath}'."
+        }
