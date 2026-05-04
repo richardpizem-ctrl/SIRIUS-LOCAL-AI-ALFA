@@ -4,76 +4,101 @@ from context.context_manager import ContextManager
 
 class ContextInfoCommand(BaseCommand):
     """
-    Príkaz, ktorý vypíše obsah kontextu:
-    - krátkodobú pamäť
-    - dlhodobú pamäť
-    - stav systému
-    - história (počet snapshotov)
-    - validácia konzistencie
+    ContextInfoCommand 4.0
+    Displays diagnostic information about the AI context:
+    - short‑term memory (session)
+    - long‑term memory (persistent)
+    - system state
+    - snapshot history
+    - consistency validation
+
+    New in v4.0:
+    - NL Router metadata
+    - SECURITY FAMILY enforcement
+    - risk-aware execution
+    - capability flags (context_read)
+    - structured output for Workflow Engine 4.0
+    - audit trail via BaseCommand lifecycle
     """
 
+    # ---------------------------------------------------------
+    # METADATA (v4.0)
+    # ---------------------------------------------------------
     name = "context-info"
-    description = "Zobrazí diagnostiku kontextu AI (rozšírená verzia)."
+    description = "Displays extended diagnostic information about the AI context."
+    category = "context"
 
+    required_identity = "OWNER"     # Only OWNER can inspect full diagnostics
+    risk_level = 0.2                # Low risk (read-only)
+    capabilities = ["context_read"]
+
+    keywords = ["info", "context", "diagnostics", "memory", "state"]
+    examples = ["context-info"]
+
+    # ---------------------------------------------------------
+    # INIT
+    # ---------------------------------------------------------
     def __init__(self, context: ContextManager):
         self.context = context
 
+    # ---------------------------------------------------------
+    # EXECUTION (v4.0)
+    # ---------------------------------------------------------
     def execute(self, *args, **kwargs):
-        output = ["KONTEKST AI — DIAGNOSTIKA\n"]
+        """
+        Returns structured diagnostic information about the context.
+        """
 
-        # ============================================================
-        #  VALIDÁCIA KONTEXTU
-        # ============================================================
-        is_valid = self.context.validate() if hasattr(self.context, "validate") else True
-        output.append(f"Validita kontextu: {'OK' if is_valid else 'CHYBA'}")
+        # -----------------------------
+        # VALIDATE CONTEXT
+        # -----------------------------
+        is_valid = (
+            self.context.validate()
+            if hasattr(self.context, "validate")
+            else True
+        )
 
-        # ============================================================
-        #  KRÁTKODOBÁ PAMÄŤ
-        # ============================================================
-        output.append("\nKrátkodobá pamäť (session):")
-        if self.context.session_memory:
-            for item in self.context.get_recent(10):
-                output.append(f"  - {item}")
-        else:
-            output.append("  (prázdne)")
+        # -----------------------------
+        # COLLECT DATA
+        # -----------------------------
+        session_items = list(self.context.get_recent(10)) if self.context.session_memory else []
+        persistent_items = dict(self.context.persistent_memory)
+        state_items = dict(self.context.state)
 
-        # ============================================================
-        #  DLHODOBÁ PAMÄŤ
-        # ============================================================
-        output.append("\nDlhodobá pamäť (persistent):")
-        if self.context.persistent_memory:
-            for key, value in self.context.persistent_memory.items():
-                output.append(f"  - {key}: {value}")
-        else:
-            output.append("  (prázdne)")
+        history_count = len(self.context.history)
+        max_capacity = getattr(self.context, "max_history", None)
 
-        # ============================================================
-        #  STAV SYSTÉMU
-        # ============================================================
-        output.append("\nStav systému:")
-        if self.context.state:
-            for key, value in self.context.state.items():
-                output.append(f"  - {key}: {value}")
-        else:
-            output.append("  (prázdne)")
-
-        # ============================================================
-        #  HISTÓRIA SNAPSHOTOV
-        # ============================================================
-        output.append("\nHistória kontextu:")
-        output.append(f"  Počet snapshotov: {len(self.context.history)}")
-        output.append(f"  Max. kapacita: {self.context.max_history}")
-
-        # ============================================================
-        #  POSLEDNÝ SNAPSHOT
-        # ============================================================
-        if self.context.history:
+        if history_count > 0:
             last = self.context.history[-1]
-            output.append("\nPosledný snapshot:")
-            output.append(f"  - session: {len(last['session'])} položiek")
-            output.append(f"  - persistent: {len(last['persistent'])} položiek")
-            output.append(f"  - state: {len(last['state'])} položiek")
+            last_snapshot = {
+                "session_items": len(last.get("session", [])),
+                "persistent_items": len(last.get("persistent", {})),
+                "state_items": len(last.get("state", {}))
+            }
         else:
-            output.append("\nPosledný snapshot: (žiadny uložený)")
+            last_snapshot = None
 
-        return "\n".join(output)
+        # -----------------------------
+        # STRUCTURED OUTPUT
+        # -----------------------------
+        return {
+            "status": "success",
+            "context_valid": is_valid,
+            "session_memory": {
+                "count": len(session_items),
+                "recent_items": session_items
+            },
+            "persistent_memory": {
+                "count": len(persistent_items),
+                "items": persistent_items
+            },
+            "state": {
+                "count": len(state_items),
+                "items": state_items
+            },
+            "history": {
+                "snapshots": history_count,
+                "max_capacity": max_capacity,
+                "last_snapshot": last_snapshot
+            }
+        }
