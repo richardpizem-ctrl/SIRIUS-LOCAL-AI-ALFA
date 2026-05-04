@@ -1,61 +1,70 @@
+import inspect
 from .base_command import BaseCommand
 
 
 class HelpCommand(BaseCommand):
     """
-    Príkaz, ktorý vypíše zoznam dostupných príkazov v systéme.
-    Podporuje aj detailný výpis pre konkrétny command.
+    HelpCommand 4.0
+    Poskytuje detailnú introspekciu príkazov pre CLI, NL Router a GUI.
     """
 
     name = "help"
-    description = "Zobrazí zoznam dostupných príkazov alebo detail príkazu."
+    description = "Zobrazí zoznam príkazov alebo detailné informácie o konkrétnom príkaze."
+    category = "system"
 
-    def __init__(self, registry: dict[str, BaseCommand]):
+    required_identity = "FAMILY"   # Help je bezpečný pre všetkých
+    risk_level = 0.0
+
+    keywords = ["help", "commands", "info"]
+    examples = ["help", "help move_files"]
+
+    def __init__(self, command_registry):
         """
-        registry = slovník {nazov_prikazu: CommandClass()}
+        command_registry: dict {command_name: CommandClass}
         """
-        self.registry = registry
+        self.command_registry = command_registry
 
-    def execute(self, *args, **kwargs) -> str:
-        """
-        Ak je zadaný názov commandu, vypíše detail.
-        Inak vypíše zoznam všetkých commandov.
-        """
-        # DETAILNÝ HELP: help <command>
-        if args:
-            command_name = args[0]
-            command_obj = self.registry.get(command_name)
+    # ---------------------------------------------------------
+    # EXECUTION
+    # ---------------------------------------------------------
+    def execute(self, command_name: str = None):
+        if not command_name:
+            return self._list_commands()
 
-            if command_obj is None:
-                return f"Neznámy príkaz: {command_name}"
+        return self._describe_command(command_name)
 
-            output = []
-            output.append(f"=== Detail príkazu: {command_name} ===\n")
+    # ---------------------------------------------------------
+    # LIST ALL COMMANDS
+    # ---------------------------------------------------------
+    def _list_commands(self):
+        output = []
+        for name, cmd in self.command_registry.items():
+            output.append({
+                "name": name,
+                "description": cmd.description,
+                "category": cmd.category,
+                "required_identity": cmd.required_identity,
+                "risk_level": cmd.risk_level
+            })
+        return output
 
-            # Popis
-            desc = getattr(command_obj, "description", "Bez popisu")
-            output.append(f"Popis:\n  {desc}\n")
+    # ---------------------------------------------------------
+    # DESCRIBE SINGLE COMMAND
+    # ---------------------------------------------------------
+    def _describe_command(self, name):
+        cmd = self.command_registry.get(name)
 
-            # Parametre
-            params = command_obj.__class__.get_parameters()
-            if params:
-                output.append("Parametre:")
-                for name, annotation in params:
-                    output.append(f"  {name}: {annotation}")
-            else:
-                output.append("Parametre: (žiadne)")
+        if not cmd:
+            return {"error": f"Command '{name}' not found."}
 
-            return "\n".join(output)
-
-        # ZÁKLADNÝ HELP: help
-        output_lines = []
-        output_lines.append("=== Dostupné príkazy ===\n")
-
-        for command_name, command_obj in sorted(self.registry.items()):
-            desc = getattr(command_obj, "description", "Bez popisu")
-            output_lines.append(f"- {command_name:<20} {desc}")
-
-        output_lines.append("\nDetail príkazu:")
-        output_lines.append("  python sirius.py help <command>")
-
-        return "\n".join(output_lines)
+        return {
+            "name": cmd.name,
+            "description": cmd.description,
+            "category": cmd.category,
+            "required_identity": cmd.required_identity,
+            "risk_level": cmd.risk_level,
+            "capabilities": cmd.capabilities,
+            "keywords": cmd.keywords,
+            "examples": cmd.examples,
+            "parameters": cmd.get_parameters()
+        }
