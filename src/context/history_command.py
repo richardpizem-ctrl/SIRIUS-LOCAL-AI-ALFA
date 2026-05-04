@@ -4,68 +4,109 @@ from context.context_manager import ContextManager
 
 class ContextHistoryCommand(BaseCommand):
     """
-    Zobrazí históriu snapshotov kontextu.
-    Použitie:
-      context-history
-      context-history 5   -> zobrazí posledných 5 snapshotov
+    ContextHistoryCommand 4.0
+    Displays the snapshot history of the context with optional limit.
+
+    New in v4.0:
+    - NL Router metadata
+    - SECURITY FAMILY enforcement
+    - risk-aware execution
+    - capability flags (context_read)
+    - structured output for Workflow Engine 4.0
+    - audit trail via BaseCommand lifecycle
     """
 
+    # ---------------------------------------------------------
+    # METADATA (v4.0)
+    # ---------------------------------------------------------
     name = "context-history"
-    description = "Zobrazí históriu snapshotov kontextu."
+    description = "Displays the snapshot history of the context."
+    category = "context"
 
+    required_identity = "OWNER"     # Only OWNER can inspect snapshot history
+    risk_level = 0.2                # Low risk (read-only)
+    capabilities = ["context_read"]
+
+    keywords = ["history", "context", "snapshots", "memory"]
+    examples = ["context-history", "context-history 5"]
+
+    # ---------------------------------------------------------
+    # INIT
+    # ---------------------------------------------------------
     def __init__(self, context: ContextManager):
         self.context = context
 
+    # ---------------------------------------------------------
+    # EXECUTION (v4.0)
+    # ---------------------------------------------------------
     def execute(self, *args, **kwargs):
-        # -----------------------------
-        #  VALIDÁCIA KONTEXTU
-        # -----------------------------
-        if hasattr(self.context, "validate") and not self.context.validate():
-            return "Chyba: Kontext nie je v konzistentnom stave."
+        """
+        Displays snapshot history with optional limit.
+        """
 
         # -----------------------------
-        #  LIMIT (voliteľný)
+        # VALIDATE CONTEXT
         # -----------------------------
-        max_items = len(self.context.history)
+        if hasattr(self.context, "validate") and not self.context.validate():
+            return {
+                "status": "invalid",
+                "message": "Context is not in a consistent state."
+            }
+
+        # -----------------------------
+        # HISTORY SIZE
+        # -----------------------------
+        total = len(self.context.history)
+
+        if total == 0:
+            return {
+                "status": "empty",
+                "message": "Snapshot history is empty."
+            }
+
+        # -----------------------------
+        # LIMIT (optional)
+        # -----------------------------
         limit = args[0] if args else None
 
         if limit is not None:
             try:
                 limit = int(limit)
                 if limit <= 0:
-                    return "Chyba: limit musí byť väčší ako 0."
+                    return {
+                        "status": "error",
+                        "message": "Limit must be greater than 0."
+                    }
             except ValueError:
-                return "Chyba: limit musí byť číslo."
+                return {
+                    "status": "error",
+                    "message": "Limit must be a number."
+                }
         else:
-            limit = max_items
+            limit = total
 
-        # Normalizácia limitu
-        limit = min(limit, max_items)
-
-        # -----------------------------
-        #  KONTROLA HISTÓRIE
-        # -----------------------------
-        if max_items == 0:
-            return "História je prázdna — žiadne snapshoty."
+        limit = min(limit, total)
 
         # -----------------------------
-        #  PRÍPRAVA VÝSTUPU
+        # SELECT SNAPSHOTS
         # -----------------------------
-        out = ["=== HISTÓRIA SNAPSHOTOV ===\n"]
-        out.append(f"Celkový počet snapshotov: {max_items}")
-        out.append(f"Zobrazujem posledných: {limit}\n")
-
-        # -----------------------------
-        #  VÝPIS SNAPSHOTOV
-        # -----------------------------
-        start_index = max_items - limit
+        start_index = total - limit
         snapshots = self.context.history[start_index:]
 
-        for i, snap in enumerate(snapshots, start=1):
-            out.append(f"Snapshot #{i}:")
-            out.append(f"  - session: {len(snap['session'])} položiek")
-            out.append(f"  - persistent: {len(snap['persistent'])} položiek")
-            out.append(f"  - state: {len(snap['state'])} položiek")
-            out.append("")
+        formatted = []
+        for snap in snapshots:
+            formatted.append({
+                "session_items": len(snap.get("session", [])),
+                "persistent_items": len(snap.get("persistent", {})),
+                "state_items": len(snap.get("state", {}))
+            })
 
-        return "\n".join(out)
+        # -----------------------------
+        # STRUCTURED OUTPUT
+        # -----------------------------
+        return {
+            "status": "success",
+            "total_snapshots": total,
+            "showing_last": limit,
+            "snapshots": formatted
+        }
