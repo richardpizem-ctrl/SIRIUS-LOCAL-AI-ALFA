@@ -4,20 +4,48 @@ from context.context_manager import ContextManager
 
 class ResetCommand(BaseCommand):
     """
-    Úplne vymaže celý kontext a vráti ho do default stavu.
-    Použitie:
-      context-reset
+    ResetCommand 4.0
+    Completely wipes the entire context and restores a clean default state.
+
+    New in v4.0:
+    - NL Router metadata
+    - SECURITY FAMILY enforcement
+    - high‑risk classification
+    - capability flags (context_write)
+    - post‑reset snapshot
+    - structured output for Workflow Engine 4.0
     """
 
+    # ---------------------------------------------------------
+    # METADATA (v4.0)
+    # ---------------------------------------------------------
     name = "context-reset"
-    description = "Vymaže session, persistent, state aj history a vytvorí čistý kontext."
+    description = "Fully resets session, persistent, state, and history to a clean context."
+    category = "context"
 
+    required_identity = "OWNER"     # Only OWNER can perform a full reset
+    risk_level = 0.9                # Extremely high risk (total data wipe)
+    capabilities = ["context_write"]
+
+    keywords = ["reset", "context", "wipe", "clear"]
+    examples = ["context-reset"]
+
+    # ---------------------------------------------------------
+    # INIT
+    # ---------------------------------------------------------
     def __init__(self, context: ContextManager):
         self.context = context
 
+    # ---------------------------------------------------------
+    # EXECUTION (v4.0)
+    # ---------------------------------------------------------
     def execute(self, *args, **kwargs):
+        """
+        Fully resets the entire context.
+        """
+
         # -----------------------------
-        #  RESET VŠETKÝCH SEKCIÍ
+        # RESET ALL CONTEXT SECTIONS
         # -----------------------------
         self.context.session_memory = []
         self.context.persistent_memory = {}
@@ -25,22 +53,28 @@ class ResetCommand(BaseCommand):
         self.context.history = []
 
         # -----------------------------
-        #  SNAPSHOT PO RESETE
+        # SNAPSHOT AFTER RESET
         # -----------------------------
         if hasattr(self.context, "snapshot"):
             self.context.snapshot()
 
-        # označenie resetu
+        # Mark reset action
         if hasattr(self.context, "set_state"):
             self.context.set_state("last_action", "reset")
 
         # -----------------------------
-        #  VALIDÁCIA
+        # VALIDATION
         # -----------------------------
         if hasattr(self.context, "validate") and not self.context.validate():
-            return "Kontext bol resetovaný, ale validácia zlyhala."
+            return {
+                "status": "warning",
+                "message": "Context was reset, but validation failed."
+            }
 
         # -----------------------------
-        #  POTVRDENIE
+        # SUCCESS RESPONSE
         # -----------------------------
-        return "Kontext bol úspešne resetovaný do default stavu."
+        return {
+            "status": "success",
+            "message": "Context has been fully reset to default state."
+        }
