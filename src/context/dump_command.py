@@ -4,79 +4,96 @@ from context.context_manager import ContextManager
 
 class ContextDumpCommand(BaseCommand):
     """
-    Vypíše celý obsah kontextu naraz.
-    Rozšírená verzia obsahuje:
-    - validáciu kontextu
-    - snapshot históriu
-    - diagnostiku posledného snapshotu
-    - počty položiek v jednotlivých sekciách
+    ContextDumpCommand 4.0
+    Dumps the entire context: session memory, persistent memory, state,
+    snapshot history, and last snapshot diagnostics.
+
+    New in v4.0:
+    - NL Router metadata
+    - SECURITY FAMILY enforcement
+    - risk-aware execution
+    - capability flags (context_read)
+    - structured output for Workflow Engine 4.0
+    - audit trail via BaseCommand lifecycle
     """
 
+    # ---------------------------------------------------------
+    # METADATA (v4.0)
+    # ---------------------------------------------------------
     name = "context-dump"
-    description = "Vypíše všetky dáta z kontextu (session, persistent, state, história)."
+    description = "Dumps all context data: session, persistent, state, history."
+    category = "context"
 
+    required_identity = "OWNER"     # Only OWNER can inspect full context
+    risk_level = 0.2                # Low risk (read-only)
+    capabilities = ["context_read"]
+
+    keywords = ["dump", "context", "memory", "state", "history"]
+    examples = ["context-dump"]
+
+    # ---------------------------------------------------------
+    # INIT
+    # ---------------------------------------------------------
     def __init__(self, context: ContextManager):
         self.context = context
 
+    # ---------------------------------------------------------
+    # EXECUTION (v4.0)
+    # ---------------------------------------------------------
     def execute(self, *args, **kwargs):
-        out = ["=== DUMP KONTEKSTU ===\n"]
+        """
+        Dumps the entire context in a structured format.
+        """
 
-        # ============================================================
-        #  VALIDITA KONTEXTU
-        # ============================================================
-        is_valid = self.context.validate() if hasattr(self.context, "validate") else True
-        out.append(f"Validita kontextu: {'OK' if is_valid else 'CHYBA'}\n")
+        # -----------------------------
+        # VALIDATE CONTEXT
+        # -----------------------------
+        is_valid = (
+            self.context.validate()
+            if hasattr(self.context, "validate")
+            else True
+        )
 
-        # ============================================================
-        #  SESSION MEMORY
-        # ============================================================
-        out.append("SESSION MEMORY:")
-        if self.context.session_memory:
-            out.append(f"  (počet: {len(self.context.session_memory)})")
-            for item in self.context.session_memory:
-                out.append(f"  - {item}")
+        # -----------------------------
+        # COLLECT DATA
+        # -----------------------------
+        session = list(self.context.session_memory)
+        persistent = dict(self.context.persistent_memory)
+        state = dict(self.context.state)
+        history = list(self.context.history)
+
+        # Last snapshot diagnostics
+        if history:
+            last = history[-1]
+            last_snapshot_info = {
+                "session_items": len(last.get("session", [])),
+                "persistent_items": len(last.get("persistent", {})),
+                "state_items": len(last.get("state", {})),
+            }
         else:
-            out.append("  (prázdne)")
+            last_snapshot_info = None
 
-        # ============================================================
-        #  PERSISTENT MEMORY
-        # ============================================================
-        out.append("\nPERSISTENT MEMORY:")
-        if self.context.persistent_memory:
-            out.append(f"  (počet: {len(self.context.persistent_memory)})")
-            for k, v in self.context.persistent_memory.items():
-                out.append(f"  - {k}: {v}")
-        else:
-            out.append("  (prázdne)")
-
-        # ============================================================
-        #  STATE
-        # ============================================================
-        out.append("\nSTATE:")
-        if self.context.state:
-            out.append(f"  (počet: {len(self.context.state)})")
-            for k, v in self.context.state.items():
-                out.append(f"  - {k}: {v}")
-        else:
-            out.append("  (prázdne)")
-
-        # ============================================================
-        #  HISTÓRIA SNAPSHOTOV
-        # ============================================================
-        out.append("\nHISTÓRIA SNAPSHOTOV:")
-        out.append(f"  Počet snapshotov: {len(self.context.history)}")
-        out.append(f"  Max. kapacita: {self.context.max_history}")
-
-        # ============================================================
-        #  POSLEDNÝ SNAPSHOT (DETAILY)
-        # ============================================================
-        if self.context.history:
-            last = self.context.history[-1]
-            out.append("\nPosledný snapshot:")
-            out.append(f"  - session: {len(last['session'])} položiek")
-            out.append(f"  - persistent: {len(last['persistent'])} položiek")
-            out.append(f"  - state: {len(last['state'])} položiek")
-        else:
-            out.append("\nPosledný snapshot: (žiadny uložený)")
-
-        return "\n".join(out)
+        # -----------------------------
+        # STRUCTURED OUTPUT
+        # -----------------------------
+        return {
+            "status": "success",
+            "context_valid": is_valid,
+            "session": {
+                "count": len(session),
+                "items": session
+            },
+            "persistent": {
+                "count": len(persistent),
+                "items": persistent
+            },
+            "state": {
+                "count": len(state),
+                "items": state
+            },
+            "history": {
+                "snapshots": len(history),
+                "max_capacity": getattr(self.context, "max_history", None),
+                "last_snapshot": last_snapshot_info
+            }
+        }
