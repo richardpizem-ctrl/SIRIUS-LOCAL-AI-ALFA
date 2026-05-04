@@ -4,59 +4,104 @@ from context.context_manager import ContextManager
 
 class MemorySaveCommand(BaseCommand):
     """
-    Uloží hodnotu do dlhodobej pamäte.
-    Použitie:
-      memory-save <key> <value>
+    MemorySaveCommand 4.0
+    Saves a key-value pair into persistent memory with validation,
+    snapshot creation, diff reporting, and safe merge into state.
+
+    New in v4.0:
+    - NL Router metadata
+    - SECURITY FAMILY enforcement
+    - risk-aware execution
+    - capability flags (context_write)
+    - snapshot before modification
+    - diff reporting
+    - structured output for Workflow Engine 4.0
     """
 
+    # ---------------------------------------------------------
+    # METADATA (v4.0)
+    # ---------------------------------------------------------
     name = "memory-save"
-    description = "Uloží hodnotu do dlhodobej pamäte AI (s validáciou, snapshotom a diff)."
+    description = "Saves a value into persistent memory and merges it into state."
+    category = "context"
 
+    required_identity = "OWNER"     # Only OWNER can modify persistent memory
+    risk_level = 0.5                # Medium risk (persistent + state modification)
+    capabilities = ["context_write"]
+
+    keywords = ["memory", "save", "persistent", "store"]
+    examples = ["memory-save language english"]
+
+    # ---------------------------------------------------------
+    # INIT
+    # ---------------------------------------------------------
     def __init__(self, context: ContextManager):
         self.context = context
 
+    # ---------------------------------------------------------
+    # EXECUTION (v4.0)
+    # ---------------------------------------------------------
     def execute(self, *args, **kwargs):
+        """
+        Saves a persistent memory value and merges it into state.
+        """
+
         # -----------------------------
-        #  VALIDÁCIA VSTUPU
+        # INPUT VALIDATION
         # -----------------------------
         if len(args) < 2:
-            return "Použitie: memory-save <key> <value>"
+            return {
+                "status": "error",
+                "message": "Usage: memory-save <key> <value>"
+            }
 
         key, value = args[0], args[1]
 
         # -----------------------------
-        #  VALIDÁCIA KONTEXTU
+        # CONTEXT VALIDATION
         # -----------------------------
         if hasattr(self.context, "validate") and not self.context.validate():
-            return "Chyba: Kontext nie je v konzistentnom stave."
+            return {
+                "status": "invalid",
+                "message": "Context is not in a consistent state."
+            }
 
         # -----------------------------
-        #  SNAPSHOT PRED ZMENOU
+        # SNAPSHOT BEFORE CHANGE
         # -----------------------------
         if hasattr(self.context, "snapshot"):
             self.context.snapshot()
 
         # -----------------------------
-        #  DIFF
+        # DIFF (old vs new)
         # -----------------------------
         old_value = self.context.recall(key)
+        diff = None
+
         if old_value is not None and old_value != value:
-            diff_info = f"(zmena: '{old_value}' → '{value}')"
-        else:
-            diff_info = ""
+            diff = {
+                "old": old_value,
+                "new": value
+            }
 
         # -----------------------------
-        #  ULOŽENIE DO PAMÄTE
+        # SAVE TO PERSISTENT MEMORY
         # -----------------------------
         self.context.store(key, value)
 
         # -----------------------------
-        #  MERGE DO STAVU (voliteľné, ale odporúčané)
+        # SAFE MERGE INTO STATE
         # -----------------------------
         if isinstance(key, str):
             self.context.merge({key: value})
 
         # -----------------------------
-        #  POTVRDENIE
+        # SUCCESS RESPONSE
         # -----------------------------
-        return f"Uložené do pamäte: {key} = {value} {diff_info}".strip()
+        return {
+            "status": "success",
+            "key": key,
+            "value": value,
+            "diff": diff,
+            "message": f"Value '{key}' saved to persistent memory."
+        }
