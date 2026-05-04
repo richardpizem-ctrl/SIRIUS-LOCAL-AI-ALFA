@@ -4,60 +4,108 @@ from context.context_manager import ContextManager
 
 class MemoryLoadCommand(BaseCommand):
     """
-    Načíta hodnotu z dlhodobej pamäte.
-    Použitie:
-      memory-load <key>
+    MemoryLoadCommand 4.0
+    Loads a value from persistent memory and safely merges it into state.
+
+    New in v4.0:
+    - NL Router metadata
+    - SECURITY FAMILY enforcement
+    - risk-aware execution
+    - capability flags (context_read, context_write)
+    - diff reporting
+    - snapshot before merge
+    - structured output for Workflow Engine 4.0
     """
 
+    # ---------------------------------------------------------
+    # METADATA (v4.0)
+    # ---------------------------------------------------------
     name = "memory-load"
-    description = "Načíta hodnotu z dlhodobej pamäte AI (s validáciou, diff a bezpečným merge)."
+    description = "Loads a value from persistent memory and merges it into state."
+    category = "context"
 
+    required_identity = "OWNER"     # Only OWNER can load memory into state
+    risk_level = 0.4                # Medium risk (state modification)
+    capabilities = ["context_read", "context_write"]
+
+    keywords = ["memory", "load", "persistent", "state"]
+    examples = ["memory-load language"]
+
+    # ---------------------------------------------------------
+    # INIT
+    # ---------------------------------------------------------
     def __init__(self, context: ContextManager):
         self.context = context
 
+    # ---------------------------------------------------------
+    # EXECUTION (v4.0)
+    # ---------------------------------------------------------
     def execute(self, *args, **kwargs):
+        """
+        Loads a persistent memory value and merges it into state.
+        """
+
         # -----------------------------
-        #  VALIDÁCIA VSTUPU
+        # INPUT VALIDATION
         # -----------------------------
         key = args[0] if args else None
         if key is None:
-            return "Použitie: memory-load <key>"
+            return {
+                "status": "error",
+                "message": "Usage: memory-load <key>"
+            }
 
         # -----------------------------
-        #  VALIDÁCIA KONTEXTU
+        # CONTEXT VALIDATION
         # -----------------------------
         if hasattr(self.context, "validate") and not self.context.validate():
-            return "Chyba: Kontext nie je v konzistentnom stave."
+            return {
+                "status": "invalid",
+                "message": "Context is not in a consistent state."
+            }
 
         # -----------------------------
-        #  NAČÍTANIE HODNOTY
+        # LOAD VALUE FROM MEMORY
         # -----------------------------
         value = self.context.recall(key)
         if value is None:
-            return f"V pamäti sa nenašlo: {key}"
+            return {
+                "status": "not_found",
+                "key": key,
+                "message": f"No value found in persistent memory for '{key}'."
+            }
 
         # -----------------------------
-        #  DIFF
+        # DIFF CHECK
         # -----------------------------
         state_value = self.context.get_state(key)
-        if state_value is not None and state_value != value:
-            diff_info = f"(stav sa líši: state='{state_value}' vs memory='{value}')"
-        else:
-            diff_info = ""
+        diff = None
+
+        if state_value != value:
+            diff = {
+                "state": state_value,
+                "memory": value
+            }
 
         # -----------------------------
-        #  SNAPSHOT PRED ZMENOU
+        # SNAPSHOT BEFORE MERGE
         # -----------------------------
         if hasattr(self.context, "snapshot"):
             self.context.snapshot()
 
         # -----------------------------
-        #  BEZPEČNÝ MERGE
+        # SAFE MERGE
         # -----------------------------
         if isinstance(key, str):
             self.context.merge({key: value})
 
         # -----------------------------
-        #  POTVRDENIE
+        # SUCCESS RESPONSE
         # -----------------------------
-        return f"{key} = {value} {diff_info}".strip()
+        return {
+            "status": "success",
+            "key": key,
+            "value": value,
+            "diff": diff,
+            "message": f"Loaded '{key}' from persistent memory."
+        }
