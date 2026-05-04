@@ -6,7 +6,15 @@ import re
 
 class ProfileManager:
     """
-    Spravuje profily kontextu.
+    ProfileManager 4.0
+    Handles saving, loading, listing, deleting, and inspecting
+    context profiles for SIRIUS LOCAL AI.
+
+    Features:
+    - strict filename validation
+    - deep-copy safety
+    - snapshot-compatible structure
+    - max_history enforcement
     """
 
     VALID_NAME = re.compile(r"^[A-Za-z0-9_\-]+$")
@@ -19,7 +27,7 @@ class ProfileManager:
             os.makedirs(self.base_path)
 
     # ============================================================
-    #  POMOCNÉ FUNKCIE
+    #  INTERNAL HELPERS
     # ============================================================
 
     def _profile_path(self, name: str):
@@ -32,10 +40,11 @@ class ProfileManager:
         return bool(self.VALID_NAME.match(name))
 
     # ============================================================
-    #  ULOŽENIE PROFILU
+    #  SAVE PROFILE
     # ============================================================
 
     def save_profile(self, name: str):
+        """Save the current context into a profile file."""
         if not self._validate_name(name):
             return False
 
@@ -52,17 +61,18 @@ class ProfileManager:
         return True
 
     # ============================================================
-    #  NAČÍTANIE PROFILU
+    #  LOAD PROFILE
     # ============================================================
 
     def load_profile(self, name: str):
+        """Load a profile and restore the context."""
         if not self._exists(name):
             return None
 
         with open(self._profile_path(name), "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        # Validácia JSON štruktúry
+        # Validate structure
         if not isinstance(data, dict):
             return None
 
@@ -80,30 +90,32 @@ class ProfileManager:
         if not isinstance(history, list):
             return None
 
-        # Obnova kontextu (deep copy)
+        # Restore context (deep copy)
         self.context.session_memory = copy.deepcopy(session)
         self.context.persistent_memory = copy.deepcopy(persistent)
         self.context.state = copy.deepcopy(state)
 
-        # rešpektovať max_history
+        # Enforce max_history
         self.context.history = copy.deepcopy(history[-self.context.max_history:])
 
         return True
 
     # ============================================================
-    #  ZOZNAM PROFILOV
+    #  LIST PROFILES
     # ============================================================
 
     def list_profiles(self):
+        """Return a list of all saved profile names."""
         files = os.listdir(self.base_path)
         profiles = [f.replace(".json", "") for f in files if f.endswith(".json")]
         return profiles
 
     # ============================================================
-    #  ZMAZANIE PROFILU
+    #  DELETE PROFILE
     # ============================================================
 
     def delete_profile(self, name: str):
+        """Delete a profile file."""
         if not self._exists(name):
             return False
 
@@ -111,10 +123,11 @@ class ProfileManager:
         return True
 
     # ============================================================
-    #  INFO O PROFILE
+    #  PROFILE INFO
     # ============================================================
 
     def get_profile_info(self, name: str):
+        """Return metadata about a profile."""
         if not self._exists(name):
             return None
 
