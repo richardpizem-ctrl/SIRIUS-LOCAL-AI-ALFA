@@ -8,13 +8,23 @@
             "error_rate": 0.0,
             "time_of_day": 0.0
         },
+
         "last_update": null,
-        "confidence_history": []
+
+        "confidence_history": [],
+
+        "trend_history": {
+            "short_term": [],
+            "long_term": []
+        },
+
+        "anomaly_history": []
     },
 
     "family": [
         {
             "id": "child_1",
+
             "behavior_profile": {
                 "typing_speed": 0.0,
                 "command_pattern": 0.0,
@@ -23,24 +33,55 @@
                 "error_rate": 0.0,
                 "time_of_day": 0.0
             },
+
             "last_update": null,
-            "confidence_history": []
+
+            "confidence_history": [],
+
+            "trend_history": {
+                "short_term": [],
+                "long_term": []
+            },
+
+            "anomaly_history": []
         }
     ],
 
     "stranger_baseline": {
         "expected_noise": 0.25,
-        "max_allowed_similarity": 0.35
+        "max_allowed_similarity": 0.35,
+
+        "behavior_noise_floor": 0.15,
+        "max_behavior_shift": 0.25
     },
 
     "settings": {
         "audit_sensitivity": 0.85,
         "learning_rate": 0.2,
         "max_family_members": 5,
+
         "risk_thresholds": {
             "low": 0.3,
             "medium": 0.6,
             "high": 0.8
+        },
+
+        "trend_window": {
+            "short": 20,
+            "long": 200
+        },
+
+        "anomaly_detection": {
+            "similarity_threshold": 0.35,
+            "shift_threshold": 0.25,
+            "penalty": 0.25
         }
+    },
+
+    "global_history": {
+        "behavior_vectors": [],
+        "trend_short_term": [],
+        "trend_long_term": [],
+        "anomaly_events": []
     }
 }
