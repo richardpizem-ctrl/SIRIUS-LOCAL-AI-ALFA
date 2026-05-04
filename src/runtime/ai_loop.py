@@ -7,36 +7,66 @@ log = logging.getLogger(__name__)
 
 class AILoop:
     """
-    AI Loop 2.0
-    - intervalové pravidlá
-    - autonómny scheduler
-    - kompatibilný s RuntimeManager 2.0
+    AI Loop 4.0
+    - Interval rules
+    - Event rules
+    - Autonomous scheduler
+    - Overlap protection
+    - Rule pausing / resuming / unregistering
+    - Telemetry (last run, error count, running state)
+    - Compatible with RuntimeManager 4.0
     """
 
     def __init__(self, runtime_manager):
         self.rm = runtime_manager
-        self.rules = []
+        self.rules = {}
         self.running = False
         self.thread = None
 
     # --------------------------------------------------------
-    # REGISTRÁCIA PRAVIDIEL
+    # RULE REGISTRATION
     # --------------------------------------------------------
     def register(self, rule: dict):
-        rule = dict(rule)  # copy
+        rule = dict(rule)
 
+        name = rule.get("name", f"rule_{len(self.rules)}")
+        rule["name"] = name
+
+        rule.setdefault("trigger", "interval")
         rule.setdefault("params", {})
         rule.setdefault("interval", 60)
-        rule.setdefault("name", f"rule_{len(self.rules)}")
+        rule.setdefault("enabled", True)
+        rule.setdefault("running", False)
+        rule.setdefault("last_run", 0)
+        rule.setdefault("error_count", 0)
 
-        # minimálny interval 1 sekunda
-        rule["interval"] = max(1, rule["interval"])
+        # Minimum interval protection
+        if rule["trigger"] == "interval":
+            rule["interval"] = max(1, rule["interval"])
 
-        self.rules.append(rule)
-        log.info("AI rule registered: %s", rule["name"])
+        self.rules[name] = rule
+        log.info("AI rule registered: %s", name)
 
     # --------------------------------------------------------
-    # ŠTART / STOP
+    # RULE CONTROL
+    # --------------------------------------------------------
+    def unregister(self, name: str):
+        if name in self.rules:
+            del self.rules[name]
+            log.info("AI rule unregistered: %s", name)
+
+    def pause(self, name: str):
+        if name in self.rules:
+            self.rules[name]["enabled"] = False
+            log.info("AI rule paused: %s", name)
+
+    def resume(self, name: str):
+        if name in self.rules:
+            self.rules[name]["enabled"] = True
+            log.info("AI rule resumed: %s", name)
+
+    # --------------------------------------------------------
+    # START / STOP LOOP
     # --------------------------------------------------------
     def start(self):
         if self.running:
@@ -54,39 +84,46 @@ class AILoop:
         log.info("AI Loop stopped")
 
     # --------------------------------------------------------
-    # HLAVNÝ LOOP
+    # MAIN LOOP
     # --------------------------------------------------------
     def _loop(self):
-        last_run = {}
-
         while self.running:
             now = time.time()
 
-            for rule in self.rules:
-                if rule.get("trigger") != "interval":
+            for name, rule in list(self.rules.items()):
+                if not rule["enabled"]:
                     continue
 
-                interval = rule["interval"]
-                name = rule["name"]
+                if rule["trigger"] == "interval":
+                    if now - rule["last_run"] >= rule["interval"]:
+                        self._execute_rule(rule)
 
-                if name not in last_run:
-                    last_run[name] = 0
+                # Event triggers will be handled externally
+                # via runtime_manager.emit_event()
 
-                if now - last_run[name] >= interval:
-                    last_run[name] = now
-                    self._execute_rule(rule)
-
-            time.sleep(1)
+            time.sleep(0.5)
 
     # --------------------------------------------------------
-    # EXECUTION
+    # RULE EXECUTION
     # --------------------------------------------------------
     def _execute_rule(self, rule: dict):
-        action = rule.get("action")
-        params = rule.get("params", {})
+        name = rule["name"]
+
+        # Prevent overlapping execution
+        if rule["running"]:
+            log.warning("Skipping rule '%s' (still running)", name)
+            return
+
+        rule["running"] = True
+        rule["last_run"] = time.time()
 
         try:
-            self.rm.handle_ai_task(action, params)
-            log.info("AI rule executed: %s", rule.get("name"))
+            self.rm.handle_ai_task(rule["action"], rule["params"])
+            log.info("AI rule executed: %s", name)
+
         except Exception as e:
-            log.exception("AI LOOP ERROR (%s): %s", rule.get("name"), e)
+            rule["error_count"] += 1
+            log.exception("AI LOOP ERROR (%s): %s", name, e)
+
+        finally:
+            rule["running"] = False
