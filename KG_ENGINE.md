@@ -1,23 +1,23 @@
 # 🧠 KG ENGINE 6.x — Knowledge Graph Core  
 **Status:** ✔ Active  
 **Version:** 6.x  
-**SIRIUS Local AI Version:** 5.7.0  
+**SIRIUS Local AI Version:** 5.8  
 **Component:** KG ENGINE  
-**Role:** Unified symbolic knowledge graph engine powering explainability, relations, exports, imports, and multi-hop reasoning
+**Role:** Unified symbolic knowledge graph engine powering explainability, relations, exports, imports, and multi-hop reasoning under orchestrator and PanelAPI supervision
 
 ---
 
 ## 🎯 Purpose  
-The KG ENGINE 6.x module is the central symbolic knowledge system of SIRIUS Local AI.  
+The KG ENGINE 6.x module is the central symbolic knowledge system of SIRIUS Local AI (v5.8).  
 It manages entities, relations, semantic structures, and graph-based reasoning operations.  
 All explainability, relation discovery, and multi-hop inference rely on this engine.
 
-KG ENGINE provides deterministic, transparent, and fully inspectable knowledge operations.
+KG ENGINE provides deterministic, transparent, and fully inspectable knowledge operations driven by `sirius_orchestrator.py` and guarded by `TimeCore` and `Guard`.
 
 ---
 
 ## 🧩 Architecture Overview  
-**Runtime 5.x → KG ENGINE → ReasoningEngine5 → AUTONOMY → COLNÍK → EXECUTE**
+**Runtime 5.8 → `sirius_orchestrator.py` → KG ENGINE → ReasoningEngine5 → AUTONOMY → COLNIK (IPC Mode) → PanelAPI [ÁNO/NIE] → EXECUTE**
 
 ### Core Responsibilities  
 - Manage entities and relations  
@@ -25,7 +25,7 @@ KG ENGINE provides deterministic, transparent, and fully inspectable knowledge o
 - Perform relation discovery (KG_RELATE)  
 - Handle graph import/export  
 - Support multi-hop reasoning  
-- Maintain deterministic symbolic structure  
+- Maintain deterministic symbolic structure (`autosave_kg.json`)  
 - Provide comfort commands for developer workflow  
 
 ### Key Files  
@@ -34,6 +34,8 @@ KG ENGINE provides deterministic, transparent, and fully inspectable knowledge o
 - `KG/autosave_kg.json`  
 - `KG/kg_export.json`  
 - `KG/kg_import.json`  
+- `ORCHESTRATOR/sirius_orchestrator.py`  
+- `PANEL_API/panel_api.py`  
 
 ---
 
@@ -80,7 +82,7 @@ Discovers semantic relations between two entities using:
 Exports the entire knowledge graph into a portable JSON structure.
 
 ### **KG_IMPORT**  
-Loads external or saved knowledge graphs into the engine.
+Loads external or saved knowledge graphs into the engine under strict validation and `PanelAPI` confirmation.
 
 ### **Comfort Commands**  
 Developer-friendly commands:  
@@ -103,7 +105,7 @@ or
 `autosave_kg.json`
 
 ### **2 — Process Operation**  
-Depending on the request:  
+Depending on the request routed via `sirius_orchestrator.py`:  
 - add entity  
 - add relation  
 - explain  
@@ -112,20 +114,20 @@ Depending on the request:
 - import  
 
 ### **3 — Update Graph**  
-All changes are deterministic and validated.  
+All changes are deterministic and validated through COLNIK-6.x and Guard.  
 Autosave is triggered after each modification.
 
 ### **4 — Provide Output**  
 Results are returned to:  
 - ReasoningEngine5  
-- AUTONOMY  
-- Developer Mode (UI PANEL)
+- AUTONOMY (Control & Triage Mode)  
+- Developer Mode (`PanelAPI` / UI PANEL)
 
 ---
 
 ## 🔐 Safety Rules  
-- ❌ No destructive graph operations without confirmation  
-- 🔒 Autosave ensures graph integrity  
+- ❌ No destructive graph operations without explicit confirmation (`PanelAPI` [ÁNO/NIE])  
+- 🔒 Autosave (`autosave_kg.json`) ensures graph integrity  
 - 🧠 Deterministic relation evaluation  
 - ⚠ Multi-hop depth capped to prevent runaway inference  
 - 🛡 No modification of autonomy logic  
@@ -133,9 +135,11 @@ Results are returned to:
 ---
 
 ## 📊 Module Status  
-- ✔ Fully implemented  
+- ✔ Fully implemented (Runtime 5.8)  
 - ✔ Multi-hop reasoning verified  
 - ✔ Explainability layers functional  
+- ✔ Orchestrator integration complete  
+- ✔ PanelAPI confirmation gates active  
 - ✔ Import/export stable  
 - ✔ Autosave/autoload operational  
 - ✔ Developer comfort commands active  
@@ -143,7 +147,6 @@ Results are returned to:
 ---
 
 ## 🏁 Summary  
-KG ENGINE 6.x is the symbolic core of SIRIUS Local AI (v5.7.0).  
+KG ENGINE 6.x is the symbolic core of SIRIUS Local AI (v5.8).  
 It manages entities, relations, explainability, and multi-hop reasoning with deterministic precision.  
-The engine is fully integrated with Runtime 5.x, ReasoningEngine5, AUTONOMY, and the UI PANEL, forming the foundation of SIRIUS’s transparent and enterprise-ready knowledge system.
-
+The engine is fully integrated with Runtime 5.8, `sirius_orchestrator.py`, ReasoningEngine5, AUTONOMY, COLNIK, and PanelAPI, forming the foundation of SIRIUS’s transparent and enterprise-ready knowledge system.
