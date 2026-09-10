@@ -1,10 +1,10 @@
-# 🚀 SIRIUS LOCAL AI 5.7.0  
-### Enterprise‑Grade Symbolic Intelligence — Deterministic, Explainable, Offline, COLNIK‑Validated, AUTONOMY‑Aware
+# 🚀 SIRIUS LOCAL AI 5.8  
+### Enterprise‑Grade Symbolic Intelligence — Deterministic, Explainable, Offline, Orchestrated, PanelAPI-Supervised, COLNIK‑Validated, AUTONOMY‑Aware
 
-SIRIUS LOCAL AI 5.7.0 represents the most advanced generation of symbolic AI runtime designed for environments where **predictability, security, transparency, autonomy‑awareness, and offline operation** are mandatory.  
-Unlike neural systems that rely on probabilistic inference, SIRIUS operates on a **deterministic Unified Knowledge Graph**, a **rule‑based reasoning engine**, and a **multi‑layered enterprise validation pipeline (COLNIK‑6.x)**.
+SIRIUS LOCAL AI 5.8 represents the most advanced generation of symbolic AI runtime designed for environments where **predictability, security, transparency, human oversight, autonomy‑awareness, and offline operation** are mandatory.  
+Unlike neural systems that rely on probabilistic inference, SIRIUS operates on a **deterministic Unified Knowledge Graph**, a **rule‑based reasoning engine**, centralized execution via **`sirius_orchestrator.py`**, interactive **PanelAPI `[ÁNO/NIE]` loops**, temporal/security supervision via **TimeCore & Guard**, and a **multi‑layered enterprise validation pipeline (COLNIK‑6.x)**.
 
-This document provides a **deep, marketing‑ready, enterprise overview** of the entire 5.7.0 architecture.
+This document provides a **deep, marketing‑ready, enterprise overview** of the entire 5.8 architecture.
 
 ---
 
@@ -20,17 +20,17 @@ Its core principles:
 - **Security** — identity layers, permission gates, quarantine, COLNIK validation.  
 - **Offline Autonomy** — zero cloud dependency, full local control.  
 - **Enterprise Stability** — predictable workflows, validated transitions, hardened modules.  
-- **Autonomy‑Awareness** — supervised autonomy with proposal/confirmation logic.
+- **Human Oversight & Autonomy‑Awareness** — orchestrated execution with `PanelAPI` human-in-the-loop validation and proposal/confirmation logic.
 
 SIRIUS is built for users who demand **absolute control** over their AI.
 
 ---
 
-# 🧠 Unified Knowledge Graph (KG) 5.7.0  
+# 🧠 Unified Knowledge Graph (KG) 5.8  
 ### The Core of Deterministic Intelligence
 
 The Knowledge Graph is the foundation of SIRIUS.  
-It stores entities, attributes, relations, and logical structures in a **cycle‑safe, unified schema**.
+It stores entities, attributes, relations, and logical structures in a **cycle‑safe, unified schema** (`autosave_kg.json`).
 
 ### Key Capabilities
 
@@ -54,33 +54,33 @@ It stores entities, attributes, relations, and logical structures in a **cycle�
   High‑level entity management: create, rename, merge, unset, search, list.
 
 - **Autosave / Autoload**  
-  Deterministic snapshot management with rollback‑safe persistence.
+  Deterministic snapshot management with rollback‑safe persistence (`autosave_kg.json`).
 
-- **COLNIK Validation (Standard Mode)**  
+- **COLNIK Validation (Standard & IPC Mode)**  
   Every KG mutation is inspected for:
   - schema consistency  
   - relation correctness  
   - attribute validity  
   - anomaly detection  
 
-- **AUTONOMY‑Aware KG Mutations**  
-  KG changes can generate autonomous proposals.
+- **AUTONOMY‑Aware & PanelAPI-Gated KG Mutations**  
+  KG changes generate autonomous proposals requiring orchestrator-supervised confirmation.
 
-KG 5.7.0 is the most stable version to date.
+KG 5.8 is the most stable version to date.
 
 ---
 
-# ⚙️ Reasoning Engine 5.7.0  
+# ⚙️ Reasoning Engine 5.8  
 ### Symbolic Logic with Enterprise‑Grade Explainability + Autonomy Hooks
 
-The Reasoning Engine performs deterministic inference across KG entities using rule‑based logic.
+The Reasoning Engine performs deterministic inference across KG entities using rule‑based logic under orchestrator supervision.
 
 ### Supported Rules
 
 - **MultiHopOrbitInferenceRule**  
 - **DedicsnostVlastnostiRule**  
 - **TranzitivneRelacieRule**  
-- **AutoTypeInferenceRule**
+- **AutoTypeInferenceRule**  
 
 ### Explainability Output
 
@@ -100,54 +100,58 @@ All reasoning steps are validated for:
 - rule integrity  
 - anomaly detection  
 
-### AUTONOMY Integration
+### AUTONOMY & PanelAPI Integration
 
 Reasoning results can generate:
 
 - autonomous proposals  
 - risk classifications  
+- interactive `[ÁNO/NIE]` prompt gating  
 - validation packets  
 
 ---
 
-# 🔄 Workflow Engine 5.7.0  
-### Deterministic Multi‑Layer System Orchestration + Autonomy Routing
+# 🔄 Workflow Engine 5.8  
+### Deterministic Multi‑Layer System Orchestration + Orchestrator Routing
 
-The Workflow Engine coordinates the entire runtime:
+The Workflow Engine coordinates the entire runtime driven by `sirius_orchestrator.py`:
 
-**KG → Reasoning → ENVOY → COLNIK → AUTONOMY → System**
+**KG → Reasoning → Orchestrator → PanelAPI → ENVOY → COLNIK → AUTONOMY → System**
 
 ### Key Features
 
+- centralized orchestrator routing (`sirius_orchestrator.py`)  
+- interactive `PanelAPI` confirmation loops  
+- TimeCore temporal tracking & Guard security supervision  
 - deterministic routing  
 - identity‑aware execution  
 - KG_EXPLAIN / KG_EXPLAIN_DEEP integration  
 - error‑resilient fallback logic  
-- COLNIK‑validated transitions  
-- AUTONOMY‑aware proposal/confirmation routing  
+- COLNIK‑validated transitions (Standard & IPC Mode)  
+- AUTONOMY‑aware proposal/confirmation routing (Control & Triage Mode)  
 
 ---
 
 # 🛡️ ENVOY 5 — Security & Execution Layer  
 ### Enterprise‑Grade Protection + Autonomy‑Aware Permissions
 
-ENVOY is the security backbone of SIRIUS.
+ENVOY is the security backbone of SIRIUS, managed under orchestrator supervision.
 
 ### Capabilities
 
 - **Permission Layer**  
-  Identity‑aware fetch rules, OWNER‑restricted high‑risk actions, autonomy‑aware permission proposals.
+  Identity‑aware fetch rules, OWNER‑restricted high‑risk actions, autonomy‑aware permission proposals, and `PanelAPI` human confirmation.
 
 - **Execution Layer**  
   Outbound‑only, sandboxed, validated payload execution.
 
 - **Quarantine & Policy Enforcement**  
-  Suspicious operations isolated and inspected.
+  Suspicious operations isolated and inspected under `Guard` supervision.
 
 - **Explainability Traces**  
   Every action logged for auditability.
 
-- **COLNIK Validation**  
+- **COLNIK Validation (Standard & IPC Mode)**  
   All payloads inspected for safety.
 
 - **AUTONOMY Integration**  
@@ -156,7 +160,7 @@ ENVOY is the security backbone of SIRIUS.
 ---
 
 # 🧩 COLNIK‑6.x — Enterprise Validation Layer  
-### Internal Customs‑Style Inspection (Standard Mode)
+### Internal Customs‑Style Inspection (Standard & IPC Mode)
 
 COLNIK acts as the internal “customs officer” for the entire runtime.
 
@@ -164,6 +168,7 @@ COLNIK acts as the internal “customs officer” for the entire runtime.
 
 - rule validation  
 - workflow authorization  
+- high-performance IPC synchronization with AUTONOMY  
 - anomaly detection  
 - protection against malformed KG updates  
 - identity enforcement  
@@ -172,7 +177,7 @@ COLNIK acts as the internal “customs officer” for the entire runtime.
 
 ### Status
 
-Fully integrated in 5.7.0 (Standard Mode).  
+Fully integrated in v5.8 (Standard & IPC Mode).  
 Extended autonomy validation planned for 6.x.
 
 ---
@@ -185,28 +190,28 @@ The System Agent mediates OS‑level actions with:
 - identity verification  
 - constant‑time validation (O(1))  
 - deterministic execution  
-- COLNIK‑validated operations  
-- AUTONOMY‑aware gating  
+- COLNIK‑validated operations (Standard & IPC Mode)  
+- AUTONOMY‑aware gating & Guard monitoring  
 
 This ensures safe offline autonomy.
 
 ---
 
-# 🔧 Self‑Repair Layer 5.4  
-### Autonomous Runtime Healing + Autonomy Hooks
+# 🔧 Self‑Repair Layer 5.8  
+### Autonomous Runtime Healing + Orchestrator Supervision
 
 Capabilities:
 
-- integrity checks  
+- integrity checks (`TimeCore` interval scheduling)  
 - dependency healing  
 - workflow reconstruction  
-- rollback‑safe KG validation  
+- rollback‑safe KG validation (`autosave_kg.json`)  
 - COLNIK‑validated repair logic  
-- autonomy‑aware repair proposals  
+- autonomy‑aware repair proposals & PanelAPI confirmation  
 
 ---
 
-# 📱 Mobile Runtime 5.7.0  
+# 📱 Mobile Runtime 5.8  
 ### Optimized for Mobile Environments
 
 Features:
@@ -226,17 +231,20 @@ Features:
 Includes:
 
 - stronger STRANGER mode  
-- SCHOOLWORK bypass improvements  
+- SCHOOLWORK bypass improvements (`Schoolwork Engine 5.8`)  
 - Time‑Limits v3  
 - behavioral recognition  
 - explainable identity decisions  
 - COLNIK‑validated enforcement  
-- autonomy‑aware identity proposals  
+- autonomy‑aware identity proposals and PanelAPI gating  
 
 ---
 
 # 🌟 Architectural Highlights
 
+- centralized orchestration (`sirius_orchestrator.py`)  
+- interactive human oversight (`PanelAPI` [ÁNO/NIE])  
+- temporal & security supervision (`TimeCore`/`Guard`)  
 - deterministic execution  
 - multi‑hop reasoning  
 - offline operation  
@@ -250,7 +258,7 @@ Includes:
 
 # 🚀 Summary
 
-SIRIUS LOCAL AI 5.7.0 consolidates a fully stabilized symbolic AI runtime with deterministic reasoning, explainability‑first design, hardened security layers, autonomy‑aware routing, and enterprise‑grade validation.  
+SIRIUS LOCAL AI 5.8 consolidates a fully stabilized symbolic AI runtime with deterministic reasoning, explainability‑first design, hardened security layers, centralized orchestration (`sirius_orchestrator.py`), interactive `PanelAPI` human oversight, autonomy‑aware routing, and enterprise‑grade validation.  
 Its modular architecture supports offline operation, multi‑hop reasoning, and advanced system governance — forming a robust foundation for the upcoming autonomous and multimodal capabilities of version 6.x.
 
 ---
@@ -259,26 +267,26 @@ Its modular architecture supports offline operation, multi‑hop reasoning, and 
 ### The Future Core of SIRIUS: Safe, Explainable, Identity‑Aware Autonomous Intelligence
 
 The upcoming **Autonomy Engine 6.x** represents the largest architectural leap in the history of SIRIUS LOCAL AI.  
-Version 5.7.0 prepares the entire runtime for supervised, deterministic autonomy.
+Version 5.8 prepares the entire runtime for supervised, deterministic autonomy through orchestrator supervision and human-in-the-loop control.
 
-Autonomy in SIRIUS is **supervised autonomy**, built on strict rules, identity gates, and COLNIK‑validated execution.
+Autonomy in SIRIUS is **supervised autonomy**, built on strict rules, identity gates, interactive `PanelAPI` prompts, and COLNIK‑validated execution.
 
 ---
 
 ## 🧩 Core Architecture of Autonomy 6.x
 
-1. **Monitoring Layer**  
+1. **Monitoring Layer (`TimeCore` & `Guard`)**  
 2. **Analyzer Layer**  
 3. **Proposer Layer**  
 4. **JSON Format Layer**  
-5. **COLNIK Validation Layer**  
-6. **Workflow → OS Execution Layer**
+5. **COLNIK Validation Layer (Standard & IPC Mode)**  
+6. **Workflow → Orchestrator → OS Execution Layer**  
 
 ---
 
 ## 🔐 Identity‑Aware Autonomous Behavior
 
-- OWNER → full autonomous assistance  
+- OWNER → full autonomous assistance (with PanelAPI gating for sensitive changes)  
 - FAMILY → limited autonomous suggestions  
 - STRANGER → no autonomous actions  
 
@@ -287,9 +295,9 @@ Autonomy in SIRIUS is **supervised autonomy**, built on strict rules, identity g
 ## 🛡️ Safety Principles of Autonomy
 
 1. No autonomous action without COLNIK approval  
-2. No direct OS access  
-3. No hidden behavior  
-4. No neural guessing  
+2. No direct OS access without System Agent 5 validation  
+3. No hidden behavior (full explainability via KG_EXPLAIN_DEEP)  
+4. No neural guessing (deterministic symbolic logic)  
 5. No identity bypass  
 
 ---
@@ -321,4 +329,3 @@ Every autonomous decision produces:
 # 🌟 Summary
 
 Autonomy Engine 6.x transforms SIRIUS into a next‑generation offline AI system capable of safe autonomous assistance without sacrificing control, transparency, or security.
-
