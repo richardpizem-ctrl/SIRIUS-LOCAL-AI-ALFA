@@ -1,33 +1,36 @@
-# 🌟 Future Vision (v5.7.0 and Beyond)
+# 🌟 Future Vision (v5.8 and Beyond)
 
 SIRIUS LOCAL AI is evolving from a modular automation runtime into a **full offline household, developer, and reasoning‑driven AI assistant**, while staying safe, predictable, explainable, and fully local.
 
-This **v5.7.0 unified edition** reflects the upgraded Unified Reasoning, Deep Explainability, COLNIK‑AUTONOMY Architecture 5.x, including:
+This **v5.8 unified edition** reflects the upgraded Unified Orchestration, PanelAPI, TimeCore/Guard & Enhanced COLNIK‑AUTONOMY Architecture 5.x, including:
 
+- Unified Orchestrator (`sirius_orchestrator.py`)  
+- PanelAPI interactive loops with [ÁNO/NIE] confirmation prompts  
+- TimeCore temporal tracking & Guard security supervision  
 - Unified PC + Mobile runtime  
 - Deterministic multimodal reasoning  
 - KG_EXPLAIN & KG_EXPLAIN_DEEP (Explainability Engines)  
-- Reasoning Engine 5.7.0 (multi‑hop, inheritance, transitivity)  
+- Reasoning Engine 5.8 (multi‑hop, inheritance, transitivity)  
 - Proof Tree + Evidence Tree foundations  
 - Confidence scoring model  
 - Rule chaining foundations  
-- AITE 5.7.0  
+- AITE 5.8  
 - System Agent 5  
 - Security Family 5.x  
 - ENVOY Execution Layer 5  
 - ENVOY Permission Layer 5  
-- COLNIK‑6.x Validation Layer (Standard Mode)  
-- AUTONOMY 6.x (Control Mode)  
-- Self‑Repair Layer 5.4  
-- Unified Knowledge Graph 5.7.0  
+- COLNIK‑6.x Validation Layer (Standard & IPC Mode)  
+- AUTONOMY 6.x (Control & Triage Mode)  
+- Self‑Repair Layer 5.8  
+- Unified Knowledge Graph 5.8  
 - UI Automation Engine 5.1  
 - Intent & Planning Layer 5.x  
 
 This document describes:
 
-1. **What has already been delivered** (v1.0.0 → v5.7.0)  
+1. **What has already been delivered** (v1.0.0 → v5.8)  
 2. **What each major version introduced**  
-3. **What Runtime 5.7.0 unifies and stabilizes**  
+3. **What Runtime 5.8 unifies and stabilizes**  
 4. **Long‑term direction (v6.0.0 and beyond)**  
 
 All features remain:
@@ -265,13 +268,18 @@ Delivered:
 
 ---
 
-# 🚀 9. Version 5.6.2 → 5.7.0 – Deep Explainability + Unified KG + COLNIK‑AUTONOMY
+# 🚀 9. Version 5.6.2 → 5.8 – Unified Orchestration + PanelAPI + TimeCore/Guard + COLNIK-AUTONOMY
 
-Version 5.7.0 finalizes the **Unified Knowledge Graph 5.7.0**, expands deep explainability, stabilizes multi‑hop reasoning, and introduces **COLNIK‑6.x Standard Mode** together with **AUTONOMY 6.x Control Mode**.
+Version 5.8 finalizes the **Unified Knowledge Graph 5.8**, introduces the central orchestrator (`sirius_orchestrator.py`), interactive `PanelAPI` confirmation loops, `TimeCore` and `Guard` supervision, and elevates **COLNIK‑6.x (Standard & IPC Mode)** alongside **AUTONOMY 6.x (Control & Triage Mode)** to full production stability.
 
 Delivered:
 
-### 🧠 Reasoning Engine 5.7.0  
+### 🚀 Unified Orchestrator (`sirius_orchestrator.py`) & PanelAPI  
+- centralized deterministic execution pipeline  
+- interactive [ÁNO/NIE] prompt loops and user gating  
+- TimeCore temporal tracking and Guard anomaly supervision  
+
+### 🧠 Reasoning Engine 5.8  
 - multi‑hop inference  
 - inheritance reasoning  
 - transitive reasoning  
@@ -287,21 +295,21 @@ Delivered:
 - evidence‑based justification  
 - deterministic traversal context  
 
-### 🧩 AITE 5.7.0  
+### 🧩 AITE 5.8  
 - improved multimodal semantic triage  
 - deeper explainability detection  
 - safer fallback logic  
 - unified PC/Mobile routing  
 
-### 🔁 Workflow Engine 5.7.0  
+### 🔁 Workflow Engine 5.8  
 - deep explainability routing  
 - deterministic transitions  
 - safer fallback states  
-- COLNIK‑validated workflow steps  
-- AUTONOMY‑aware transitions  
+- COLNIK‑validated workflow steps (Standard & IPC Mode)  
+- AUTONOMY‑aware transitions (Control & Triage Mode)  
 
-### 📚 Unified Knowledge Graph 5.7.0  
-- stabilized KG Core  
+### 📚 Unified Knowledge Graph 5.8  
+- stabilized KG Core (`autosave_kg.json`)  
 - improved KG Query  
 - improved KG Explore  
 - improved KG comfort commands  
@@ -314,16 +322,17 @@ Delivered:
 - safer STRANGER mode  
 - SCHOOLWORK always allowed  
 
-### 🛡 COLNIK‑6.x Validation Layer (Standard Mode)  
+### 🛡 COLNIK‑6.x Validation Layer (Standard & IPC Mode)  
 - KG mutation validation  
 - workflow step authorization  
+- high-performance IPC synchronization with AUTONOMY  
 - anomaly detection  
 - enterprise‑grade consistency enforcement  
 
-### 🤖 AUTONOMY 6.x (Control Mode)  
-- proposal generation  
-- confirmation logic  
-- autonomous decision routing  
+### 🤖 AUTONOMY 6.x (Control & Triage Mode)  
+- advanced proposal generation  
+- confirmation logic & PanelAPI integration  
+- Triage Mode for rapid anomaly containment  
 - IPC synchronization with COLNIK  
 - safe autonomous execution  
 
@@ -334,7 +343,7 @@ Delivered:
 
 ---
 
-# 🚀 10. Long‑Term Vision (Beyond v5.7.0)
+# 🚀 10. Long‑Term Vision (Beyond v5.8)
 
 ## 🧠 6.0.0 – Self‑Repair Intelligence 2.0
 - autonomous repair engine  
@@ -457,5 +466,5 @@ It is a unique SIRIUS innovation designed for the upcoming 7.x generation.
 
 # 📄 Document Status
 
-**Version:** 5.7.0 (Unified Reasoning, Explainability, COLNIK‑AUTONOMY Architecture)  
-Updated to reflect the **5.0 → 5.7.0 transition** and the expanded **Unified Runtime Architecture 5.x**.
+**Version:** 5.8 (Unified Orchestration, PanelAPI, TimeCore/Guard & COLNIK-AUTONOMY Architecture)  
+Updated to reflect the **5.0 → 5.8 transition** and the expanded **Unified Runtime Architecture 5.x**.
