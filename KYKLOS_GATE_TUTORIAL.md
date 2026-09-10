@@ -1,15 +1,15 @@
-# SIRIUS Kýklos Gate (COLNIK) – Primitive Decision Gate Tutorial
+# SIRIUS Kýklos Gate (COLNIK-6.x) – Primitive Decision Gate & IPC Tutorial
 
 ## 1. Overview
 
-The **SIRIUS Kýklos Gate (COLNIK)** is the final, primitive decision gate in the SIRIUS runtime.  
-Its purpose is extremely simple: **it decides whether a command is ALLOWED or DENIED**.
+The **SIRIUS Kýklos Gate (COLNIK-6.x)** is the final, primitive decision gate in the SIRIUS runtime.  
+Its purpose is extremely simple: **it decides whether a command or workflow step is ALLOWED or DENIED**, operating across both **Standard Mode** and high-performance **IPC Mode** for synchronization with AUTONOMY-6.x.
 
 COLNIK does not perform reasoning, KG operations, workflow transformations, or autonomy logic.  
-It is a single checkpoint placed directly above the autonomy layer.
+It is a single checkpoint placed directly above the autonomy and execution layers, managed via `sirius_orchestrator.py` and supervised by `TimeCore` and `Guard`.
 
 COLNIK relies on existing security modules to make its decision.  
-It does not replace them — it only uses their results.
+It does not replace them — it only uses their results alongside interactive `PanelAPI` human confirmation gates (`[ÁNO/NIE]`).
 
 ---
 
@@ -21,7 +21,7 @@ SIRIUS already contains multiple advanced security modules:
 - **PolicyEngine5**  
 - **BehaviorFilter5**  
 - **FamilySafetyRules5_x**  
-- **ContextualBehaviorEngine5**
+- **ContextualBehaviorEngine5**  
 
 These modules:
 
@@ -34,7 +34,7 @@ These modules:
 COLNIK does **not** duplicate their work.  
 Instead, COLNIK uses their outputs to make one final decision:
 
-> **Should this command be allowed to reach autonomy?**
+> **Should this command be allowed to reach autonomy and execution?**
 
 This keeps the architecture clean and future-proof.
 
@@ -42,25 +42,29 @@ This keeps the architecture clean and future-proof.
 
 ## 3. Execution Pipeline
 
-This is the exact pipeline we agreed on:
-User Command
-↓
-InputParser
-↓
-Workflow
-↓
-KÝKLOS GATE (COLNIK)
-↓
-┌───────────────┐
-│   ALLOW        │
-│   or DENY      │
-└───────────────┘
-↓
-Autonomy
-↓
-Execution
+This is the exact pipeline for Runtime 5.8:
+User Command  
+↓  
+InputParser5  
+↓  
+`sirius_orchestrator.py` (Unified Orchestrator)  
+↓  
+WorkflowEngine5  
+↓  
+KÝKLOS GATE (COLNIK-6.x Standard & IPC Mode)  
+↓  
+PanelAPI (`[ÁNO/NIE]` Confirmation Loop)  
+↓  
+┌───────────────┐  
+│    ALLOW      |  
+│    or DENY    |  
+└───────────────┘  
+↓  
+AUTONOMY 6.x (Control & Triage Mode)  
+↓  
+EXECUTE / OS
 
-COLNIK is the **final checkpoint** before any autonomous action is executed.
+COLNIK is the **final inspection checkpoint** before any autonomous action is executed.
 
 ---
 
@@ -85,7 +89,7 @@ Applies safety rules for sensitive operations (KG mutations, runtime changes).
 Outputs: **SAFE / UNSAFE**
 
 ### 4.5 ContextualBehaviorEngine5
-Analyzes context, environment, and system state.  
+Analyzes context, environment, and system state under `TimeCore` and `Guard` supervision.  
 Outputs: **CONTEXT-OK / CONTEXT-NOT-OK**
 
 ---
@@ -94,15 +98,15 @@ Outputs: **CONTEXT-OK / CONTEXT-NOT-OK**
 
 COLNIK does not run complex logic.  
 It simply collects the outputs of the modules above and performs a primitive evaluation:
-IF PermissionLayer5 == ALLOW
-AND PolicyEngine5 == ALLOWED
-AND BehaviorFilter5 == SAFE
-AND FamilySafetyRules5_x == SAFE
-AND ContextualBehaviorEngine5 == CONTEXT-OK
-THEN
-ALLOW
-ELSE
-DENY
+IF PermissionLayer5 == ALLOW  
+AND PolicyEngine5 == ALLOWED  
+AND BehaviorFilter5 == SAFE  
+AND FamilySafetyRules5_x == SAFE  
+AND ContextualBehaviorEngine5 == CONTEXT-OK  
+THEN  
+ALLOW (with optional PanelAPI `[ÁNO/NIE]` check)  
+ELSE  
+DENY  
 
 This is the entire decision mechanism.
 
@@ -125,11 +129,11 @@ Does any global or local policy forbid this action?
 Would executing this command harm the runtime or KG?
 
 ### 6.5 Confirmation Check
-Does this command require explicit user confirmation?
+Does this command require explicit user confirmation via `PanelAPI` `[ÁNO/NIE]`?
 
 ### 6.6 Final Decision
-- **ALLOW** → forward to autonomy  
-- **DENY** → block, log, explain  
+- **ALLOW** → forward to autonomy / IPC buffer (`proposals.json`)  
+- **DENY** → block, log, explain, or trigger Triage Mode  
 
 ---
 
@@ -141,8 +145,8 @@ Does this command require explicit user confirmation?
 | PolicyEngine5 | Applies global/local policies |
 | BehaviorFilter5 | Filters unsafe behavior |
 | FamilySafetyRules5_x | Safety rules for sensitive operations |
-| ContextualBehaviorEngine5 | Context-aware evaluation |
-| **COLNIK** | **Final ALLOW/DENY decision** |
+| ContextualBehaviorEngine5 | Context-aware evaluation under TimeCore/Guard |
+| **COLNIK-6.x** | **Final ALLOW/DENY decision (Standard & IPC Mode)** |
 
 COLNIK is not a security layer — it is a **decision gate**.
 
@@ -165,10 +169,11 @@ The core ALLOW/DENY logic never changes.
 
 ## 9. Summary
 
-- COLNIK is a **primitive decision gate**, not a complex module.  
-- It sits **above autonomy** and decides ALLOW/DENY.  
+- COLNIK-6.x is a **primitive decision gate**, not a complex module operating in Standard & IPC Mode.  
+- It sits **above autonomy** and decides ALLOW/DENY under orchestrator supervision.  
 - It uses existing security modules (PermissionLayer, PolicyEngine, BehaviorFilter…).  
+- It integrates with interactive `PanelAPI` `[ÁNO/NIE]` user confirmation loops.  
 - It ensures every command is safe before execution.  
 - It keeps the SIRIUS runtime stable and future-proof.
 
-This is the final, correct architecture of the Kýklos Gate.
+This is the final, correct architecture of the Kýklos Gate for Runtime 5.8.
