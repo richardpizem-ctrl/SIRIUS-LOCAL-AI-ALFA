@@ -1,28 +1,28 @@
 # 🔐 SECURITY FAMILY 5.x — Identity Engine 3.1 & Unified Permission Framework  
 **Status:** ✔ Active  
-**Version:** 5.x (Updated for 5.7.0 UNIFIED)  
+**Version:** 5.x (Updated for 5.8 UNIFIED)  
 **Component:** Security Family  
-**Role:** Identity enforcement, permission gating, safety modes, autonomy‑aware and COLNIK‑validated security logic
+**Role:** Identity enforcement, permission gating, safety modes, orchestrator-supervised, autonomy‑aware and COLNIK‑validated security logic
 
 ---
 
 ## 🎯 Purpose  
 Security Family 5.x is the unified identity and permission enforcement layer of SIRIUS Local AI.  
-It ensures that every workflow, automation request, KG mutation, reasoning step, and OS‑level action is validated through identity rules, explainability, COLNIK‑6.x, and AUTONOMY‑6.x.
+It ensures that every workflow, automation request, KG mutation, reasoning step, and OS‑level action is validated through identity rules, explainability, orchestrator execution (`sirius_orchestrator.py`), interactive `PanelAPI` confirmation loops, `TimeCore`/`Guard` supervision, COLNIK‑6.x (Standard & IPC Mode), and AUTONOMY‑6.x (Control & Triage Mode).
 
 Security Family protects the workstation from unsafe operations, unauthorized changes, and identity‑restricted actions.
 
 ---
 
 ## 🧩 Architecture Overview  
-**Identity Engine → Security Family → System Agent → AUTONOMY → COLNIK → EXECUTE**
+**Identity Engine → Security Family → `sirius_orchestrator.py` → System Agent → AUTONOMY → COLNIK → PanelAPI → EXECUTE**
 
 ### Core Responsibilities  
 - enforce identity modes  
 - validate permissions  
 - block unauthorized actions  
 - integrate explainability  
-- provide autonomy‑aware gating  
+- provide orchestrator-supervised and autonomy‑aware gating  
 - validate KG mutations  
 - protect UI automation  
 - unify PC/Mobile identity logic  
@@ -31,6 +31,8 @@ Security Family protects the workstation from unsafe operations, unauthorized ch
 - `security_family/security_family.py`  
 - `security_family/identity_modes.json`  
 - `security_family/permissions.json`  
+- `ORCHESTRATOR/sirius_orchestrator.py`  
+- `PANEL_API/panel_api.py`  
 - `IPC_DATA/security_events.json`  
 
 ---
@@ -39,14 +41,14 @@ Security Family protects the workstation from unsafe operations, unauthorized ch
 
 ### **FAMILY Mode**  
 Full trusted mode.  
-Allows safe workflows, UI automation, KG operations, and system actions.
+Allows safe workflows, UI automation, KG operations, and system actions under orchestrator supervision.
 
 ### **STRANGER Mode**  
 Restricted mode.  
 Blocks sensitive workflows, KG mutations, OS‑level actions, and UI automation.
 
 ### **SCHOOLWORK Mode (Bypass)**  
-Special mode for school tasks.  
+Special mode for school tasks (Schoolwork Engine 5.8).  
 Allows safe KG operations and reasoning, blocks OS automation.
 
 ### **ENVOY 5 Permission Layer**  
@@ -80,7 +82,7 @@ Explainability is mandatory for all identity‑restricted operations.
 
 ---
 
-### **3 — COLNIK‑Validated Security**  
+### **3 — COLNIK‑Validated Security (Standard & IPC Mode)**  
 All allow/deny decisions are validated through COLNIK‑6.x:  
 - enterprise‑grade safety  
 - deterministic routing  
@@ -92,14 +94,14 @@ Security Family never allows unsafe identity transitions.
 
 ---
 
-### **4 — AUTONOMY‑Aware Gating**  
-AUTONOMY‑6.x receives proposals for:  
+### **4 — AUTONOMY & PanelAPI Gating**  
+AUTONOMY‑6.x (Control & Triage Mode) and interactive `PanelAPI` receive proposals for:  
 - identity‑restricted workflows  
 - unsafe KG mutations  
 - risky OS‑level actions  
 - UI automation attempts  
 
-AUTONOMY confirms or denies transitions.
+AUTONOMY and human-in-the-loop prompts confirm or deny transitions.
 
 ---
 
@@ -143,8 +145,9 @@ All UI actions require identity validation.
 - OS‑level action validation  
 - reversible action enforcement  
 
-### **Autonomy Layer**  
-- supervised gating  
+### **Orchestrator & Autonomy Layer**  
+- centralized execution (`sirius_orchestrator.py`)  
+- supervised gating and `PanelAPI` human confirmation (`[ÁNO/NIE]`)  
 - proposal/confirmation logic  
 - fallback routing  
 
@@ -152,8 +155,9 @@ All UI actions require identity validation.
 
 ## 🔐 Safety Rules  
 - ❌ No unsafe identity transitions  
-- 🔒 COLNIK validation required  
+- 🔒 COLNIK validation (Standard & IPC Mode) required  
 - 🛡 AUTONOMY confirmation required  
+- 💬 PanelAPI `[ÁNO/NIE]` gating active for sensitive identity shifts  
 - ⚠ Explainability required  
 - 🧠 KG‑aware identity reasoning  
 - 🔁 Reversible actions enforced  
@@ -162,20 +166,22 @@ All UI actions require identity validation.
 ---
 
 ## 📊 Module Status  
-- ✔ Fully implemented  
-- ✔ identity modes stable  
-- ✔ permission logic hardened  
+- ✔ Fully implemented (Runtime 5.8)  
+- ✔ Identity modes stable  
+- ✔ Permission logic hardened  
+- ✔ Orchestrator routing verified  
+- ✔ PanelAPI confirmation gates active  
+- ✔ TimeCore & Guard supervision active  
 - ✔ KG mutation protection active  
 - ✔ UI automation protection integrated  
-- ✔ COLNIK validation functional  
+- ✔ COLNIK validation functional (Standard & IPC Mode)  
 - ✔ AUTONOMY gating active  
 - ✔ PC/Mobile identity logic unified  
 
 ---
 
 ## 🏁 Summary  
-Security Family 5.x is the unified identity and permission enforcement layer of SIRIUS Local AI.  
-It validates every workflow, KG mutation, reasoning step, and OS‑level action through identity rules, explainability, COLNIK‑6.x, and AUTONOMY‑6.x.
+Security Family 5.x is the unified identity and permission enforcement layer of SIRIUS Local AI (v5.8).  
+It validates every workflow, KG mutation, reasoning step, and OS‑level action through identity rules, explainability, orchestrator supervision, PanelAPI confirmation, COLNIK‑6.x, and AUTONOMY‑6.x.
 
 It ensures that SIRIUS operates Windows 11 **safely, intelligently, identity‑aware, autonomy‑aware, and fully explainably**.
-
