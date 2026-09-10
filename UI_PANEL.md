@@ -1,35 +1,36 @@
-# 🟦 UI PANEL 6.x — Futuristic Neon Interface  
-**Status:** ✔ Active  
+# 🎛 UI PANEL 6.x — Futuristic Neon Interface (VO VÝVOJI)  
+**Status:** ⚠️ Vo vývoji (Active Development)  
 **Version:** 6.x  
-**SIRIUS Local AI Version:** 5.7.0  
+**SIRIUS Local AI Version:** 5.8  
 **Component:** UI PANEL  
-**Role:** Unified visual interface for user and developer interaction with SIRIUS Local AI
+**Role:** Unified visual interface for user and developer interaction with SIRIUS Local AI under orchestrator and PanelAPI supervision
 
 ---
 
 ## 🎯 Purpose  
-The UI PANEL 6.x module provides a futuristic, neon‑styled interface for interacting with the SIRIUS Local AI system.  
-It serves as the primary visual layer for both **User Mode** and **Developer Mode**, enabling clear workflow navigation, module monitoring, and command execution.
+UI PANEL 6.x module provides a futuristic, neon‑styled interface for interacting with the SIRIUS Local AI system.  
+It serves as the primary visual layer for both **User Mode** and **Developer Mode**, enabling clear workflow navigation, module monitoring, interactive human-in-the-loop confirmation loops (`PanelAPI` [ÁNO/NIE]), and command execution.
 
-The panel is designed for clarity, speed, and high‑contrast readability.
+*Upozornenie:* Tento modul je aktuálne **vo vývoji** (active development) a priebežne sa prispôsobuje centralizovanej architektúre orchestrátora (`sirius_orchestrator.py`), časovému a bezpečnostnému dohľadu (`TimeCore`/`Guard`) a pokročilým módom COLNIK-6.x a AUTONOMY-6.x.
 
 ---
 
 ## 🧩 Architecture Overview  
-**UI PANEL → Runtime 5.x → Autonomy 6.x → COLNÍK → EXECUTE → KG Engine → Reasoning Engine**
+**UI PANEL → `sirius_orchestrator.py` → PanelAPI → Runtime 5.8 → Autonomy 6.x → COLNIK (IPC Mode) → EXECUTE → KG Engine → Reasoning Engine**
 
 ### Core Responsibilities  
-- Display system state and diagnostics  
-- Provide input/output fields for interaction  
-- Visualize autonomy workflow  
+- Display system state and diagnostics (integrated with `TimeCore` and `Guard`)  
+- Provide input/output fields for interaction and interactive `PanelAPI` prompts (`[ÁNO/NIE]`)  
+- Visualize autonomy workflow and orchestrator state  
 - Switch between User and Developer modes  
-- Show module activity (COLNÍK, EXECUTE, KG, Reasoning)  
-- Provide neon‑styled futuristic interface elements
+- Show module activity (COLNIK, EXECUTE, KG, Reasoning, Orchestrator)  
+- Provide neon‑styled futuristic interface elements  
 
 ### Key Files  
 - `UI/ui_panel.html`  
 - `UI/ui_panel.css`  
 - `UI/ui_panel.js`  
+- `PANEL_API/panel_api.py`  
 - `ASSETS/neon_theme/`  
 
 ---
@@ -43,6 +44,7 @@ Large high‑contrast neon panel showing:
 - Workflow steps  
 - Module logs  
 - Autonomy cycle status  
+- Orchestrator telemetry & `PanelAPI` confirmation prompts (`[ÁNO/NIE]`)  
 
 ### **Bottom Section — Input Field**  
 Compact neon input bar for:  
@@ -54,10 +56,12 @@ Compact neon input bar for:
 
 ### **Side Panel — Module Status**  
 Real‑time indicators for:  
-- AUTONOMY 6.x  
-- COLNÍK 6.x  
+- Unified Orchestrator (`sirius_orchestrator.py`)  
+- PanelAPI & TimeCore/Guard  
+- AUTONOMY 6.x (Control & Triage Mode)  
+- COLNIK 6.x (Standard & IPC Mode)  
 - EXECUTE 6.x  
-- KG Engine  
+- KG Engine (`autosave_kg.json`)  
 - Reasoning Engine  
 - System health  
 
@@ -70,11 +74,11 @@ Real‑time indicators for:
 - Clean neon layout  
 - Basic commands  
 - High‑level system overview  
-- Safe operations only  
+- Safe operations with interactive `PanelAPI` safety gates  
 
 ### **Developer Mode**  
-- Full diagnostics  
-- Module logs  
+- Full diagnostics and orchestrator tracing  
+- Module logs and `TimeCore`/`Guard` telemetry  
 - KG tools  
 - Autonomy debugging  
 - File operations (safe)  
@@ -93,17 +97,16 @@ Real‑time indicators for:
 ---
 
 ## 📊 Module Status  
+- ⚠️ **Vo vývoji (Active Development)**  
 - ✔ UI layout defined  
 - ✔ Neon theme integrated  
 - ✔ User/Developer modes functional  
 - ✔ Output/Input pipeline connected  
 - ✔ Module indicators active  
-- ✔ Ready for integration with Runtime 5.x  
+- 🔄 Prebieha integrácia s centrálnym orchestrátorom (`sirius_orchestrator.py`) a živými `PanelAPI` `[ÁNO/NIE]` potvrdzovacími slučkami  
 
 ---
 
 ## 🏁 Summary  
-UI PANEL 6.x is the primary visual interface for SIRIUS Local AI (v5.7.0).  
-It provides a futuristic neon environment with clear workflow visualization, dual interaction modes, and real‑time module monitoring.  
-The panel is fully prepared for production use and integrates seamlessly with the autonomy and execution subsystems.
-
+UI PANEL 6.x je primárne vizuálne rozhranie pre SIRIUS Local AI (v5.8) a je **aktuálne vo vývoji**.  
+Poskytuje futuristické neonové prostredie s prehľadnou vizualizáciou pracovných postupov, dvoma režimami interakcie, podporou interaktívneho schvaľovania cez `PanelAPI` a monitorovaním modulov v reálnom čase pod dohľadom orchestrátora.
