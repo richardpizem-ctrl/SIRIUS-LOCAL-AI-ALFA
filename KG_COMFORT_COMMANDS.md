@@ -1,8 +1,8 @@
 # 🧩 KG COMFORT COMMANDS — Developer‑Friendly Knowledge Graph Operations  
 **Status:** ✔ Active  
-**Version:** 6.x (Updated for Runtime 5.7.0)  
+**Version:** 6.x (Updated for Runtime 5.8 UNIFIED)  
 **Component:** KG Comfort Commands  
-**Role:** Fast, safe, deterministic developer commands for manipulating the Knowledge Graph
+**Role:** Fast, safe, deterministic developer commands for manipulating the Knowledge Graph under orchestrator and PanelAPI supervision
 
 ---
 
@@ -10,18 +10,19 @@
 KG Comfort Commands provide a **developer‑friendly interface** for interacting with the Knowledge Graph.  
 They simplify entity creation, relation management, searching, renaming, exporting, importing, and debugging — all while maintaining:
 
-- deterministic behavior  
-- autosave/autoload integrity  
-- COLNIK‑validated safety  
-- AUTONOMY‑aware gating  
-- full explainability (KG_EXPLAIN + KG_EXPLAIN_DEEP)
+- deterministic behavior via `sirius_orchestrator.py`  
+- autosave/autoload integrity (`autosave_kg.json`)  
+- COLNIK‑validated safety (Standard & IPC Mode)  
+- AUTONOMY‑aware gating & Triage Mode  
+- PanelAPI interactive `[ÁNO/NIE]` confirmation gates  
+- full explainability (KG_EXPLAIN + KG_EXPLAIN_DEEP)  
 
 These commands are designed for **rapid development**, **debugging**, and **manual KG manipulation** inside SIRIUS Local AI.
 
 ---
 
 ## 🧩 Architecture Overview  
-**Developer Mode → KG Comfort Commands → KG ENGINE → ReasoningEngine5 → AUTONOMY → COLNIK**
+**Developer Mode → KG Comfort Commands → `sirius_orchestrator.py` → KG ENGINE → ReasoningEngine5 → AUTONOMY → COLNIK → PanelAPI [ÁNO/NIE]**
 
 ### Core Responsibilities  
 - simplify KG operations  
@@ -38,6 +39,8 @@ These commands are designed for **rapid development**, **debugging**, and **manu
 - `KG/autosave_kg.json`  
 - `KG/kg_export.json`  
 - `KG/kg_import.json`  
+- `ORCHESTRATOR/sirius_orchestrator.py`  
+- `PANEL_API/panel_api.py`  
 
 ---
 
@@ -45,13 +48,13 @@ These commands are designed for **rapid development**, **debugging**, and **manu
 
 ### **1 — Entity Commands**  
 #### `kg add entity <NAME>`  
-Creates a new entity with deterministic metadata.
+Creates a new entity with deterministic metadata via the orchestrator.
 
 #### `kg rename entity <OLD> <NEW>`  
 Renames an entity while preserving relations.
 
 #### `kg delete entity <NAME>`  
-Deletes an entity (requires AUTONOMY + COLNIK approval).
+Deletes an entity (requires AUTONOMY, COLNIK, and PanelAPI `[ÁNO/NIE]` approval).
 
 #### `kg list entities`  
 Shows all entities in the KG.
@@ -93,10 +96,10 @@ Shows multi‑hop path between two nodes.
 Exports the entire KG to `kg_export.json`.
 
 #### `kg import <FILE>`  
-Imports a KG file (requires validation).
+Imports a KG file (requires strict validation and confirmation).
 
 #### `kg autosave on/off`  
-Controls autosave behavior.
+Controls autosave behavior under TimeCore tracking.
 
 ---
 
@@ -108,7 +111,7 @@ Shows full metadata for an entity.
 Shows full metadata for a relation.
 
 #### `kg debug stats`  
-Shows KG size, depth, and consistency metrics.
+Shows KG size, depth, and consistency metrics verified by Guard.
 
 ---
 
@@ -129,13 +132,13 @@ Every KG mutation generates:
 - evidence metadata  
 
 ### **COLNIK Validation**  
-All KG mutations are validated through COLNIK‑6.x:  
+All KG mutations are validated through COLNIK‑6.x (Standard & IPC Mode):  
 - enterprise‑grade safety  
 - reversible mutation checks  
 - deterministic routing  
 
-### **AUTONOMY Gating**  
-AUTONOMY‑6.x confirms or denies:  
+### **AUTONOMY Gating & PanelAPI**  
+AUTONOMY‑6.x (Control & Triage Mode) and `PanelAPI` confirm or deny:  
 - risky mutations  
 - relation deletions  
 - entity deletions  
@@ -144,19 +147,20 @@ AUTONOMY‑6.x confirms or denies:
 ---
 
 ## 📊 Module Status  
-- ✔ Fully implemented  
-- ✔ autosave/autoload stable  
-- ✔ mutation validation active  
-- ✔ explainability integrated  
-- ✔ COLNIK validation functional  
+- ✔ Fully implemented (Runtime 5.8)  
+- ✔ Autosave/autoload stable  
+- ✔ Mutation validation active  
+- ✔ Orchestrator routing verified  
+- ✔ PanelAPI [ÁNO/NIE] gates active  
+- ✔ Explainability integrated  
+- ✔ COLNIK validation functional (Standard & IPC Mode)  
 - ✔ AUTONOMY gating active  
 - ✔ PC/Mobile KG manipulation unified  
 
 ---
 
 ## 🏁 Summary  
-KG Comfort Commands provide a **safe, deterministic, developer‑friendly interface** for manipulating the Knowledge Graph.  
-They simplify entity creation, relation management, searching, debugging, and import/export — all while maintaining explainability, autonomy‑aware gating, and COLNIK‑validated safety.
+KG Comfort Commands provide a **safe, deterministic, developer‑friendly interface** for manipulating the Knowledge Graph in SIRIUS Local AI (v5.8).  
+They simplify entity creation, relation management, searching, debugging, and import/export — all while maintaining explainability, orchestrator execution, autonomy‑aware gating, PanelAPI human confirmation, and COLNIK‑validated safety.
 
 They transform KG manipulation into a **fast, intuitive, professional developer workflow** inside SIRIUS Local AI.
-
