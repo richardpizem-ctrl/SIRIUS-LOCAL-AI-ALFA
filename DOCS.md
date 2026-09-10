@@ -4,27 +4,30 @@ layout: default
 ---
 
 # SIRIUS‑LOCAL‑AI  
-**A fully modular, offline‑only AI runtime with unified reasoning, deep explainability (XAI), KG_EXPLAIN & KG_EXPLAIN_DEEP, multimodal triage 5.7.0, deterministic UI automation, COLNIK‑6.x Standard Mode, AUTONOMY 6.x Control Mode, and a next‑generation capability architecture.**
+**A fully modular, offline‑only AI runtime with unified orchestration (`sirius_orchestrator.py`), interactive PanelAPI [ÁNO/NIE] loops, TimeCore & Guard supervision, unified reasoning, deep explainability (XAI), KG_EXPLAIN & KG_EXPLAIN_DEEP, multimodal triage 5.8, deterministic UI automation, COLNIK‑6.x (Standard & IPC Mode), AUTONOMY 6.x (Control & Triage Mode), and a next‑generation capability architecture.**
 
-SIRIUS‑LOCAL‑AI is a next‑generation local AI framework designed for **speed, stability, modularity, semantic intelligence, deep explainability, and full offline autonomy**.
+SIRIUS‑LOCAL‑AI is a next‑generation local AI framework designed for **speed, stability, modularity, semantic intelligence, deep explainability, interactive human-in-the-loop control, and full offline autonomy**.
 
-Version **5.7.0** introduces the most advanced generation of the Unified Runtime Architecture 5.x, merging PC and Mobile logic into a single deterministic, identity‑aware, multimodal, explainable AI operating layer.
+Version **5.8** introduces the fully unified and orchestrated architecture of the SIRIUS Runtime line, integrating the unified orchestrator (`sirius_orchestrator.py`), interactive `PanelAPI` confirmation loops, `TimeCore` temporal tracking, `Guard` security supervision, and enhanced `COLNIK-6.x` / `AUTONOMY-6.x` modules.
 
-This release replaces the older 5.6.x architecture with:
+This release replaces the older 5.7.0 architecture with:
 
+- **Unified Orchestrator (`sirius_orchestrator.py`)**  
+- **PanelAPI & Interactive [ÁNO/NIE] Confirmation Loops**  
+- **TimeCore Temporal Tracking & Guard Security Supervision**  
 - **KG_EXPLAIN & KG_EXPLAIN_DEEP (Explainability Engines)**  
-- **Reasoning Engine 5.7.0 (multi‑hop, inheritance, transitivity)**  
+- **Reasoning Engine 5.8 (multi‑hop, inheritance, transitivity)**  
 - **Proof Tree + Evidence Tree foundations**  
 - **Confidence scoring model**  
 - **Rule chaining foundations**  
-- **Workflow Engine 5.7.0 (explainability routing)**  
-- **Unified Knowledge Graph 5.7.0 (comfort commands, stabilized autoload)**  
+- **Workflow Engine 5.8 (explainability routing)**  
+- **Unified Knowledge Graph 5.8 (comfort commands, stabilized autoload)**  
 - **improved KG attribute pipeline**  
 - **improved KG auto‑creation**  
 - **improved KG Light routing**  
-- **improved AITE 5.7.0 semantic + explainability triage**  
-- **COLNIK‑6.x validation subsystem (Standard Mode)**  
-- **AUTONOMY 6.x (Control Mode)**  
+- **improved AITE 5.8 (semantic + explainability triage)**  
+- **COLNIK‑6.x validation subsystem (Standard & IPC Mode)**  
+- **AUTONOMY 6.x (Control & Triage Mode)**  
 - **hardened deterministic routing**  
 - **identity‑aware system control**  
 - **safe OS automation**  
@@ -44,54 +47,59 @@ The entire system runs **100% locally**, without external dependencies or cloud 
 - [Release Notes](RELEASE_NOTES.md)
 - [Roadmap](ROADMAP.md)
 - [Security Family](SECURITY_FAMILY.md)
-- [AITE 5.7.0](AITE.md)
+- [AITE 5.8](AITE.md)
 - [ENVOY 5](ENVOY_TUTORIAL.md)
 - [Future Vision](FUTURE_VISION.md)
 - [Password Vault 5.0](PASSWORD_VAULT.md)
 
 ---
 
-## 🚀 Key Features (v5.7.0 UNIFIED)
+## 🚀 Key Features (v5.8 UNIFIED)
 
-### **Unified Runtime 5.7.0**
-A fully upgraded runtime with:
+### **Unified Runtime 5.8 & Orchestration**
+A fully upgraded runtime driven by `sirius_orchestrator.py` with:
 
-- deterministic execution  
+- centralized deterministic execution  
 - semantic routing  
+- interactive PanelAPI [ÁNO/NIE] prompts  
+- TimeCore temporal tracking & Guard supervision  
 - explainability routing (KG_EXPLAIN & KG_EXPLAIN_DEEP)  
 - identity‑aware logic  
-- self‑repair integration  
+- self‑repair integration (Layer 5.8)  
 - capability isolation  
 - safe fallback states  
 - unified PC + Mobile behavior  
 - hardened System Agent 5 validation  
 - ENVOY Execution/Permission Layers 5  
-- COLNIK‑6.x validation (Standard Mode)  
-- AUTONOMY 6.x proposal/confirmation (Control Mode)  
+- COLNIK‑6.x validation (Standard & IPC Mode)  
+- AUTONOMY 6.x proposal/confirmation & Triage Mode  
 - deterministic UI automation (v5.1)  
 
 ---
 
-### **Modular Architecture (v5.7.0)**
+### **Modular Architecture (v5.8)**
 Each module is isolated and follows strict boundaries:
 
 - `commands/` – NL routing and command logic  
 - `context/` – semantic context engine  
 - `filesystem/` – safe file operations  
-- `runtime/` – Runtime Core 5.7.0  
-- `triage/` – AITE 5.7.0 (semantic + explainability triage)  
+- `runtime/` – Runtime Core 5.8  
+- `orchestrator/` – Unified Orchestrator (`sirius_orchestrator.py`)  
+- `panel_api/` – PanelAPI interactive loops (`[ÁNO/NIE]`)  
+- `supervision/` – TimeCore & Guard security/temporal monitoring  
+- `triage/` – AITE 5.8 (semantic + explainability triage)  
 - `ui/` – GUI logic  
 - `ui_components/` – graphical elements  
 - `ui_components/animations/` – animation engine  
-- `workflow/` – Workflow Engine 5.7.0  
+- `workflow/` – Workflow Engine 5.8  
 - `plugins/` – Plugin System 5.x  
 - `security_family/` – Identity Engine 3.1, time‑limits v3, schoolwork engine  
-- `self_repair/` – Self‑Repair Layer 5.4  
+- `self_repair/` – Self‑Repair Layer 5.8  
 - `knowledge_packs/` – Knowledge Graph Packs 5.x  
 - `envoy/` – ENVOY Execution + Permission Layers 5  
 - `ui_automation/` – **UI Automation Engine 5.1**  
 - `system_agent/` – System Agent 5  
-- `mobile_runtime/` – Mobile Runtime 5.7.0  
+- `mobile_runtime/` – Mobile Runtime 5.8  
 
 The system is designed to be extended **without modifying the core**.
 
@@ -111,7 +119,7 @@ All official plugins are fully prepared for v5.x.
 
 ---
 
-### **Automatic Input Triage Engine (AITE 5.7.0)**
+### **Automatic Input Triage Engine (AITE 5.8)**
 AITE analyzes inputs, classifies them, and routes them to the correct modules.
 
 It ensures:
@@ -122,15 +130,15 @@ It ensures:
 - difficulty scoring  
 - identity‑aware routing  
 - deterministic behavior  
-- **Schoolwork Engine 5.7.0 — academic tasks always bypass FAMILY restrictions**  
+- **Schoolwork Engine 5.8 — academic tasks always bypass FAMILY restrictions**  
 - **integration with SECURITY FAMILY 5.x**  
-- **integration with Reasoning Engine 5.7.0**  
-- **integration with Workflow Engine 5.7.0**  
+- **integration with Reasoning Engine 5.8**  
+- **integration with Workflow Engine 5.8 & Orchestrator**  
 - **explainability detection (“why … ?”)**  
 
 ---
 
-### **Reasoning Engine 5.7.0**
+### **Reasoning Engine 5.8**
 A structured symbolic reasoning layer:
 
 - multi‑hop inference  
@@ -147,7 +155,7 @@ A structured symbolic reasoning layer:
 
 ---
 
-### **Self‑Repair Layer 5.4**
+### **Self‑Repair Layer 5.8**
 Ensures long‑term stability:
 
 - integrity checks  
@@ -188,7 +196,7 @@ ENVOY never sends local data outward.
 
 ---
 
-### **Workflow Engine 5.7.0**
+### **Workflow Engine 5.8**
 Manages:
 
 - multi‑step processes  
@@ -202,7 +210,7 @@ Manages:
 
 ---
 
-### **Unified Automation Runtime 5.7.0**
+### **Unified Automation Runtime 5.8**
 Developer‑level offline automation:
 
 - filesystem automation  
@@ -228,20 +236,23 @@ A major capability expanded in v5.x:
 
 ---
 
-## 📁 Project Structure (v5.7.0)
-src/
+## 📁 Project Structure (v5.8)
+src/  
 ├── commands/  
 ├── context/  
 ├── envoy/  
 ├── filesystem/  
 ├── knowledge_packs/  
 ├── runtime/  
+├── orchestrator/  
+├── panel_api/  
+├── supervision/  
 ├── security_family/  
 ├── self_repair/  
 ├── triage/  
 ├── ui/  
 ├── ui_components/  
-│    └── animations/  
+│   └── animations/  
 ├── ui_automation/  
 ├── system_agent/  
 ├── workflow/  
@@ -269,7 +280,8 @@ The project includes a complete testing plan:
 - System Agent 5 validation tests  
 - ENVOY 5 sanitization tests  
 - KG_EXPLAIN & KG_EXPLAIN_DEEP explainability tests  
-- Reasoning Engine 5.7.0 rule tests  
+- Reasoning Engine 5.8 rule tests  
+- Orchestrator, PanelAPI & TimeCore/Guard integration tests  
 
 Details are in **TESTING_GUIDE.md**.
 
@@ -292,17 +304,20 @@ More in **PERFORMANCE_GUIDE.md**.
 
 ## 🗓️ Release Plan
 
-### **v5.7.0 – Unified Reasoning, Explainability, COLNIK‑AUTONOMY Architecture (Current)**  
-- AITE 5.7.0  
-- Reasoning Engine 5.7.0  
-- Workflow Engine 5.7.0  
-- Unified Knowledge Graph 5.7.0  
+### **v5.8 – Unified Orchestration, PanelAPI, TimeCore/Guard & COLNIK-AUTONOMY Architecture (Current)**  
+- Unified Orchestrator (`sirius_orchestrator.py`)  
+- PanelAPI interactive loops (`[ÁNO/NIE]`)  
+- TimeCore & Guard supervision  
+- AITE 5.8  
+- Reasoning Engine 5.8  
+- Workflow Engine 5.8  
+- Unified Knowledge Graph 5.8  
 - KG_EXPLAIN & KG_EXPLAIN_DEEP  
 - UI Automation Engine 5.1  
 - System Agent 5  
 - ENVOY Execution/Permission Layers 5  
-- COLNIK‑6.x validation (Standard Mode)  
-- AUTONOMY 6.x (Control Mode)  
+- COLNIK‑6.x validation (Standard & IPC Mode)  
+- AUTONOMY 6.x (Control & Triage Mode)  
 - deterministic system‑level intelligence  
 - unified PC/Mobile execution  
 
