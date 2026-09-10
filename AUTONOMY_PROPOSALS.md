@@ -1,14 +1,14 @@
 # 🤖 AUTONOMY PROPOSALS 6.x — Supervised Autonomous Decision Generation  
 **Status:** ✔ Active  
-**Version:** 6.x (Updated for Runtime 5.7.0 UNIFIED)  
+**Version:** 6.x (Updated for Runtime 5.8 UNIFIED)  
 **Component:** AUTONOMY Proposal Engine  
-**Role:** Generate safe, explainable, supervised autonomous proposals for system actions, workflows, KG mutations, and UI automation
+**Role:** Generate safe, explainable, supervised autonomous proposals for system actions, workflows, KG mutations, and UI automation under orchestrator and PanelAPI supervision
 
 ---
 
 ## 🎯 Purpose  
-The AUTONOMY Proposal Engine 6.x is responsible for generating **autonomous suggestions** (proposals) based on system context, KG reasoning, identity rules, and predictive intelligence.  
-These proposals represent *what SIRIUS thinks should happen next* — but every proposal is supervised, validated, and confirmed through COLNIK‑6.x and System Agent 5.
+The AUTONOMY Proposal Engine 6.x is responsible for generating **autonomous suggestions** (proposals) based on system context, KG reasoning, identity rules, predictive intelligence, and Triage Mode diagnostics.  
+These proposals represent *what SIRIUS thinks should happen next* — but every proposal is supervised, validated, and confirmed through COLNIK‑6.x (Standard & IPC Mode), System Agent 5, and interactive PanelAPI loops with [ÁNO/NIE] confirmations.
 
 AUTONOMY never executes actions directly.  
 It **proposes**, **explains**, **justifies**, and **waits for validation**.
@@ -16,16 +16,16 @@ It **proposes**, **explains**, **justifies**, and **waits for validation**.
 ---
 
 ## 🧩 Architecture Overview  
-**System Intelligence Layer → AUTONOMY Proposal Engine → COLNIK → Workflow Engine → EXECUTE**
+**System Intelligence Layer → AUTONOMY Proposal Engine → `sirius_orchestrator.py` → COLNIK (IPC Mode) → PanelAPI [ÁNO/NIE] → Workflow Engine → EXECUTE**
 
 ### Core Responsibilities  
 - generate autonomous proposals  
-- evaluate system context  
+- evaluate system context via TimeCore & Guard  
 - integrate KG reasoning  
 - classify proposal types  
 - provide explainability metadata  
-- route proposals through COLNIK‑6.x  
-- coordinate supervised autonomy  
+- route proposals through COLNIK‑6.x (Standard & IPC Mode)  
+- coordinate supervised autonomy via Control & Triage Mode  
 - unify PC/Mobile autonomy logic  
 
 ### Key Files  
@@ -46,6 +46,7 @@ AUTONOMY gathers signals from:
 - Workflow Engine  
 - System Agent  
 - Identity Engine  
+- TimeCore & Guard Temporal/Security Monitors  
 
 Context determines whether a proposal is safe, relevant, or necessary.
 
@@ -83,7 +84,7 @@ AUTONOMY generates proposals in several categories:
 #### **Identity Proposals**
 - restrict action  
 - allow safe action  
-- require confirmation  
+- require confirmation (`PanelAPI` [ÁNO/NIE])  
 - enforce FAMILY/STRANGER mode  
 
 ---
@@ -103,7 +104,7 @@ Explainability is mandatory for all proposals.
 ---
 
 ### **4 — COLNIK‑Validated Routing**  
-Before a proposal is accepted, COLNIK‑6.x performs:
+Before a proposal is accepted, COLNIK‑6.x (Standard & IPC Mode) performs:
 
 - enterprise-grade safety validation  
 - deterministic allow/deny routing  
@@ -137,6 +138,7 @@ It waits for:
 - COLNIK approval  
 - System Agent approval  
 - Workflow Engine acceptance  
+- Explicit user confirmation via PanelAPI [ÁNO/NIE] loops  
 
 Only then is the proposal converted into an executable action.
 
@@ -154,14 +156,14 @@ Action is blocked.
 
 ### **3 — REQUIRE_CONFIRMATION Proposal**  
 Action is potentially risky.  
-Requires supervised approval.
+Requires supervised approval via PanelAPI [ÁNO/NIE].
 
 ### **4 — FALLBACK Proposal**  
 Suggests a safer alternative.  
-Used during unstable OS states.
+Used during unstable OS states or Triage Mode triggers.
 
 ### **5 — REPAIR Proposal**  
-Triggers Self‑Repair Layer 5.4.  
+Triggers Self‑Repair Layer 5.8.  
 Used when corruption or instability is detected.
 
 ---
@@ -178,19 +180,20 @@ Used when corruption or instability is detected.
 ---
 
 ## 📊 Module Status  
-- ✔ Fully implemented  
-- ✔ proposal generation stable  
-- ✔ explainability integrated  
-- ✔ COLNIK validation functional  
+- ✔ Fully implemented (Runtime 5.8)  
+- ✔ Proposal generation stable  
+- ✔ Explainability integrated  
+- ✔ COLNIK validation functional (Standard & IPC Mode)  
 - ✔ System Agent gating active  
-- ✔ workflow integration complete  
+- ✔ Control & Triage Mode operational  
+- ✔ PanelAPI [ÁNO/NIE] confirmation hooks active  
+- ✔ Workflow integration complete  
 - ✔ PC/Mobile autonomy unified  
 
 ---
 
 ## 🏁 Summary  
-AUTONOMY Proposal Engine 6.x is the supervised autonomous decision generator of SIRIUS Local AI.  
-It creates safe, explainable, identity‑aware, system‑aware proposals for workflows, UI automation, KG operations, and system actions — all validated through COLNIK‑6.x and System Agent 5.
+AUTONOMY Proposal Engine 6.x is the supervised autonomous decision generator of SIRIUS Local AI (v5.8).  
+It creates safe, explainable, identity‑aware, system‑aware proposals for workflows, UI automation, KG operations, and system actions — all orchestrated via `sirius_orchestrator.py`, validated through COLNIK‑6.x, monitored by TimeCore & Guard, and confirmed via interactive PanelAPI loops.
 
 It transforms SIRIUS into a **predictive, intelligent, supervised autonomous workstation** that never acts blindly and always explains its reasoning.
-
