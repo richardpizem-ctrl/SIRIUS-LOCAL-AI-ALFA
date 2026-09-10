@@ -1,9 +1,9 @@
-# ⭐ Runtime Roadmap – SIRIUS LOCAL AI (v4.5.0 → v5.0 → v5.5 → v5.6.2 → v5.7.0 → v6.x)
-### Evolution of the Unified Reasoning, Deep Explainability, COLNIK‑Validated & AUTONOMY‑Aware Architecture
+# ⭐ Runtime Roadmap – SIRIUS LOCAL AI (v4.5.0 → v5.0 → v5.5 → v5.6.2 → v5.8 → v6.x)
+### Evolution of the Unified Orchestration, PanelAPI, TimeCore/Guard & Enhanced COLNIK‑AUTONOMY Architecture
 
 This roadmap outlines the evolution of SIRIUS LOCAL AI from the **4.5.0 PRO** architecture  
 into the **Unified Runtime 5.x** generation, the **Unified KG + Deep Explainability 5.6.2 Era**,  
-the **Autonomy‑Aware 5.7.0 Era**, and the upcoming **Runtime 6.x Modular Kernel Era**.
+the **Orchestrated & Autonomy‑Aware 5.8 Era**, and the upcoming **Runtime 6.x Modular Kernel Era**.
 
 All versions remain:
 - 100% offline  
@@ -12,8 +12,9 @@ All versions remain:
 - identity‑aware  
 - safe for households and children  
 - fully local with optional ENVOY fetch  
-- enterprise‑validated via **COLNIK‑6.x Standard Mode** (from v5.6.2 onward)  
-- autonomy‑aware via **AUTONOMY‑6.x Control Mode** (from v5.7.0 onward)
+- enterprise‑validated via **COLNIK‑6.x (Standard & IPC Mode)** (from v5.6.2 onward)  
+- autonomy‑aware via **AUTONOMY‑6.x (Control & Triage Mode)** (from v5.7.0 onward)  
+- orchestrator-supervised via **`sirius_orchestrator.py`**, **PanelAPI `[ÁNO/NIE]`**, and **TimeCore/Guard** (from v5.8 onward)  
 
 ---
 
@@ -326,78 +327,88 @@ SIRIUS gains:
 
 ---
 
-# ⭐ 5.7 — Version 5.7.0 UNIFIED  
-### Autonomy‑Aware Runtime + COLNIK‑Standard Mode + Unified KG 5.7.0  
+# ⭐ 5.8 — Version 5.8 UNIFIED  
+### Orchestrated Runtime + PanelAPI + TimeCore/Guard + COLNIK-Standard/IPC & AUTONOMY-Control/Triage Mode  
 **Status:** Current Stable Release
 
-Goal: Introduce autonomy‑aware routing, proposal/confirmation logic,  
-and fully stabilize the Unified Runtime Architecture 5.x.
+Goal: Transition execution to the central orchestrator (`sirius_orchestrator.py`), introduce interactive `PanelAPI` confirmation loops, add temporal/security supervision via `TimeCore` and `Guard`, and fully stabilize the Unified Runtime Architecture 5.8.
 
 ---
 
-## 🔥 NEW Core Components (v5.7.0)
+## 🔥 NEW Core Components (v5.8)
 
-### 🧠 AITE 5.7.0
+### 🚀 Unified Orchestrator (`sirius_orchestrator.py`) & PanelAPI
+- centralized deterministic pipeline replacing legacy CLI scripts  
+- interactive `[ÁNO/NIE]` confirmation prompt loops and user gating  
+- real-time session state rendering for sensitive operations  
+
+### ⏱ TimeCore & Guard Supervision
+- precise temporal tracking and timeout management  
+- guard security supervision and anomaly detection  
+- automated safety locks during erratic runtime behavior  
+
+### 🧠 AITE 5.8
 - autonomy‑aware triage  
 - deeper semantic tagging  
 - improved OCR  
 - deterministic explainability metadata  
-- **COLNIK‑validated triage decisions**  
-- **AUTONOMY‑aware proposals**
+- **COLNIK‑validated triage decisions (Standard & IPC Mode)**  
+- **AUTONOMY‑aware proposals (Control & Triage Mode)**  
 
-### 🔁 Workflow Engine 5.7.0
-- autonomy‑aware transitions  
+### 🔁 Workflow Engine 5.8
+- orchestrator-driven O(1) transitions  
 - deterministic fallback logic  
 - KG_EXPLAIN + KG_EXPLAIN_DEEP routing  
 - **COLNIK‑validated workflow transitions**  
-- **AUTONOMY‑aware workflow proposals**
+- **AUTONOMY‑aware workflow proposals**  
 
-### 🧠 Reasoning Engine 5.7.0
+### 🧠 Reasoning Engine 5.8
 - autonomy‑aware reasoning  
 - multi‑hop inference  
 - deterministic rule chaining  
 - KG_EXPLAIN_DEEP integration  
 - **COLNIK‑validated reasoning steps**  
-- **AUTONOMY‑aware reasoning proposals**
+- **AUTONOMY‑aware reasoning proposals**  
 
-### 📚 Unified Knowledge Graph 5.7.0
-- faster lookups  
+### 📚 Unified Knowledge Graph 5.8
+- faster lookups (`autosave_kg.json`)  
 - improved attribute pipeline  
 - expanded comfort commands  
 - deterministic traversal  
 - **COLNIK‑validated KG mutations**  
-- **AUTONOMY‑aware KG mutation proposals**
+- **AUTONOMY‑aware KG mutation proposals**  
 
 ### 🖱 UI Automation Engine 5.1
 - faster fuzzy matching  
 - deterministic fallback logic  
 - KG‑enhanced aliasing  
 - **COLNIK‑validated UI actions**  
-- **AUTONOMY‑aware UI actions**
+- **AUTONOMY‑aware UI actions**  
 
 ### 🛰 System Agent 5
 - autonomy‑aware validation  
 - constant‑time enforcement  
-- **COLNIK‑validated system actions**
+- **COLNIK‑validated system actions**  
 
 ### 🌐 ENVOY 5
 - autonomy‑aware permission logic  
 - explainability traces  
-- **COLNIK‑validated payload delivery**
+- **COLNIK‑validated payload delivery**  
 
-### 🛠 Self‑Repair Layer 5.4
+### 🛠 Self‑Repair Layer 5.8
 - autonomy‑aware repair suggestions  
-- **COLNIK‑validated repair logic**
+- **COLNIK‑validated repair logic**  
 
 ---
 
-## Output (v5.7.0)
+## Output (v5.8)
 SIRIUS gains:
-- autonomy‑aware routing  
-- autonomy‑aware reasoning  
-- autonomy‑aware workflows  
-- stabilized Unified KG 5.7.0  
-- COLNIK‑Standard Mode validation  
+- centralized orchestration (`sirius_orchestrator.py`)  
+- interactive human oversight (`PanelAPI` [ÁNO/NIE])  
+- runtime health and security tracking (`TimeCore`/`Guard`)  
+- autonomy‑aware routing and reasoning  
+- stabilized Unified KG 5.8  
+- COLNIK‑6.x (Standard & IPC Mode) validation  
 - unified PC + Mobile execution  
 - deterministic explainability across all modules  
 
@@ -468,6 +479,6 @@ SIRIUS gains:
 ---
 
 # 📌 Roadmap Status (Updated)
-**Current version:** 5.7.0 UNIFIED (Stable)  
+**Current version:** 5.8 UNIFIED (Stable)  
 **Next major release:** 6.0.0 – Modular Kernel + Multimodal Analyzer + Self‑Repair 2.0  
 **Long‑term direction:** Autonomous Runtime Evolution (6.x → 7.x)
