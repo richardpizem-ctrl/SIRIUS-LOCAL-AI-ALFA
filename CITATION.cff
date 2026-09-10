@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as follows."
 title: "SIRIUS LOCAL AI"
-version: "5.7.0"
-date-released: 2026-08-28
+version: "5.8"
+date-released: 2026-09-10
 
 authors:
   - family-names: "Pizem"
@@ -15,12 +15,12 @@ keywords:
   - "local AI"
   - "offline assistant"
   - "modular AI runtime"
-  - "intelligent runtime 5.7.0"
-  - "runtime core 5.7 unified"
+  - "intelligent runtime 5.8"
+  - "runtime core 5.8 unified"
   - "plugin system 5.x"
-  - "workflow engine 5.7.0"
-  - "reasoning engine 5.7.0"
-  - "explainability engine 5.7.0"
+  - "workflow engine 5.8"
+  - "reasoning engine 5.8"
+  - "explainability engine 5.8"
   - "KG_EXPLAIN"
   - "KG_EXPLAIN_DEEP"
   - "multi-hop inference"
@@ -30,9 +30,9 @@ keywords:
   - "evidence trees"
   - "confidence scoring"
   - "rule chaining"
-  - "semantic triage 5.7.0"
-  - "AITE 5.7.0"
-  - "unified knowledge graph 5.7.0"
+  - "semantic triage 5.8"
+  - "AITE 5.8"
+  - "unified knowledge graph 5.8"
   - "KG comfort commands"
   - "secure local processing"
   - "Windows automation"
@@ -41,12 +41,12 @@ keywords:
   - "family safety 5.x"
   - "identity engine 3.1"
   - "SECURITY FAMILY 5.x"
-  - "schoolwork engine 5.7.0"
+  - "schoolwork engine 5.8"
   - "time-limits engine v3"
-  - "self-repair layer 5.4"
-  - "health-check engine 5.7.0"
-  - "PC automation runtime 5.7.0"
-  - "Mobile Runtime 5.7.0"
+  - "self-repair layer 5.8"
+  - "health-check engine 5.8"
+  - "PC automation runtime 5.8"
+  - "Mobile Runtime 5.8"
   - "ENVOY Execution Layer 5"
   - "ENVOY Permission Layer 5"
   - "safe external retrieval"
@@ -63,20 +63,24 @@ keywords:
   - "explainable AI"
   - "symbolic reasoning"
   - "XAI"
-  - "COLNIK-6.x Standard Mode"
-  - "AUTONOMY 6.x Control Mode"
+  - "COLNIK-6.x Standard & IPC Mode"
+  - "AUTONOMY 6.x Control & Triage Mode"
+  - "sirius_orchestrator.py"
+  - "PanelAPI"
+  - "TimeCore"
+  - "Guard supervision"
 
 abstract: >
   SIRIUS LOCAL AI is a fully modular, offline-only AI runtime designed for secure,
   deterministic execution of commands, workflows, plugins, reasoning tasks, and
-  semantic automation. Version 5.7.0 finalizes the stabilized logic layer of the
-  Unified Runtime Architecture 5.x, delivering a fully unified Knowledge Graph,
-  deep explainability (KG_EXPLAIN & KG_EXPLAIN_DEEP), multi-hop inference,
-  inheritance reasoning, transitive reasoning, proof tree generation, evidence
-  trees, confidence scoring, and deterministic rule chaining.
+  semantic automation. Version 5.8 delivers the fully unified and orchestrated
+  architecture of the SIRIUS Runtime line, integrating the unified orchestrator
+  (sirius_orchestrator.py), interactive PanelAPI loops with [ÁNO/NIE] confirmations,
+  TimeCore temporal tracking, Guard security supervision, and enhanced COLNIK-6.x
+  (Standard & IPC Mode) alongside AUTONOMY-6.x (Control & Triage Mode).
 
-  The Unified Runtime Architecture 5.7.0 merges PC and Mobile logic into a single,
-  deterministic, identity-aware operating layer. Runtime Core 5.7.0 provides unified
+  The Unified Runtime Architecture 5.8 merges PC and Mobile logic into a single,
+  deterministic, identity-aware operating layer. Runtime Core 5.8 provides unified
   orchestration, deterministic execution, capability-based access control,
   identity-aware routing, and explainability-aware workflow dispatch.
 
@@ -89,7 +93,7 @@ abstract: >
   deterministic behavior, semantic understanding, explainability, and predictable
   execution rules.
 
-  Version 5.7.0 upgrades the entire runtime stack, including Workflow Engine 5.7.0,
-  Reasoning Engine 5.7.0, KG_EXPLAIN, KG_EXPLAIN_DEEP, ENVOY 5, FS‑AGENT 5, CME‑MEM 5,
-  System Agent 5, and Password Vault 5.0. These upgrades prepare the architecture
-  for the upcoming Modular Kernel Architecture in the 5.x → 6.0 transition.
+  Version 5.8 upgrades the entire runtime stack, including Workflow Engine 5.8,
+  Reasoning Engine 5.8, KG_EXPLAIN, KG_EXPLAIN_DEEP, ENVOY 5, FS‑AGENT 5, CME‑MEM 5,
+  System Agent 5, PanelAPI, TimeCore, Guard, and Password Vault 5.0. These upgrades
+  establish an uncompromised, interactive, and self-supervised local AI workstation environment.
