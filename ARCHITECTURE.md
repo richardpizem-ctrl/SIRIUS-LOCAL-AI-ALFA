@@ -1,44 +1,50 @@
-# 🏗 Architecture – SIRIUS LOCAL AI (Runtime 5.7.0 — Unified Logic Layer, Stabilized)
+# 🏗 Architecture – SIRIUS LOCAL AI (Runtime 5.8 — Unified Logic Layer, Stabilized)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-5.7.0-stable-purple">
+  <img src="https://img.shields.io/badge/version-5.8-stable-purple">
   <img src="https://img.shields.io/badge/license-MIT-green">
   <img src="https://img.shields.io/badge/platform-Windows%2011-blue">
   <img src="https://img.shields.io/badge/runtime-SIRIUS%20Runtime%205.x-red">
   <img src="https://img.shields.io/badge/local%20AI-100%25-blueviolet">
 </p>
 
-The SIRIUS LOCAL AI Runtime **5.7.0** is the fully stabilized architecture built on top of:
+The SIRIUS LOCAL AI Runtime **5.8** is the fully stabilized architecture built on top of:
 
 - Unified Knowledge Graph (Unified Schema)
 - Deep Explainability Framework (proof trees, evidence trees)
 - Multi-hop reasoning engine
 - Deterministic traversal and rule chaining
 - Stabilized WorkflowEngine5 routing
+- Unified orchestrator (`sirius_orchestrator.py`)
+- Interactive PanelAPI loops with [ÁNO/NIE] confirmation
+- TimeCore & Guard timing/security supervision
+- Enhanced bindings for COLNIK-6.x (Standard & IPC Mode) and AUTONOMY-6.x (Control & Triage Mode)
 - Fully unified logic layer (KG → Reasoning → Workflow → ENVOY → COLNIK → AUTONOMY)
 
 This is the **current production-grade architecture** of SIRIUS LOCAL AI.
 
 ---
 
-# 🧩 Architectural Principles (Runtime 5.7.0)
+# 🧩 Architectural Principles (Runtime 5.8)
 
 - unified logic layer (KG + Reasoning + Workflow)
-- deterministic execution pipeline
+- deterministic execution pipeline via `sirius_orchestrator.py`
 - stable multi-hop inference
-- unified KG schema (autosave_kg.json)
+- unified KG schema (`autosave_kg.json`)
 - explainability-first reasoning (XAI)
 - rule-based inference with proof trees
 - offline-only operation (0% cloud)
 - ENVOY permission enforcement
-- COLNIK‑6.x validation layer (Standard Mode)
-- AUTONOMY 6.x proposal/confirmation cycle (Control Mode)
+- PanelAPI interactive CLI/UI loops with [ÁNO/NIE]
+- TimeCore temporal tracking & Guard monitoring
+- COLNIK‑6.x validation layer (Standard & IPC Mode)
+- AUTONOMY 6.x proposal/confirmation & Triage Mode
 - predictable workflow routing
 - safe KG mutation pipeline
 
 ---
 
-# 🧱 Core Layers (Runtime 5.7.0)
+# 🧱 Core Layers (Runtime 5.8)
 
 ## 1. Knowledge Graph Layer (Unified Schema)
 Responsibilities:
@@ -52,7 +58,7 @@ Responsibilities:
 
 ---
 
-## 2. Reasoning Engine 5.x (v5.7.0)
+## 2. Reasoning Engine 5.x (v5.8)
 Capabilities:
 - rule chaining  
 - multi-hop deduction  
@@ -71,9 +77,9 @@ Rules include:
 
 ---
 
-## 3. WorkflowEngine5 (v5.7.0)
+## 3. WorkflowEngine5 & Orchestrator (v5.8)
 Responsibilities:
-- deterministic routing  
+- deterministic routing via `sirius_orchestrator.py`  
 - step registration  
 - KG → Reasoning → ENVOY → COLNIK → AUTONOMY → OS  
 - natural-language detection (“why” queries)  
@@ -82,7 +88,7 @@ Responsibilities:
 
 ---
 
-## 4. ENVOY Security Layer (v5.7.0)
+## 4. ENVOY Security Layer (v5.8)
 Features:
 - Permission Layer  
 - Normalizer  
@@ -94,7 +100,7 @@ Features:
 
 ---
 
-## 5. COLNIK‑6.x Validation Layer (Standard Mode)
+## 5. COLNIK‑6.x Validation Layer (Standard & IPC Mode)
 Responsibilities:
 - customs-style inspection of KG operations  
 - workflow step authorization  
@@ -102,22 +108,33 @@ Responsibilities:
 - anomaly detection  
 - malformed KG mutation protection  
 - enterprise-grade consistency enforcement  
+- high-performance IPC synchronization with AUTONOMY  
 
 COLNIK is the **internal customs officer** of the runtime.
 
 ---
 
-## 6. AUTONOMY 6.x (Control Mode)
+## 6. AUTONOMY 6.x (Control & Triage Mode)
 Capabilities:
 - proposal generation  
 - confirmation logic  
 - autonomous decision routing  
+- Triage Mode for rapid anomaly containment  
 - IPC synchronization with COLNIK  
 - safe autonomous execution  
 
 ---
 
-## 7. Self-Repair Layer 5.4
+## 7. PanelAPI & TimeCore/Guard (v5.8)
+Capabilities:
+- interactive CLI/UI loops with [ÁNO/NIE] confirmation prompts  
+- real-time session state rendering  
+- TimeCore temporal tracking and execution timing  
+- Guard runtime supervision and anomaly detection  
+
+---
+
+## 8. Self-Repair Layer 5.8
 Capabilities:
 - integrity scanning  
 - dependency healing  
@@ -127,7 +144,7 @@ Capabilities:
 
 ---
 
-## 8. System Agent 5.x
+## 9. System Agent 5.x
 Responsibilities:
 - safe OS interaction  
 - controlled execution  
@@ -136,7 +153,7 @@ Responsibilities:
 
 ---
 
-## 9. GUI Layer (Planned for 5.7.x → 6.x)
+## 10. GUI Layer (Runtime 5.8)
 Features:
 - neon diagnostic panels  
 - module status visualization  
@@ -146,7 +163,7 @@ Features:
 
 ---
 
-# 🧠 SYSTEM INTELLIGENCE LAYER (Runtime 5.7.0)
+# 🧠 SYSTEM INTELLIGENCE LAYER (Runtime 5.8)
 
 The intelligence layer enables SIRIUS to:
 
@@ -163,11 +180,13 @@ All while remaining **100% offline**.
 
 ---
 
-# 🔌 Module Interconnections (Runtime 5.7.0)
+# 🔌 Module Interconnections (Runtime 5.8)
 
 User Input  
 ↓  
 InputParser5  
+↓  
+`sirius_orchestrator.py` (Unified Orchestrator)  
 ↓  
 KG Layer (Unified Schema)  
 ↓  
@@ -177,9 +196,13 @@ WorkflowEngine5
 ↓  
 ENVOY Security Layer  
 ↓  
-COLNIK‑6.x Validation (Standard Mode)  
+COLNIK‑6.x Validation (Standard & IPC Mode)  
 ↓  
-AUTONOMY 6.x (Control Mode)  
+AUTONOMY 6.x (Control & Triage Mode)  
+↓  
+PanelAPI ([ÁNO/NIE] Interactive Loop)  
+↓  
+TimeCore & Guard Supervision  
 ↓  
 System Agent  
 ↓  
@@ -188,5 +211,5 @@ Windows 11 (safe, controlled)
 ---
 
 # 📌 Document Status  
-Current version: **5.7.0 (Stable Architecture)**  
-This document describes the *current* architecture of SIRIUS LOCAL AI, replacing the previously planned 6.x draft.
+Current version: **5.8 (Unified Architecture & Orchestration)**  
+This document describes the *current* architecture of SIRIUS LOCAL AI, fully integrating the orchestrator, PanelAPI, TimeCore, Guard, and advanced COLNIK/AUTONOMY modes.
