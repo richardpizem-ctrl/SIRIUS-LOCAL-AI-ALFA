@@ -1,25 +1,45 @@
-# 🟦 RELEASE NOTES – SIRIUS LOCAL AI v5.7.0 UNIFIED  
-### The Most Advanced, Stable, Explainable, Autonomy‑Aware & Enterprise‑Validated Runtime in the SIRIUS Ecosystem
+# 🟦 RELEASE NOTES – SIRIUS LOCAL AI v5.8 UNIFIED  
+### The Most Advanced, Stable, Explainable, Autonomy‑Aware, Orchestrated & Enterprise‑Validated Runtime in the SIRIUS Ecosystem
 
-Version **5.7.0 UNIFIED** builds directly on the foundations of **5.6.2 UNIFIED**,  
-introducing the fully stabilized **Unified Reasoning, Deep Explainability, COLNIK‑Standard Mode & AUTONOMY‑Control Mode Architecture 5.7.0** —  
-the most deterministic, reliable, autonomy‑aware and enterprise‑validated intelligence upgrade in the history of SIRIUS LOCAL AI.
+Version **5.8 UNIFIED** builds directly on the foundations of **5.7.0 UNIFIED**,  
+introducing the fully stabilized **Unified Orchestration, PanelAPI, TimeCore/Guard & Enhanced COLNIK‑AUTONOMY Architecture 5.8** —  
+the most deterministic, reliable, autonomy‑aware, human-supervised and enterprise‑validated intelligence upgrade in the history of SIRIUS LOCAL AI.
 
-This release strengthens **System Agent 5**, expands **AITE 5.7.0**,  
-enhances **KG_EXPLAIN & KG_EXPLAIN_DEEP**, upgrades **Workflow Engine 5.7.0**,  
+This release integrates the **Unified Orchestrator (`sirius_orchestrator.py`)**, introduces interactive **PanelAPI `[ÁNO/NIE]` confirmation loops**, implements **TimeCore & Guard temporal and security supervision**, strengthens **System Agent 5**, expands **AITE 5.8**,  
+enhances **KG_EXPLAIN & KG_EXPLAIN_DEEP**, upgrades **Workflow Engine 5.8**,  
 and delivers the most stable symbolic reasoning engine ever released — now with  
-**COLNIK‑6.x Standard Mode validation** and **AUTONOMY‑6.x Control Mode proposals/confirmations**.
+**COLNIK‑6.x Standard & IPC Mode validation** and **AUTONOMY‑6.x Control & Triage Mode proposals/confirmations**.
 
 ---
 
-# 🚀 What’s New in v5.7.0 UNIFIED
+# 🚀 What’s New in v5.8 UNIFIED
 
-## 🔥 1. AITE 5.7.0 – Semantic + Explainability + Autonomy Multimodal Triage
+## 🔥 1. Unified Orchestrator (`sirius_orchestrator.py`) & PanelAPI
+Centralized execution and interactive user oversight.
+
+- centralized execution pipeline replacing scattered script entry points  
+- interactive CLI/UI loops with `[ÁNO/NIE]` confirmation prompts  
+- real-time session state rendering and user gating for sensitive operations  
+- seamless bridge between autonomous proposals and human-in-the-loop decisions  
+
+---
+
+## 🔥 2. TimeCore & Guard Supervision
+Precise timing and runtime security monitoring.
+
+- TimeCore temporal tracking for execution bounds and timeout management  
+- Guard security supervision and anomaly detection  
+- automated safety locks during erratic system behavior  
+- real-time telemetry logging for complete auditability  
+
+---
+
+## 🔥 3. AITE 5.8 – Semantic + Explainability + Autonomy Multimodal Triage
 The most stable and precise AITE to date.
 
 - accelerated multimodal routing  
 - deeper semantic tagging  
-- improved OCR 5.7.0  
+- improved OCR 5.8  
 - explain‑intent detection (“why…?”)  
 - KG‑aware triage  
 - SCHOOLWORK bypass 5.x  
@@ -29,14 +49,14 @@ The most stable and precise AITE to date.
 - deterministic explainability metadata  
 - stabilized NL intent detection  
 - **COLNIK‑validated triage decisions**  
-- **AUTONOMY‑aware triage proposals**
+- **AUTONOMY‑aware triage proposals**  
 
 ---
 
-## 🔥 2. Workflow Engine 5.7.0 – Explainability‑Aware Multi‑Step Logic + Autonomy
-A fully stabilized workflow engine with deterministic routing.
+## 🔥 4. Workflow Engine 5.8 – Explainability‑Aware Multi‑Step Logic + Autonomy
+A fully stabilized workflow engine with deterministic routing driven by `sirius_orchestrator.py`.
 
-- O(1) transitions  
+- O(1) transitions managed by the orchestrator  
 - deterministic fallback logic  
 - KG‑enhanced workflow routing  
 - identity‑aware gating  
@@ -44,13 +64,13 @@ A fully stabilized workflow engine with deterministic routing.
 - ENVOY 5 workflow steps (ASK → FETCH → QUARANTINE → DELIVER)  
 - unified PC/Mobile workflows  
 - improved error‑recovery logic  
-- complete step registry for KG, reasoning, ENVOY, and system operations  
-- **COLNIK‑validated workflow transitions**  
-- **AUTONOMY‑aware workflow transitions**
+- complete step registry for KG, reasoning, ENVOY, PanelAPI, and system operations  
+- **COLNIK‑validated workflow transitions (Standard & IPC Mode)**  
+- **AUTONOMY‑aware workflow transitions (Control & Triage Mode)**  
 
 ---
 
-## 🔥 3. Reasoning Engine 5.7.0 – Multi‑Hop Symbolic Intelligence + Autonomy
+## 🔥 5. Reasoning Engine 5.8 – Multi‑Hop Symbolic Intelligence + Autonomy
 A breakthrough in deterministic reasoning stability.
 
 - multi‑hop inference  
@@ -67,11 +87,11 @@ A breakthrough in deterministic reasoning stability.
 - unified PC/Mobile reasoning  
 - stabilized rule execution pipeline  
 - **COLNIK‑validated reasoning steps**  
-- **AUTONOMY‑aware reasoning proposals**
+- **AUTONOMY‑aware reasoning proposals**  
 
 ---
 
-## 🔥 4. System Agent 5 – Hardened Safe Action Execution
+## 🔥 6. System Agent 5 – Hardened Safe Action Execution
 The core safety layer of the entire runtime.
 
 - validates every OS‑level action  
@@ -84,13 +104,13 @@ The core safety layer of the entire runtime.
 - constant‑time validation (O(1))  
 - explainability for every decision  
 - **COLNIK‑validated system actions**  
-- **AUTONOMY‑aware system validation**
+- **AUTONOMY‑aware system validation**  
 
 System Agent 5 remains the **final gatekeeper** of SIRIUS.
 
 ---
 
-## 🔥 5. Knowledge Graph Runtime 5.7.0 – Faster, Smarter, Fully Explainable
+## 🔥 7. Unified Knowledge Graph 5.8 – Faster, Smarter, Fully Explainable
 A refined and stabilized KG‑Reasoning engine.
 
 - faster entity‑relation lookups  
@@ -101,13 +121,13 @@ A refined and stabilized KG‑Reasoning engine.
 - zero hallucination  
 - instant symbolic responses  
 - explainability‑ready fact generation  
-- stabilized KG autoload (autosave_kg.json)  
+- stabilized KG autoload (`autosave_kg.json`)  
 - **COLNIK‑validated KG mutations**  
-- **AUTONOMY‑aware KG mutation proposals**
+- **AUTONOMY‑aware KG mutation proposals**  
 
 ---
 
-## 🔥 6. ENVOY 5 – Execution + Permission Layers + Explainability + Autonomy
+## 🔥 8. ENVOY 5 – Execution + Permission Layers + Explainability + Autonomy
 ENVOY is now fully explainability‑aware, autonomy‑aware and COLNIK‑validated.
 
 ### **Permission Layer**
@@ -117,7 +137,7 @@ ENVOY is now fully explainability‑aware, autonomy‑aware and COLNIK‑validat
 - STRANGER‑mode blocked  
 - explainability for permission decisions  
 - **COLNIK‑validated permission checks**  
-- **AUTONOMY‑aware permission proposals**
+- **AUTONOMY‑aware permission proposals**  
 
 ### **Execution Layer**
 - outbound‑only  
@@ -126,14 +146,14 @@ ENVOY is now fully explainability‑aware, autonomy‑aware and COLNIK‑validat
 - safe JSON payload delivery  
 - System Agent 5 enforcement  
 - explainability traces for each step  
-- **COLNIK‑validated payload delivery**  
-- **AUTONOMY‑aware execution routing**
+- **COLNIK‑validated payload delivery (Standard & IPC Mode)**  
+- **AUTONOMY‑aware execution routing**  
 
 Offline mode remains **default**.
 
 ---
 
-## 🔥 7. UI Automation Engine 5.1 – Stabilized for 5.7.0
+## 🔥 9. UI Automation Engine 5.1 – Stabilized for 5.8
 A refined automation layer.
 
 - faster fuzzy matching  
@@ -144,11 +164,11 @@ A refined automation layer.
 - unified PC/Mobile automation  
 - explainability for UI actions  
 - **COLNIK‑validated UI actions**  
-- **AUTONOMY‑aware UI actions**
+- **AUTONOMY‑aware UI actions**  
 
 ---
 
-## 🔥 8. System Intelligence Layer 5.7.0 – Unified Diagnostics
+## 🔥 10. System Intelligence Layer 5.8 – Unified Diagnostics
 Improved system‑level intelligence:
 
 - hardware analysis  
@@ -161,26 +181,26 @@ Improved system‑level intelligence:
 - System Agent 5 enforcement  
 - explainability‑aware diagnostics  
 - **COLNIK‑validated diagnostic actions**  
-- **AUTONOMY‑aware diagnostic proposals**
+- **AUTONOMY‑aware diagnostic proposals**  
 
 ---
 
-## 🔥 9. Mobile Runtime 5.7.0 – Unified Mobile Execution Layer
+## 🔥 11. Mobile Runtime 5.8 – Unified Mobile Execution Layer
 The most stable mobile runtime to date.
 
 - faster workflows  
 - optimized filesystem logic  
-- Mobile AITE 5.7.0  
-- Mobile Reasoning Engine 5.7.0  
+- Mobile AITE 5.8  
+- Mobile Reasoning Engine 5.8  
 - Mobile UI Automation  
 - Mobile ENVOY 5  
 - Mobile KG_EXPLAIN  
 - **COLNIK‑validated mobile workflows**  
-- **AUTONOMY‑aware mobile routing**
+- **AUTONOMY‑aware mobile routing**  
 
 ---
 
-## 🔥 10. Security Family 5.x – Hardened Identity Engine 3.1
+## 🔥 12. Security Family 5.x – Hardened Identity Engine 3.1
 Improved safety and identity logic.
 
 - faster identity classification  
@@ -190,11 +210,11 @@ Improved safety and identity logic.
 - behavior‑based recognition improved  
 - explainability for identity decisions  
 - **COLNIK‑validated identity enforcement**  
-- **AUTONOMY‑aware identity proposals**
+- **AUTONOMY‑aware identity proposals**  
 
 ---
 
-## 🔥 11. Self‑Repair Layer 5.4 – Faster, Safer, Smarter
+## 🔥 13. Self‑Repair Layer 5.8 – Faster, Safer, Smarter
 - faster integrity checks  
 - safer fallback states  
 - repair suggestions 2.0  
@@ -203,13 +223,16 @@ Improved safety and identity logic.
 - unified PC/Mobile diagnostics  
 - explainability for repair actions  
 - **COLNIK‑validated repair logic**  
-- **AUTONOMY‑aware repair proposals**
+- **AUTONOMY‑aware repair proposals**  
 
 ---
 
-# 🧩 Additional Improvements in 5.7.0 UNIFIED
+# 🧩 Additional Improvements in v5.8 UNIFIED
 
-### ✔ Faster NL routing (NL Router 5.7.0)  
+### ✔ Unified orchestrator execution via `sirius_orchestrator.py`  
+### ✔ Interactive PanelAPI `[ÁNO/NIE]` confirmation loops  
+### ✔ TimeCore & Guard temporal/security supervision  
+### ✔ Faster NL routing (NL Router 5.8)  
 ### ✔ Optimized WIN‑CAP 5.x capability boundaries  
 ### ✔ Expanded plugin API for KG‑Reasoning  
 ### ✔ Deterministic, short, safe logging  
@@ -217,52 +240,13 @@ Improved safety and identity logic.
 ### ✔ Faster SCHOOLWORK workflows  
 ### ✔ O(1) identity checks in Security Family 5.x  
 ### ✔ KG_EXPLAIN integrated across all major modules  
-### ✔ **COLNIK‑6.x validation integrated across all major modules**  
-### ✔ **AUTONOMY‑Control Mode integrated across all major modules**
+### ✔ **COLNIK‑6.x validation integrated across all major modules (Standard & IPC Mode)**  
+### ✔ **AUTONOMY‑Control & Triage Mode integrated across all major modules**  
 
 ---
 
 # ⚙ CLI Update (IMPORTANT)
-SIRIUS Runtime 5.7.0 is now launched via:
+SIRIUS Runtime 5.8 is now launched via the unified orchestrator:
 
-python runtime5_cli.py
-
-
----
-
-# 📊 Compatibility
-- Fully compatible with 5.0 → 5.7.0  
-- No breaking changes  
-- No migration required  
-- Mobile Runtime 5.7.0 is optional  
-- ENVOY 5 is optional (default OFF)  
-- **COLNIK‑6.x Standard Mode is fully integrated and enabled**  
-- **AUTONOMY‑6.x Control Mode is fully integrated and enabled**
-
----
-
-# 📌 Release Status (5.7.0 UNIFIED)
-**Version:** 5.7.0 UNIFIED  
-**Stage:** Stable  
-**Release Date:** 2026‑08‑28  
-
----
-
-# 🏁 Summary
-Version **5.7.0 UNIFIED** elevates SIRIUS LOCAL AI into a new era of:
-
-- faster, more stable deterministic execution  
-- deeper symbolic reasoning  
-- full explainability (KG_EXPLAIN + KG_EXPLAIN_DEEP)  
-- stronger identity‑aware safety  
-- faster multimodal triage  
-- unified PC + Mobile architecture  
-- secure ENVOY 5 fetch model  
-- **enterprise‑grade COLNIK‑6.x validation across all modules**  
-- **AUTONOMY‑Control Mode integrated across the entire runtime**
-
-SIRIUS continues to be the most advanced **offline AI runtime** for Windows 11 and mobile devices.
-
----
-
-# 🔚 END OF RELEASE NOTES
+```bash
+python sirius_orchestrator.py
