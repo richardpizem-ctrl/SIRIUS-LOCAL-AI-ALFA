@@ -1,162 +1,108 @@
 # 📜 CHANGELOG — SIRIUS LOCAL AI
 
-## v5.7.0 — Unified Logic Layer + Stabilized KG Platform + COLNIK‑AUTONOMY Integration (2026‑08‑28)
+## v5.8 — Unified Orchestrator + PanelAPI Loops + TimeCore & Guard Supervision + COLNIK/AUTONOMY IPC (2026‑09‑10)
 
 ### 🔥 Major Update
-Version 5.7.0 delivers the **most stable and unified logic layer** in the entire SIRIUS Runtime 5.x line.  
-This release finalizes the Unified Knowledge Graph platform, deep explainability system,  
-multi-hop inference engine, deterministic workflow routing, and introduces the fully validated  
-**COLNIK‑6.x Standard Mode** together with **AUTONOMY 6.x Control Mode**.
+Version 5.8 delivers the **fully unified and orchestrated architecture** of the SIRIUS Runtime line.  
+This release transitions execution from legacy CLI routing to the unified orchestrator (`sirius_orchestrator.py`), introduces interactive `PanelAPI` loops with [ÁNO/NIE] confirmations, integrates `TimeCore` temporal tracking and `Guard` security supervision, and elevates `COLNIK-6.x` (Standard & IPC Mode) alongside `AUTONOMY-6.x` (Control & Triage Mode) to full production readiness.
 
-It completes the improvements introduced in 5.6.x and forms the foundation for  
-autonomous, security‑focused, and system‑control modules planned for version 6.x.
+It completes the foundation established in 5.7.0 and establishes an uncompromised, interactive, and self-supervised local AI workstation environment.
 
 ---
 
-### 🧠 Unified Knowledge Graph 5.7.0 (Enterprise-Stable)
-- deterministic KG Core (cycle‑safe)
-- unified KG Query (multi-hop traversal, inbound/outbound)
-- contextual KG Explore (colored ASCII tree)
-- KG Explain (local attribute & relation explanation)
-- KG Explain Deep (proof trees, evidence trees, reasoning metrics)
-- unified traversal context
-- improved KG comfort commands
-- improved KG attribute pipeline
-- improved KG auto‑creation
-- improved KG Light routing
-- stabilized KG autoload (autosave_kg.json)
-- unified schema snapshot (autosave_kg.json)
+### 🚀 Unified Orchestrator (`sirius_orchestrator.py`)
+- centralized execution pipeline replacing scattered script entry points
+- deterministic orchestration from input parsing to OS execution
+- unified workflow context sharing across all subsystems
+- robust error propagation and recovery routing
 
 ---
 
-### 🔍 Deep Explainability (XAI)
-- hierarchical proof trees (ASCII + HTML)
-- evidence trees for inference transparency
-- applied rule tracing
-- reasoning metrics (depth, nodes, relations, inference cost)
-- confidence scoring model
-- multi-hop categorization & deduction
-- unified inbound/outbound reasoning context
-- stabilized explainability routing
+### 💬 PanelAPI & Interactive Loops
+- interactive CLI/UI loops with [ÁNO/NIE] confirmation prompts
+- real-time session state rendering
+- structured user gating for sensitive or destructive operations
+- seamless bridge between autonomous proposals and human-in-the-loop decisions
 
 ---
 
-### 🧩 Reasoning Engine 5.7.0 (Stabilized)
-- deep inference integration
-- improved multi-hop reasoning
-- deterministic rule chaining
-- KG-linked traversal
-- unified reasoning output for workflows
-- stabilized rule execution pipeline
-- improved transitivity & inheritance logic
-- unified reasoning context
+### ⏱ TimeCore & Guard Supervision
+- TimeCore temporal tracking for precise execution timing and timeout management
+- Guard runtime supervision and anomaly detection
+- automated safety locks during erratic system behavior
+- real-time telemetry logging for auditability
 
 ---
 
-### 🛡 COLNIK‑6.x Validation Layer (Standard Mode)
-- customs-style inspection of KG operations  
-- workflow step authorization  
-- reasoning safety checks  
-- anomaly detection  
+### 🛡 COLNIK‑6.x Validation Layer (Standard & IPC Mode)
+- customs-style inspection of KG operations and workflow steps  
+- high-performance IPC synchronization with AUTONOMY  
+- reasoning safety checks and anomaly detection  
 - malformed KG mutation protection  
 - enterprise-grade consistency enforcement  
 - integration with ENVOY Permission Layer  
-- deterministic validation pipeline  
 
-COLNIK‑6.x is now a **fully validated core security subsystem** of Runtime 5.7.0.
+COLNIK‑6.x operates across both Standard and high-speed IPC modes as the core security gatekeeper.
 
 ---
 
-### 🤖 AUTONOMY 6.x (Control Mode)
-- proposal generation  
-- confirmation logic  
-- autonomous decision routing  
+### 🤖 AUTONOMY 6.x (Control & Triage Mode)
+- advanced proposal generation and confirmation logic  
+- Triage Mode for rapid anomaly containment and automated mitigation  
 - IPC synchronization with COLNIK  
-- safe autonomous execution  
+- safe autonomous execution under Guard supervision  
 - explainability-aware autonomy routing  
 
-AUTONOMY 6.x now operates in **Control Mode**, enabling safe dual-module execution with COLNIK.
+---
+
+### 🧠 Unified Knowledge Graph & Reasoning Engine (v5.8)
+- deterministic KG Core (cycle‑safe) with unified autosave (`autosave_kg.json`)
+- multi-hop traversal and inbound/outbound reasoning context
+- hierarchical proof trees and evidence trees (XAI)
+- stabilized rule execution pipeline (MultiHopOrbitInference, DedicsnostVlastnosti, TranzitivneRelacie, AutoTypeInference)
 
 ---
 
-### 🔁 Workflow Engine 5.7.0
-- KG_EXPLAIN_DEEP routing
-- deterministic multi-stage workflows
-- improved fallback logic
-- explainability-aware transitions
-- complete step registry for KG, reasoning, ENVOY, COLNIK, AUTONOMY, and system operations
-- stabilized multi-hop workflow routing
-
----
-
-### 🛠 InputParser5 (Updated)
-- unified KG command parsing
-- natural language “why” detection
-- stabilized KG comfort commands
-- improved deterministic parsing behavior
-- better integration with COLNIK validation
-- autonomy-aware parsing
-
----
-
-### 📁 KG Export / Import
-- stable reasoning JSON export
-- improved KG autoload reliability
-- autosave KG snapshot included (Unified Schema)
-- stabilized import consistency
-
----
-
-### 🧠 System Intelligence Layer 5.7.0
-- KG-linked diagnostics
-- improved health inference
-- improved process/service classification
-- explainability for all system actions
-- stabilized degraded‑mode detection
-- unified diagnostic context
+### 🔁 WorkflowEngine5 (v5.8)
+- integrated with `sirius_orchestrator.py`
+- deterministic multi-stage workflows with KG_EXPLAIN_DEEP routing
+- complete step registry spanning KG, Reasoning, ENVOY, COLNIK, AUTONOMY, PanelAPI, and OS actions
 
 ---
 
 ### ⚙ CLI Update (IMPORTANT)
-SIRIUS Runtime 5.7.0 is launched via:
+SIRIUS Runtime 5.8 is launched via the unified orchestrator:
 
-python runtime5_cli.py
+python sirius_orchestrator.py
 
 ---
 
 ### 🧹 Stability Improvements
-- Runtime 5.x stabilized at **98%**
-- KG stack stabilized at **98%**
-- Reasoning Engine stabilized at **98%**
-- WorkflowEngine5 stabilized at **100%**
-- ENVOY layers fully initialized and consistent
-- COLNIK‑6.x validation fully integrated
-- AUTONOMY 6.x Control Mode stabilized
+- Runtime line stabilized at **100%**
+- Orchestrator and PanelAPI loops fully verified
+- TimeCore & Guard supervision active
+- COLNIK‑6.x (Standard & IPC Mode) and AUTONOMY-6.x (Control & Triage Mode) fully synchronized
 
 ---
 
-### 📦 Included in ZIP (SIRIUS-LOCAL-AI-5.7.0.zip)
-- full Runtime 5.7.0
-- all KG modules
-- all workflow steps
-- all reasoning rules
-- updated KG_EXPLAIN & KG_EXPLAIN_DEEP
-- updated KG Query & KG Explore
-- updated InputParser5
-- updated WorkflowEngine5
+### 📦 Included in ZIP (SIRIUS-LOCAL-AI-5.8.zip)
+- full Runtime 5.8 core and modules
+- `sirius_orchestrator.py`
+- `PanelAPI` module with [ÁNO/NIE] confirmation loops
+- `TimeCore` and `Guard` supervision components
+- updated KG modules, reasoning rules, and WorkflowEngine5
 - ENVOY Permission Layer, Normalizer, Execution Layer, Quarantine
-- COLNIK‑6.x validation subsystem (Standard Mode)
-- AUTONOMY 6.x (Control Mode)
-- Behavior Filter & Contextual Behavior Engine
-- Self‑Repair Layer 5.4
+- COLNIK‑6.x validation subsystem (Standard & IPC Mode)
+- AUTONOMY 6.x (Control & Triage Mode)
+- Self‑Repair Layer 5.8
 - autosave_kg.json (Unified Schema snapshot)
 
 ---
 
-## v5.6.2 — Stabilized Logic Layer + Unified KG Platform  
+## v5.7.0 — Unified Logic Layer + Stabilized KG Platform + COLNIK‑AUTONOMY Integration  
 (Previous version)
 
-## v5.6.1 — Stabilized Logic Layer + Unified KG Platform  
+## v5.6.2 — Stabilized Logic Layer + Unified KG Platform  
 (Previous version)
 
 ## v5.5.0 — Unified Reasoning & Explainability Architecture  
