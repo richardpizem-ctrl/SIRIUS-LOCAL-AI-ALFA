@@ -1,6 +1,6 @@
 # 🚀 SIRIUS LOCAL AI — Runtime 6.1.0
 ### Modular Kernel • Hybrid Multimodal Analyzer • Deterministic Local AI
-### Fully Offline • Zero Cloud • Secure Family Behavior Engine • COLNIK‑Standard Mode • AUTONOMY‑Control Mode
+### Fully Offline • Zero Cloud • Secure Family Behavior Engine • COLNIK‑6.x (Standard & IPC Mode) • AUTONOMY‑6.x (Control & Triage Mode) • Unified Orchestrator • PanelAPI • TimeCore & Guard Supervision
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-6.1.0-purple">
@@ -14,20 +14,23 @@
 
 # 🌌 Introduction — Evolution of the SIRIUS Runtime
 
-SIRIUS Runtime **6.1.0** is the next-generation multimodal diagnostic runtime built directly on top of the fully stabilized **Unified Runtime Architecture 5.7.0**, including:
+SIRIUS Runtime **6.1.0** is the next-generation multimodal diagnostic runtime built directly on top of the fully stabilized **Unified Orchestration Architecture 5.8**, including:
 
-- **COLNIK‑6.x (Standard Mode)**  
-- **AUTONOMY 6.x (Control Mode)**  
-- **Unified Knowledge Graph 5.7.0**  
-- **Reasoning Engine 5.7.0**  
-- **AITE 5.7.0**  
-- **Workflow Engine 5.7.0**  
+- **Unified Orchestrator (`sirius_orchestrator.py`)**  
+- **PanelAPI & Interactive [ÁNO/NIE] Confirmation Loops**  
+- **TimeCore Temporal Tracking & Guard Security Supervision**  
+- **COLNIK‑6.x (Standard & IPC Mode)**  
+- **AUTONOMY 6.x (Control & Triage Mode)**  
+- **Unified Knowledge Graph 5.8 (`autosave_kg.json`)**  
+- **Reasoning Engine 5.8**  
+- **AITE 5.8**  
+- **Workflow Engine 5.8**  
 - **UI Automation Engine 5.1**  
 - **System Agent 5**  
 - **Security Family 5.x**  
-- **Self‑Repair Layer 5.4**
+- **Self‑Repair Layer 5.8**  
 
-Runtime 6.1.0 merges all stabilized 5.x modules into a **single deterministic multimodal diagnostic system** capable of analyzing:
+Runtime 6.1.0 merges all stabilized 5.x/5.8 modules into a **single deterministic multimodal diagnostic system** capable of analyzing:
 
 - audio  
 - MIDI  
@@ -36,7 +39,7 @@ Runtime 6.1.0 merges all stabilized 5.x modules into a **single deterministic mu
 - structured data  
 - KG facts  
 
-…fully offline, deterministic, explainable, and COLNIK‑validated.
+…fully offline, deterministic, explainable, orchestrator-supervised, and COLNIK‑validated.
 
 ---
 
@@ -90,7 +93,7 @@ A kernel designed for stability, isolation, and long‑term maintainability.
 
 ### Key features:
 - sandboxed modules  
-- kernel routing  
+- kernel routing via `sirius_orchestrator.py`  
 - unified error layer 6.1  
 - deterministic execution pipeline  
 - Self‑Repair Layer 2.0 integration  
@@ -118,6 +121,7 @@ A new generation of home protection.
 - safe SCHOOLWORK bypass  
 - COLNIK‑validated safety decisions  
 - AUTONOMY‑aware safety routing  
+- interactive `PanelAPI` human-in-the-loop gating (`[ÁNO/NIE]`)  
 
 ---
 
@@ -141,49 +145,30 @@ Autonomous repair layer.
 # 🧭 Architecture Diagram (Runtime 6.1)
 
 ┌───────────────────────────────┐  
-│       Hybrid Multimodal       │  
-│           Analyzer 6.1        │  
-└───────────────┬──────────────┘  
-        │
-┌───────────────▼──────────────┐  
-│        Modular Kernel 6.1     │  
-└───────────────┬──────────────┘  
-        │
-┌───────────────▼──────────────┐  
+│        Hybrid Multimodal      │  
+│             Analyzer 6.1      │  
+└───────────────┬───────────────┘  
+                │  
+┌───────────────▼───────────────┐  
+│      Unified Orchestrator     │  
+│    (`sirius_orchestrator.py`) │  
+└───────────────┬───────────────┘  
+                │  
+┌───────────────▼───────────────┐  
+│      Modular Kernel 6.1       │  
+└───────────────┬───────────────┘  
+                │  
+┌───────────────▼───────────────┐  
 │     Self‑Repair Layer 2.0     │  
-└───────────────┬──────────────┘  
-        │
-┌───────────────▼──────────────┐  
-│   Family Security Engine 6.1  │  
+└───────────────┬───────────────┘  
+                │  
+┌───────────────▼───────────────┐  
+│  Family Security Engine 6.1   │  
 └───────────────────────────────┘
 
 ---
 
 # 📘 Installation  
-*(To be published after the stable 6.1.0 milestone)*
-
----
-
-# 📄 License  
-MIT License.
-
----
-
-# 🤝 Contributions  
-Pull requests are welcome.
-
----
-
-# 🧭 Roadmap (Final — according to your versioning)
-
-- **5.7.0** — Autonomy  
-- **5.8.0** — UI Panel  
-- **5.9.0** — Language Module  
-- **6.1.0** — Final User Package (public release)  
-- **7.0.0** — Hybrid Isolation Layer (HIL) multimodal expansion  
-
----
-
-# 📦 Release Asset Notice (Runtime 6.1 — Final Draft)
-
-This is a documentation preview of the final generation of the SIRIUS Runtime 6.1.0.
+Launch via the unified orchestrator:
+```bash
+python sirius_orchestrator.py
