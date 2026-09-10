@@ -1,37 +1,39 @@
 # 🛡 SYSTEM AGENT 5 — Hardened OS‑Level Safety & Validation Core  
 **Status:** ✔ Active  
-**Version:** 5.7.0  
+**Version:** 5.8  
 **Component:** System Agent  
-**Role:** OS‑level safety, validation, threat blocking, identity enforcement, autonomy‑aware gating
+**Role:** OS‑level safety, validation, threat blocking, identity enforcement, orchestrator supervision, autonomy‑aware gating
 
 ---
 
 ## 🎯 Purpose  
-System Agent 5 is the hardened OS‑level safety brain of SIRIUS Local AI.  
-It enforces identity rules, blocks unsafe operations, validates automation requests, monitors system context, and ensures that every action is safe, reversible, explainable, and approved through COLNIK‑6.x and AUTONOMY‑6.x.
+System Agent 5 is the hardened OS‑level safety brain of SIRIUS Local AI (v5.8).  
+It enforces identity rules, blocks unsafe operations, validates automation requests, monitors system context, and ensures that every action is safe, reversible, explainable, and approved through central orchestration (`sirius_orchestrator.py`), interactive `PanelAPI` confirmation loops, `TimeCore`/`Guard` supervision, COLNIK‑6.x (Standard & IPC Mode), and AUTONOMY‑6.x (Control & Triage Mode).
 
 System Agent 5 protects the workstation from unsafe workflows, unauthorized changes, and risky OS states.
 
 ---
 
 ## 🧩 Architecture Overview  
-**System Intelligence Layer → System Agent → COLNIK → AUTONOMY → EXECUTE → UI Automation Engine**
+**System Intelligence Layer → `sirius_orchestrator.py` → System Agent → COLNIK → AUTONOMY → PanelAPI → EXECUTE → UI Automation Engine**
 
 ### Core Responsibilities  
 - enforce identity permissions  
 - block unsafe OS‑level actions  
-- validate automation requests  
-- monitor system health  
+- validate automation requests under orchestrator supervision  
+- monitor system health via `TimeCore` and `Guard`  
 - detect threats  
 - provide reversible action logic  
 - integrate explainability traces  
-- route decisions through COLNIK‑6.x  
-- coordinate autonomy gating  
+- route decisions through COLNIK‑6.x (Standard & IPC Mode)  
+- coordinate orchestrator and autonomy gating (`PanelAPI` [ÁNO/NIE])  
 
 ### Key Files  
 - `system_agent/system_agent.py`  
 - `system_agent/identity_rules.json`  
 - `system_agent/safety_log.json`  
+- `ORCHESTRATOR/sirius_orchestrator.py`  
+- `PANEL_API/panel_api.py`  
 - `IPC_DATA/system_agent_events.json`  
 
 ---
@@ -39,10 +41,10 @@ System Agent 5 protects the workstation from unsafe workflows, unauthorized chan
 ## 🔍 Safety Pipeline  
 
 ### **1 — Identity Validation**  
-System Agent checks identity context before any action:  
+System Agent checks identity context before any action managed by `sirius_orchestrator.py`:  
 - FAMILY mode  
 - STRANGER mode  
-- SCHOOLWORK bypass  
+- SCHOOLWORK bypass (Schoolwork Engine 5.8)  
 - ENVOY 5 permissions  
 - identity‑aware gating  
 
@@ -51,7 +53,7 @@ If identity validation fails, the action is blocked.
 ---
 
 ### **2 — System‑Context Awareness**  
-System Agent queries the System Intelligence Layer:  
+System Agent queries the System Intelligence Layer and `Guard`:  
 - OS health  
 - anomaly detection  
 - risky states  
@@ -75,7 +77,7 @@ Every blocked action generates explainability metadata.
 
 ---
 
-### **4 — COLNIK‑Validated Enforcement**  
+### **4 — COLNIK‑Validated Enforcement (Standard & IPC Mode)**  
 All allow/deny decisions are validated through COLNIK‑6.x:  
 - enterprise‑grade safety  
 - deterministic routing  
@@ -87,14 +89,14 @@ System Agent never allows unsafe transitions.
 
 ---
 
-### **5 — AUTONOMY‑Aware Gating**  
-AUTONOMY‑6.x receives proposals for:  
+### **5 — AUTONOMY & PanelAPI-Aware Gating**  
+AUTONOMY‑6.x (Control & Triage Mode) and interactive `PanelAPI` receive proposals for:  
 - risky actions  
 - unsafe workflows  
 - identity‑restricted operations  
 - system‑context‑dependent tasks  
 
-AUTONOMY confirms or denies transitions.
+AUTONOMY and human-in-the-loop prompts confirm or deny transitions (`[ÁNO/NIE]`).
 
 ---
 
@@ -129,8 +131,9 @@ No destructive action is allowed without reversible guarantees.
 - identity reasoning  
 - autonomy reasoning  
 
-### **Autonomy Layer**  
-- supervised gating  
+### **Orchestrator & Autonomy Layer**  
+- centralized execution (`sirius_orchestrator.py`)  
+- supervised gating and `PanelAPI` human confirmation (`[ÁNO/NIE]`)  
 - proposal/confirmation logic  
 - fallback routing  
 
@@ -139,19 +142,23 @@ No destructive action is allowed without reversible guarantees.
 ## 🔐 Safety Rules  
 - ❌ No unsafe OS‑level actions  
 - 🔒 Identity validation required  
-- 🛡 COLNIK validation required  
-- ⚠ AUTONOMY confirmation required  
-- 🧠 Explainability required  
+- 🛡 COLNIK validation (Standard & IPC Mode) required  
+- 🛡 AUTONOMY confirmation required  
+- 💬 PanelAPI `[ÁNO/NIE]` gating active for sensitive OS operations  
+- ⚠ Explainability required  
 - 🔁 Reversible actions enforced  
 - 📉 Threat detection always active  
 
 ---
 
 ## 📊 Module Status  
-- ✔ Fully implemented  
+- ✔ Fully implemented (Runtime 5.8)  
 - ✔ Identity enforcement stable  
 - ✔ Threat detection hardened  
-- ✔ COLNIK validation integrated  
+- ✔ Orchestrator integration complete  
+- ✔ PanelAPI confirmation gates active  
+- ✔ TimeCore & Guard supervision active  
+- ✔ COLNIK validation integrated (Standard & IPC Mode)  
 - ✔ AUTONOMY gating active  
 - ✔ Explainability traces functional  
 - ✔ Reversible actions verified  
@@ -160,8 +167,7 @@ No destructive action is allowed without reversible guarantees.
 ---
 
 ## 🏁 Summary  
-System Agent 5 is the hardened OS‑level safety core of SIRIUS Local AI.  
-It enforces identity rules, blocks threats, validates automation, monitors system context, and ensures that every action is safe, reversible, explainable, autonomy‑aware, and enterprise‑validated.
+System Agent 5 is the hardened OS‑level safety core of SIRIUS Local AI (v5.8).  
+It enforces identity rules, blocks threats, validates automation, monitors system context, and ensures that every action is safe, reversible, explainable, orchestrator-supervised, autonomy‑aware, and enterprise‑validated.
 
 It is the workstation’s **central safety brain**, protecting SIRIUS from unsafe operations and ensuring deterministic, intelligent, and secure OS‑level automation.
-
