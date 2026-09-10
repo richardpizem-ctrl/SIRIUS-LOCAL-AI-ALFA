@@ -1,7 +1,7 @@
 # 🌌 SIRIUS LOCAL AI — Unified Autonomous Workstation Overview  
 **Status:** ✔ Active  
-**Version:** 5.7.0 UNIFIED  
-**Architecture:** Modular, Deterministic, Explainable, Autonomy‑Aware  
+**Version:** 5.8 UNIFIED  
+**Architecture:** Modular, Deterministic, Explainable, Orchestrator-Supervised, Autonomy‑Aware  
 **Scope:** PC + Mobile Offline AI Runtime  
 **Author:** Richard Pizem
 
@@ -9,7 +9,7 @@
 
 ## 🎯 Purpose  
 SIRIUS Local AI is a fully offline, modular, deterministic autonomous workstation designed to operate Windows 11 and mobile environments safely, intelligently, and explainably.  
-It combines symbolic reasoning, a unified Knowledge Graph, supervised autonomy, enterprise‑grade validation, and OS‑level automation into one cohesive system.
+It combines symbolic reasoning, a unified Knowledge Graph, centralized execution via `sirius_orchestrator.py`, interactive `PanelAPI` confirmation loops, temporal/security supervision via `TimeCore` and `Guard`, supervised autonomy, enterprise‑grade validation, and OS‑level automation into one cohesive system.
 
 SIRIUS is built to **act, think, predict, explain, validate, repair, and operate** — all without cloud dependency.
 
@@ -18,19 +18,20 @@ SIRIUS is built to **act, think, predict, explain, validate, repair, and operate
 ## 🧩 Core Architecture  
 SIRIUS is composed of several tightly integrated modules:
 
-- **Runtime 5.x** — deterministic execution core  
-- **KG ENGINE 6.x** — unified symbolic knowledge graph  
+- **Runtime 5.x / Orchestration** — central execution core driven by `sirius_orchestrator.py`  
+- **PanelAPI & TimeCore/Guard** — interactive `[ÁNO/NIE]` confirmation loops and temporal/security supervision  
+- **KG ENGINE 6.x** — unified symbolic knowledge graph (`autosave_kg.json`)  
 - **ReasoningEngine5** — multi‑hop inference and explainability  
-- **COLNIK‑6.x** — enterprise validation and routing  
-- **AUTONOMY‑6.x** — supervised autonomy and proposal/confirmation logic  
+- **COLNIK‑6.x (Standard & IPC Mode)** — enterprise validation and routing  
+- **AUTONOMY‑6.x (Control & Triage Mode)** — supervised autonomy and proposal/confirmation logic  
 - **EXECUTE 6.x** — deterministic OS‑level action engine  
 - **UI PANEL 6.x** — futuristic neon interface (User + Developer modes)  
-- **System Intelligence Layer 5.7.0** — predictive OS awareness  
+- **System Intelligence Layer 5.8** — predictive OS awareness  
 - **System Agent 5** — hardened OS‑level safety  
 - **UI Automation Engine 5.1** — deterministic UI automation  
-- **AITE 5.7.0** — multimodal triage and semantic detection  
-- **Workflow Engine 5.7.0** — safe multi‑step logic  
-- **Knowledge Packs 5.7.0** — unified semantic packs  
+- **AITE 5.8** — multimodal triage and semantic detection  
+- **Workflow Engine 5.8** — safe multi‑step logic  
+- **Knowledge Packs 5.x** — unified semantic packs  
 
 Each module is independent, explainable, and validated through COLNIK‑6.x.
 
@@ -49,6 +50,8 @@ SIRIUS uses a hybrid intelligence model:
 
 ### **Autonomy Intelligence**
 - supervised autonomy  
+- orchestrator routing (`sirius_orchestrator.py`)  
+- interactive human oversight (`PanelAPI` [ÁNO/NIE])  
 - proposal/confirmation cycles  
 - safe fallback logic  
 - deterministic routing  
@@ -59,15 +62,16 @@ SIRIUS uses a hybrid intelligence model:
 - risk prediction  
 - identity‑aware evaluation  
 - repair‑aware context  
-- unified PC/Mobile diagnostics  
+- unified PC/Mobile diagnostics (`TimeCore` & `Guard`)  
 
 ---
 
 ## 🔐 Safety & Validation  
 SIRIUS is designed with enterprise‑grade safety:
 
-- COLNIK‑validated decisions  
-- AUTONOMY‑aware gating  
+- COLNIK‑validated decisions (Standard & IPC Mode)  
+- AUTONOMY‑aware gating & Triage Mode  
+- orchestrator-driven execution & PanelAPI human gating  
 - reversible actions  
 - identity enforcement  
 - threat blocking  
@@ -102,7 +106,7 @@ The unified KG provides:
 - multi‑hop traversal  
 - import/export  
 - comfort commands  
-- deterministic autosave/autoload  
+- deterministic autosave/autoload (`autosave_kg.json`)  
 
 KG is the foundation for reasoning, autonomy, and system intelligence.
 
@@ -127,7 +131,7 @@ Explainability is mandatory for all modules.
 ## ⚙ Workflow Model  
 SIRIUS workflows are:
 
-- deterministic  
+- deterministic and orchestrated (`sirius_orchestrator.py`)  
 - identity‑aware  
 - system‑context‑aware  
 - KG‑driven  
@@ -155,7 +159,7 @@ PC and Mobile share the same intelligence core.
 
 ## 🏁 Summary  
 SIRIUS Local AI is a **System‑Intelligent Autonomous Workstation** —  
-a unified, deterministic, explainable, autonomy‑aware offline AI system capable of operating Windows 11 safely and intelligently.
+a unified, deterministic, explainable, orchestrator-supervised, autonomy‑aware offline AI system capable of operating Windows 11 safely and intelligently.
 
 It is:
 
@@ -171,4 +175,3 @@ It is:
 - enterprise‑grade  
 
 There is nothing comparable to SIRIUS today.
-
