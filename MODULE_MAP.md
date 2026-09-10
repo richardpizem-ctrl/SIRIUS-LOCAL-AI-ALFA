@@ -1,67 +1,69 @@
-# 🗺️ Module Map – SIRIUS LOCAL AI (v5.7.0 UNIFIED)
+# 🗺️ Module Map – SIRIUS LOCAL AI (v5.8 UNIFIED)
 
 This document defines all modules of the project, their purpose, responsibilities, and interconnections.  
-It serves as an architectural orientation map for the **Unified Reasoning, Deep Explainability, COLNIK‑AUTONOMY Architecture 5.7.0**.
+It serves as an architectural orientation map for the **Unified Orchestration, PanelAPI, TimeCore/Guard & Enhanced COLNIK‑AUTONOMY Architecture 5.8**.
 
-Version **5.7.0 UNIFIED** expands and stabilizes the module map with:
+Version **5.8 UNIFIED** expands and stabilizes the module map with:
 
-- **AITE 5.7.0 (Semantic + Deep Explainability Multimodal Triage)**  
-- **Workflow Engine 5.7.0 (Deep Explainability + COLNIK‑validated + AUTONOMY‑aware Routing)**  
-- **Reasoning Engine 5.7.0 (multi‑hop, inheritance, transitivity, rule chaining)**  
+- **Unified Orchestrator (`sirius_orchestrator.py`)**  
+- **PanelAPI & Interactive [ÁNO/NIE] Confirmation Loops**  
+- **TimeCore Temporal Tracking & Guard Security Supervision**  
+- **AITE 5.8 (Semantic + Deep Explainability Multimodal Triage)**  
+- **Workflow Engine 5.8 (Deep Explainability + COLNIK‑validated + AUTONOMY‑aware Routing)**  
+- **Reasoning Engine 5.8 (multi‑hop, inheritance, transitivity, rule chaining)**  
 - **KG_EXPLAIN & KG_EXPLAIN_DEEP (Explainability Engines)**  
-- **Unified Knowledge Graph 5.7.0 + KG‑LIGHT (stabilized)**  
+- **Unified Knowledge Graph 5.8 + KG‑LIGHT (stabilized autosave `autosave_kg.json`)**  
 - **Expanded KG Comfort Commands**  
 - **ENVOY Execution + Permission Layers 5 (Deep Explainability Traces)**  
 - **System Agent 5**  
 - **Security Family 5.x (Identity Engine 3.1)**  
-- **Self‑Repair Layer 5.4**  
+- **Self‑Repair Layer 5.8**  
 - **Unified PC/Mobile deterministic routing**  
 - **Deterministic UI Automation Engine 5.1**  
-- **COLNIK‑6.x Enterprise Validation Layer (Standard Mode)**  
-- **AUTONOMY 6.x Autonomous Proposal/Confirmation (Control Mode)**  
+- **COLNIK‑6.x Enterprise Validation Layer (Standard & IPC Mode)**  
+- **AUTONOMY 6.x Autonomous Proposal/Confirmation & Triage Mode**  
 
 All processing is fully local; no data leaves the user's device.
 
 ---
 
-# 1. Runtime Core 5.7.0 (Unified)
-**Purpose:** Central orchestrator of the entire system.  
+# 1. Runtime Core & Orchestrator 5.8 (Unified)
+**Purpose:** Central execution orchestrator driven by `sirius_orchestrator.py`.  
 **Responsibilities:**
-- module initialization  
-- lifecycle management  
+- module initialization and lifecycle management via `sirius_orchestrator.py`  
+- interactive `PanelAPI` confirmation loops (`[ÁNO/NIE]`)  
+- temporal tracking (`TimeCore`) and security/anomaly monitoring (`Guard`)  
 - plugin loading  
 - workflow + deep explainability dispatch  
 - enforcing capability boundaries  
 - event routing  
 - global system stability  
-- integration with Security Family 5.x  
-- integration with Self‑Repair Layer 5.4  
-- deterministic execution  
-- System Agent 5 routing  
+- integration with Security Family 5.x and Self‑Repair Layer 5.8  
+- deterministic execution and System Agent 5 routing  
 - KG_EXPLAIN & KG_EXPLAIN_DEEP routing  
 - UI Automation Engine 5.1 integration  
 - unified PC/Mobile behavior  
 - ENVOY permission enforcement  
-- **COLNIK‑6.x validation of workflow + KG operations**  
-- **AUTONOMY 6.x proposal/confirmation routing**
+- **COLNIK‑6.x validation of workflow + KG operations (Standard & IPC Mode)**  
+- **AUTONOMY 6.x proposal/confirmation & Triage Mode routing**
 
 ---
 
-# 2. Filesystem Agent (FS‑AGENT 5.7.0)
+# 2. Filesystem Agent (FS‑AGENT 5.8)
 **Purpose:** Safe, deterministic file operations.  
 **Responsibilities:**
 - moving, copying, deleting  
 - path validation  
 - rollback‑safe operations  
 - semantic routing (documents, code, schoolwork)  
-- integration with Schoolwork Engine 5.7.0  
+- integration with Schoolwork Engine 5.8  
 - integration with UI Automation Engine 5.1  
 - unified PC/Mobile filesystem logic  
 - COLNIK‑validated file operations  
 
 ---
 
-# 3. Natural Language Router (NL Router 5.7.0)
+# 3. Natural Language Router (NL Router 5.8)
 **Purpose:** Semantic interpretation and routing of user commands.  
 **Responsibilities:**
 - command classification  
@@ -79,7 +81,7 @@ All processing is fully local; no data leaves the user's device.
 
 ---
 
-# 4. Context Memory Engine (CME‑MEM 5.7.0)
+# 4. Context Memory Engine (CME‑MEM 5.8)
 **Purpose:** Semantic workflow context.  
 **Responsibilities:**
 - tracking recent actions  
@@ -88,33 +90,33 @@ All processing is fully local; no data leaves the user's device.
 - providing contextual hints  
 - subject/difficulty metadata  
 - explainability traces  
-- integration with Schoolwork Engine 5.7.0  
+- integration with Schoolwork Engine 5.8  
 - integration with UI Automation Engine 5.1  
 - unified PC/Mobile context memory  
 - COLNIK‑validated context transitions  
 
 ---
 
-# 5. Workflow Engine 5.7.0
+# 5. Workflow Engine 5.8
 **Purpose:** Deterministic multi‑step logic with deep explainability.  
 **Responsibilities:**
-- workflow state machine  
+- workflow state machine managed by `sirius_orchestrator.py`  
 - plugin workflow execution  
 - semantic transitions  
 - preventing invalid sequences  
 - SCHOOLWORK workflow prioritization  
-- integration with Reasoning Engine 5.7.0  
+- integration with Reasoning Engine 5.8  
 - integration with KG_EXPLAIN & KG_EXPLAIN_DEEP  
 - integration with UIWorkflow 5.1  
 - deterministic fallback behavior  
 - unified PC/Mobile workflows  
 - ENVOY workflow integration  
-- **COLNIK‑validated workflow steps**  
-- **AUTONOMY‑aware transitions**
+- **COLNIK‑validated workflow steps (Standard & IPC Mode)**  
+- **AUTONOMY‑aware transitions (Control & Triage Mode)**
 
 ---
 
-# 6. GUI Layer 5.7.0
+# 6. GUI Layer 5.8
 **Purpose:** Modular user interface.  
 **Responsibilities:**
 - rendering plugin UI  
@@ -137,7 +139,7 @@ All processing is fully local; no data leaves the user's device.
 
 ---
 
-# 8. Automatic Input Triage Engine (AITE 5.7.0)
+# 8. Automatic Input Triage Engine (AITE 5.8)
 **Purpose:** Multimodal semantic + deep explainability detection and classification.  
 **Responsibilities:**
 - detecting input type (text, image, code, document, installer)  
@@ -149,8 +151,8 @@ All processing is fully local; no data leaves the user's device.
 - routing to correct modules  
 - metadata generation  
 - integration with FS‑AGENT, CME‑MEM  
-- integration with Schoolwork Engine 5.7.0  
-- integration with Reasoning Engine 5.7.0  
+- integration with Schoolwork Engine 5.8  
+- integration with Reasoning Engine 5.8  
 - ENVOY 5 support  
 - UI automation intent detection  
 - identity‑aware triage  
@@ -203,7 +205,7 @@ All processing is fully local; no data leaves the user's device.
 # 11. Workflow Module
 **Purpose:** High‑level workflow logic.  
 **Responsibilities:**
-- orchestrating multi‑step operations  
+- orchestrating multi‑step operations via `sirius_orchestrator.py`  
 - validating transitions  
 - predictable behavior  
 - integrating CME, FS‑AGENT, GUI  
@@ -255,7 +257,7 @@ Official plugins include:
 
 ---
 
-# 14. Self‑Repair & Health‑Check Layer (5.4)
+# 14. Self‑Repair & Health‑Check Layer (5.8)
 **Purpose:** Diagnostics and safe automatic recovery.  
 **Responsibilities:**  
 - checking integrity of core modules  
@@ -302,14 +304,14 @@ Official plugins include:
 
 ---
 
-# 16. Intelligent Runtime Modules (v5.7.0)
+# 16. Intelligent Runtime Modules (v5.8)
 
-## 16.1 HOME_ASSISTANT 5.7.0  
-## 16.2 COOKING_ADVISOR 5.7.0  
-## 16.3 DEVICE_DIAGNOSTICS 5.7.0  
-## 16.4 SCHOOL_HELPER 5.7.0  
-## 16.5 IMAGE_ANALYZER 5.7.0  
-## 16.6 CONTEXT_ROUTER 5.7.0  
+## 16.1 HOME_ASSISTANT 5.8  
+## 16.2 COOKING_ADVISOR 5.8  
+## 16.3 DEVICE_DIAGNOSTICS 5.8  
+## 16.4 SCHOOL_HELPER 5.8  
+## 16.5 IMAGE_ANALYZER 5.8  
+## 16.6 CONTEXT_ROUTER 5.8  
 ## 16.7 KNOWLEDGE_PACKS 5.x  
 
 ---
@@ -379,12 +381,12 @@ Official plugins include:
 - safe payload delivery  
 - Knowledge Pack updates  
 - unified PC/Mobile behavior  
-- COLNIK‑validated payload delivery  
+- COLNIK‑validated payload delivery (Standard & IPC Mode)  
 - AUTONOMY‑aware validation traces  
 
 ---
 
-# 21. System Intelligence Layer 5.7.0
+# 21. System Intelligence Layer 5.8
 **Purpose:** Cross‑platform diagnostics and safe optimization.  
 **Responsibilities:**
 - hardware analysis  
@@ -401,7 +403,7 @@ Official plugins include:
 
 ---
 
-# 22. Mobile Runtime 5.7.0
+# 22. Mobile Runtime 5.8
 **Purpose:** Unified mobile execution layer.  
 **Responsibilities:**
 - mobile‑optimized workflows  
@@ -418,23 +420,26 @@ Official plugins include:
 # 23. Module Interconnections
 All modules communicate through:
 
-- Runtime Core 5.7.0  
-- NL Router 5.7.0  
-- Workflow Engine 5.7.0  
-- CME‑MEM 5.7.0  
+- Unified Orchestrator (`sirius_orchestrator.py`)  
+- PanelAPI interactive loops (`[ÁNO/NIE]`)  
+- TimeCore & Guard supervision  
+- Runtime Core 5.8  
+- NL Router 5.8  
+- Workflow Engine 5.8  
+- CME‑MEM 5.8  
 - Security Family 5.x  
 - WIN‑CAP 5.x  
 - UI Automation Engine 5.1  
 - System Agent 5  
 - ENVOY 5  
 - KG_EXPLAIN & KG_EXPLAIN_DEEP  
-- Self‑Repair Layer 5.4  
-- Mobile Runtime 5.7.0  
-- **COLNIK‑6.x Validation Layer (Standard Mode)**  
-- **AUTONOMY 6.x Control Mode**
+- Self‑Repair Layer 5.8  
+- Mobile Runtime 5.8  
+- **COLNIK‑6.x Validation Layer (Standard & IPC Mode)**  
+- **AUTONOMY 6.x Control & Triage Mode**
 
 ---
 
 # Document Status
-**Version:** 5.7.0 UNIFIED  
-Updated to reflect the **5.6.2 → 5.7.0 transition**, new **Deep Explainability Engine**, expanded **Reasoning Engine**, **COLNIK‑6.x Standard Mode**, **AUTONOMY 6.x Control Mode**, and the stabilized **Unified Runtime Architecture 5.x**.
+**Version:** 5.8 UNIFIED  
+Updated to reflect the **5.7.0 → 5.8 transition**, orchestrator routing via `sirius_orchestrator.py`, interactive `PanelAPI` confirmation loops, `TimeCore`/`Guard` supervision, expanded **COLNIK‑6.x (Standard & IPC Mode)**, and **AUTONOMY 6.x (Control & Triage Mode)**.
