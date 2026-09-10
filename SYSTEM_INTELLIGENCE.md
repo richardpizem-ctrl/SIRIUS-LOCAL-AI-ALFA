@@ -1,37 +1,39 @@
-# 🧠 SYSTEM INTELLIGENCE LAYER 5.7.0 — Predictive, Explainable, Autonomy‑Aware OS Awareness  
+# 🧠 SYSTEM INTELLIGENCE LAYER 5.8 — Predictive, Explainable, Orchestrator-Supervised, Autonomy‑Aware OS Awareness  
 **Status:** ✔ Active  
-**Version:** 5.7.0  
+**Version:** 5.8  
 **Component:** System Intelligence Layer  
-**Role:** Real‑time OS context awareness, anomaly detection, predictive safety, explainability, autonomy‑aware routing
+**Role:** Real‑time OS context awareness, anomaly detection, predictive safety, explainability, orchestrator and autonomy‑aware routing
 
 ---
 
 ## 🎯 Purpose  
-The System Intelligence Layer 5.7.0 provides real‑time, cross‑platform OS awareness for SIRIUS Local AI.  
-It detects anomalies, predicts risky states, evaluates identity and system context, generates explainability traces, and routes decisions through COLNIK‑6.x and AUTONOMY‑6.x.
+The System Intelligence Layer 5.8 provides real‑time, cross‑platform OS awareness for SIRIUS Local AI.  
+It detects anomalies, predicts risky states, evaluates identity and system context, generates explainability traces, and routes decisions through central orchestration (`sirius_orchestrator.py`), interactive `PanelAPI` confirmation loops, `TimeCore`/`Guard` supervision, COLNIK‑6.x (Standard & IPC Mode), and AUTONOMY‑6.x (Control & Triage Mode).
 
-This layer elevates SIRIUS from simple automation to **OS‑intelligent, predictive, explainable, autonomy‑aware automation**.
+This layer elevates SIRIUS from simple automation to **OS‑intelligent, predictive, explainable, orchestrator-supervised, autonomy‑aware automation**.
 
 ---
 
 ## 🧩 Architecture Overview  
-**OS Signals → System Intelligence Layer → System Agent → AUTONOMY → COLNIK → EXECUTE**
+**OS Signals → System Intelligence Layer → `sirius_orchestrator.py` → System Agent → COLNIK → AUTONOMY → PanelAPI → EXECUTE**
 
 ### Core Responsibilities  
 - monitor OS health  
 - detect anomalies  
-- predict risky states  
+- predict risky states under `TimeCore` and `Guard` supervision  
 - evaluate identity context  
 - generate explainability metadata  
 - integrate KG reasoning  
 - support Self‑Repair Layer  
-- provide autonomy‑aware signals  
-- validate system‑context decisions through COLNIK‑6.x  
+- provide orchestrator-supervised and autonomy‑aware signals  
+- validate system‑context decisions through COLNIK‑6.x (Standard & IPC Mode)  
 
 ### Key Files  
 - `system_intelligence/system_intelligence.py`  
 - `system_intelligence/os_signals.json`  
 - `system_intelligence/anomaly_log.json`  
+- `ORCHESTRATOR/sirius_orchestrator.py`  
+- `PANEL_API/panel_api.py`  
 - `IPC_DATA/system_context.json`  
 
 ---
@@ -39,7 +41,7 @@ This layer elevates SIRIUS from simple automation to **OS‑intelligent, predict
 ## 🔍 Intelligence Pipeline  
 
 ### **1 — OS Signal Collection**  
-The layer continuously monitors:  
+The layer continuously monitors under `TimeCore` temporal scheduling:  
 - CPU/RAM load  
 - disk health  
 - process anomalies  
@@ -61,7 +63,7 @@ System Intelligence Layer detects:
 - repair‑required states  
 - unsafe workflow conditions  
 
-Anomalies are classified using KG reasoning and COLNIK validation.
+Anomalies are classified using KG reasoning and COLNIK validation under `Guard` security supervision.
 
 ---
 
@@ -89,7 +91,7 @@ Explainability is mandatory for all system‑context decisions.
 
 ---
 
-### **5 — COLNIK‑Validated Routing**  
+### **5 — COLNIK‑Validated Routing (Standard & IPC Mode)**  
 All system‑context decisions are validated through COLNIK‑6.x:  
 - enterprise‑grade safety  
 - deterministic routing  
@@ -101,20 +103,20 @@ Unsafe states block workflows automatically.
 
 ---
 
-### **6 — AUTONOMY‑Aware Signals**  
-AUTONOMY‑6.x receives:  
+### **6 — AUTONOMY & PanelAPI-Aware Signals**  
+AUTONOMY‑6.x (Control & Triage Mode) and interactive `PanelAPI` (`[ÁNO/NIE]`) receive:  
 - anomaly proposals  
 - risk proposals  
 - identity‑aware context  
 - system‑context gating  
 - safe fallback suggestions  
 
-AUTONOMY confirms or denies transitions.
+AUTONOMY and user oversight confirm or deny transitions.
 
 ---
 
 ### **7 — Repair‑Aware Context**  
-System Intelligence Layer supports Self‑Repair Layer 5.4:  
+System Intelligence Layer supports Self‑Repair Layer 5.8:  
 - detects repair‑required states  
 - provides repair context  
 - prevents workflows during repair  
@@ -141,17 +143,19 @@ System Intelligence Layer supports Self‑Repair Layer 5.4:
 - evidence trees  
 - confidence scoring  
 
-### **Autonomy Integration**  
+### **Orchestrator & Autonomy Integration**  
+- centralized execution (`sirius_orchestrator.py`)  
+- supervised gating and `PanelAPI` human confirmation (`[ÁNO/NIE]`)  
 - autonomy‑aware proposals  
 - safe fallback logic  
-- supervised gating  
 
 ---
 
 ## 🔐 Safety Rules  
 - ❌ No workflows during unstable OS states  
-- 🔒 COLNIK validation required  
+- 🔒 COLNIK validation (Standard & IPC Mode) required  
 - 🛡 AUTONOMY confirmation required  
+- 💬 PanelAPI `[ÁNO/NIE]` gating active for high-risk system state overrides  
 - ⚠ Explainability required  
 - 🧠 Identity‑aware evaluation  
 - 🔁 Repair‑aware protection  
@@ -159,19 +163,21 @@ System Intelligence Layer supports Self‑Repair Layer 5.4:
 ---
 
 ## 📊 Module Status  
-- ✔ Fully implemented  
-- ✔ anomaly detection stable  
-- ✔ predictive risk evaluation active  
+- ✔ Fully implemented (Runtime 5.8)  
+- ✔ Anomaly detection stable  
+- ✔ Predictive risk evaluation active  
+- ✔ Orchestrator integration complete  
+- ✔ PanelAPI confirmation gates active  
+- ✔ TimeCore & Guard supervision active  
 - ✔ KG explainability integrated  
-- ✔ COLNIK validation functional  
+- ✔ COLNIK validation functional (Standard & IPC Mode)  
 - ✔ AUTONOMY signals active  
 - ✔ PC/Mobile integration complete  
 
 ---
 
 ## 🏁 Summary  
-System Intelligence Layer 5.7.0 is the real‑time OS awareness core of SIRIUS Local AI.  
-It detects anomalies, predicts risks, evaluates identity and system context, generates explainability traces, and routes decisions through COLNIK‑6.x and AUTONOMY‑6.x.
+System Intelligence Layer 5.8 is the real‑time OS awareness core of SIRIUS Local AI.  
+It detects anomalies, predicts risks, evaluates identity and system context, generates explainability traces, and routes decisions through orchestrator supervision, PanelAPI confirmation, COLNIK‑6.x, and AUTONOMY‑6.x.
 
-It transforms SIRIUS into a **system‑intelligent, predictive, explainable, autonomy‑aware workstation** capable of operating Windows 11 safely and intelligently.
-
+It transforms SIRIUS into a **system‑intelligent, predictive, explainable, orchestrator-supervised, autonomy‑aware workstation** capable of operating Windows 11 safely and intelligently.
